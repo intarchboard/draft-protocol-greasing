@@ -1,5 +1,5 @@
 ---
-title: "Considerations for Applying Protocol Maintenance Concepts"
+title: "Maintaining Protocols Using Grease and Variability"
 category: info
 
 docname: draft-edm-protocol-greasing-latest
@@ -41,7 +41,9 @@ standards process. Part of realizing long-term protocol deployment success is
 the ability to support change. Change can require adjustments such as extension
 to the protocol, modifying usage patterns within the current protocol
 constraints, or a replacement protocol. This document present considerations for
-protocol designers and implementers about applying protocol maintenance concepts
+protocol designers and implementers about applying techniques such as greasing
+or protocol variability as a means to exercise maintenance concepts.
+
 
 
 --- middle

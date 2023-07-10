@@ -25,9 +25,9 @@ venue:
 
 author:
  -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: "tpauly@apple.com"
+    fullname: Lucas Pardue
+    organization: Cloudflare
+    email: "lucaspardue.24.7@gmail.com"
 
 normative:
 

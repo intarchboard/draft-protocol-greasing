@@ -156,10 +156,6 @@ greasing in the temporal or spatial domain. Senders are advised to
 implementation non-determinism of when they use grease in addition to what
 values they send.
 
- and might not be suitable for all protocols but
-where it is already defined or can be added, it is important for endpoints to
-exercise it correctly in order to achieve the maintenance goals.
-
 # Considerations for Increasing Protocol Variability {#variability}
 
 While greasing is one method to deal with falsifying active use of a protocols

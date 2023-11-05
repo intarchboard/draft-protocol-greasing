@@ -40,7 +40,7 @@ Long-term interoperability of protocols is an important goal of the network
 standards process. Part of realizing long-term protocol deployment success is
 the ability to support change. Change can require adjustments such as extending
 the protocol, modifying usage patterns within the current protocol
-constraints, or a creating a replacement protocol. This document present
+constraints, or a creating a replacement protocol. This document presents
 considerations for protocol designers and implementers about applying techniques
 such as greasing or protocol variability as a means to exercise maintenance
 concepts.

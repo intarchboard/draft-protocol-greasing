@@ -38,11 +38,12 @@ informative:
 
 Long-term interoperability of protocols is an important goal of the network
 standards process. Part of realizing long-term protocol deployment success is
-the ability to support change. Change can require adjustments such as extension
-to the protocol, modifying usage patterns within the current protocol
-constraints, or a replacement protocol. This document present considerations for
-protocol designers and implementers about applying techniques such as greasing
-or protocol variability as a means to exercise maintenance concepts.
+the ability to support change. Change can require adjustments such as extending
+the protocol, modifying usage patterns within the current protocol
+constraints, or a creating a replacement protocol. This document presents
+considerations for protocol designers and implementers about applying techniques
+such as greasing or protocol variability as a means to exercise maintenance
+concepts.
 
 
 
@@ -53,18 +54,19 @@ or protocol variability as a means to exercise maintenance concepts.
 Long-term interoperability of protocols is an important goal of the network
 standards process {{?MAINTENANCE=RFC9413}}. Part of realizing long-term protocol
 deployment success {{?SUCCESS=RFC5218}} is the ability to support change. Change
-can require adjustments such as extension to the protocol, modifying usage
-patterns within the current protocol constraints, or a replacement protocol.
+can require adjustments such as extending the protocol, modifying usage
+patterns within the current protocol constraints, or creating a replacement
+protocol.
 
 Greasing is one technique that supports the long term-viability of protocol
 extension points. It was originally designed for TLS {{?GREASE=RFC8701}} as a
 later addition to help mitigate observed deployment issues. Subsequently, other
-protocols such as QUIC {{?QUIC=RFC9000}} and HTTP/3 {{RFC9114}} embedded
-greasing capability into the protocol, along with policies and IANA registries,
-in order to avoid ossification-related problems emerging in the first place.
-Greasing is suitable for many protocols but not all. {{Section 3.3 of
-?VIABILITY=RFC9170}} discusses the applicability and limitations of greasing.
-{{grease}} presents considerations for applying grease that help
+protocols such as QUIC {{?QUIC=RFC9000}} and HTTP/3 {{RFC9114}} added
+greasing capability into their initial versions, along with policies and
+IANA registries, in order to avoid ossification-related problems emerging in
+the first place. Greasing is suitable for many protocols but not all.
+{{Section 3.3 of ?VIABILITY=RFC9170}} discusses the applicability and limitations
+of greasing. {{grease}} presents considerations for applying grease that help
 to ensure it can most effectively reach its maintenance goals.
 
 Changing user needs {{?END-USERS=RFC8890}} may require that applications modify
@@ -74,12 +76,12 @@ to enable support for user uploads. This would change interactions and traffic
 flows but still behave completely within the design constraints of the network
 protocols. Implementations and deployments might discover ossification affects
 this form of change because expectations form around patterns of usage.
-{{variability}} presents considerations about how increasing the variability of
-protocols can mitigate some of these concerns.
+{{variability}} presents considerations about how intentionally increasing the
+variability of protocols can mitigate some of these concerns.
 
 Replacing a protocol may be required where the changing needs or environment
 push protocol usage outside its original design parameters and extensions cannot
-elegantly fill the gap. Replacing a protocol may also be desirable as a form of
+effectively fill the gap. Replacing a protocol may also be desirable as a form of
 baseline, a formal declaration of protocol and extension(s) combination that is
 common, that may simplify deployment by reducing failures related to
 combinatorial extensions problems. A replacement protocol version may or may not
@@ -97,10 +99,10 @@ designing for and/or implementing version negotiation and migration.
 Greasing can take many forms, depending on the protocol and the nature of its
 extension points.
 
-Where a protocol uses registered values (i.e. codepoints) or numbers in a well
-defined range, a common approach (see {{GREASE}}, {{Section 18.1 of QUIC}}, or
-{{Section 7.2.8 of RFC9114}}), is to reserve a subset of the range for the
-purposes of greasing. Ths approach is detailed more thoroughly in {{Section 3.3
+In cases where a protocol uses registered values (i.e. codepoints) or numbers in
+a well defined range, a common approach (see {{GREASE}}, {{Section 18.1 of QUIC}},
+or {{Section 7.2.8 of RFC9114}}), is to reserve a subset of the range for the
+purposes of greasing. This approach is detailed more thoroughly in {{Section 3.3
 of ?VIABILITY=RFC9170}}. However, protocol designers or implementers may find it
 difficult to apply those suggestions in abstract. The likely success or
 efficacy of this method can be improved by the following suggestions.
@@ -122,7 +124,7 @@ that range with diversity and non-determinism. The specific nature of size and
 distribution of the grease range needs to accommodate the protocol constraints.
 For instance, an 8-bit field can only represent a small range of values and it
 may be too costly to dedicate many of them solely for the purpose of greasing.
-However, protocols that use 32-bit or 64-bit fields are unlikely to have
+However, protocols that use 32-bit or 64-bit fields are unlikely to have such
 restrictions.
 
 It is beneficial to have a large set of reserved numbers for the purpose of
@@ -160,18 +162,20 @@ values they send.
 
 # Considerations for Increasing Protocol Variability {#variability}
 
-While greasing is one method to deal with falsifying active use of a protocols
-extensions points, it cannot address positive use. A protocol may define a
-wide-ranging extension capability but if senders do not use it, then
-interoperability problems may not arise, leading to ossification until a real
-use case emerges.
+While greasing is one method to maintain protocol extensibility by falsifying
+active use of a protocol's extensions points, it does not ensure that an
+extension point has positive use. A protocol may define a wide-ranging extension
+capability but if senders do not use it, then interoperability problems might
+exist and remain hidden, leading to ossification until a real use case emerges.
 
 Variation of protocol extension points with positive use in mind can help
 exercise protocols and ensure long-term maintenance and interoperability. This
 can be thought of, to some extent, as protocol fuzzing. It can be a difficult
 area to exercise because varying the protocol elements may change the actual
 outcome of interactions, leading to real errors. However, some elements can be
-safely changed and the following are some examples.
+safely changed, as the following examples describe.
+
+## Example: QUIC frames
 
 QUIC packets contain frames. Receivers might build expectations on the
 longitudinal aspects of packets or frames - size, ordering, frequency, etc. A

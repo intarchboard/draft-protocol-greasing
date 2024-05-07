@@ -38,14 +38,11 @@ informative:
 --- abstract
 
 Long-term interoperability of protocols is an important goal of the network
-standards process. Part of realizing long-term protocol deployment success is
-the ability to support change. Change can require adjustments such as extending
-the protocol, modifying usage patterns within the current protocol
-constraints, or a creating a replacement protocol. This document presents
-considerations for protocol designers and implementers about applying techniques
-such as greasing or protocol variability as a means to exercise maintenance
-concepts.
-
+standards process. Deployment success can depend on supporting change, which
+can include modifying how the protocol is used, extending the protocol, or
+replacing the protocol. This document presents concepts, considerations, and
+techniques related to protocol maintenance, such as greasing or variability. The
+intended audience is protocol designers and implementers.
 
 
 --- middle
@@ -53,11 +50,10 @@ concepts.
 # Introduction
 
 Long-term interoperability of protocols is an important goal of the network
-standards process {{?MAINTENANCE=RFC9413}}. Part of realizing long-term protocol
-deployment success {{?SUCCESS=RFC5218}} is the ability to support change. Change
-can require adjustments such as extending the protocol, modifying usage
-patterns within the current protocol constraints, or creating a replacement
-protocol.
+standards process {{?MAINTENANCE=RFC9413}}. Protocol deployment success
+{{?SUCCESS=RFC5218}} can depend on supporting change, which
+can include modifying how the protocol is used, extending the protocol, or
+replacing the protocol.
 
 Greasing is one technique that supports the long term-viability of protocol
 extension points. It was originally designed for TLS {{?GREASE=RFC8701}} as a

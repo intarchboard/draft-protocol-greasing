@@ -87,7 +87,7 @@ Table of Contents
    network standards process [MAINTENANCE].  Protocol deployment success
    [SUCCESS] could depend on supporting change, which can include
    modifying how the protocol is used, extending the protocol, or
-   replacing the protocol
+   replacing the protocol.
 
    Greasing is one technique that supports the long term-viability of
    protocol extension points.  It was originally designed for TLS

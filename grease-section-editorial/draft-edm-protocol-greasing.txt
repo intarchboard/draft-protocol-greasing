@@ -130,13 +130,14 @@ Table of Contents
    nature of its extension points.
 
    Many protocols register values, codepoints, or numbers in a limited
-   space.  A common approach is to reserve a subset of the space for
-   greasing (see [GREASE], Section 18.1 of [QUIC], or Section 7.2.8 of
-   [HTTP/3]).  Values reserved for the purpose of greasing are herein
-   referred to as grease values.  Implementations that receive grease
-   values are required to ignore them.  More background to this approach
-   is given in Section 3.3 of [VIABILITY].  This section provides
-   concrete suggestions for its usage.
+   space.  A common approach that has developed in more recent protocols
+   is to reserve a subset of the space for greasing (see [GREASE],
+   Section 18.1 of [QUIC], or Section 7.2.8 of [HTTP/3]).  Values
+   reserved for the purpose of greasing are herein referred to as grease
+   values.  Implementations that receive grease values are required to
+   ignore them.  More background to this approach is given in
+   Section 3.3 of [VIABILITY].  This section provides concrete
+   suggestions for its usage.
 
    It is assumed that endpoints should implement robust and broad
    extension handling.  A receiver or a parser implementation should not
@@ -161,7 +162,7 @@ Table of Contents
    the temporal or spatial domain.
 
    It is recommended that large grease value sets are allocated in
-   protocol documents by defining a unique algorithm, this increases the
+   protocol documents by defining a unique algorithm, to increase the
    chance that receiver greasing requirements are exercised.  However,
    the choice of algorithm needs to consider the spread of values and
    the size of contiguous blocks between grease values.  It is common

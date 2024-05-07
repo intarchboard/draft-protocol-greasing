@@ -1232,7 +1232,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-3-1">Greasing can take many forms, depending on the protocol and the nature of its
 extension points.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">Many protocols register values, codepoints, or numbers in a limited space. A
-common approach is to reserve a subset of the space for greasing (see
+common approach that has developed in more recent protocols is to reserve a subset of the space for greasing (see
 <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span>, <span><a href="https://rfc-editor.org/rfc/rfc9000#section-18.1" class="relref">Section 18.1</a> of [<a href="#QUIC" class="cite xref">QUIC</a>]</span>, or <span><a href="https://rfc-editor.org/rfc/rfc9114#section-7.2.8" class="relref">Section 7.2.8</a> of [<a href="#RFC9114" class="cite xref">HTTP/3</a>]</span>). Values
 reserved for the purpose of greasing are herein referred to as grease values.
 Implementations that receive grease values are required to ignore them. More
@@ -1256,7 +1256,7 @@ sequence points during protocol interactions. This avoids receivers
 unintentionally ossifying on the occurrence of greasing in the temporal or
 spatial domain.<a href="#section-3-5" class="pilcrow">¶</a></p>
 <p id="section-3-6">It is recommended that large grease value sets are allocated in protocol
-documents by defining a unique algorithm, this increases the chance that
+documents by defining a unique algorithm, to increase the chance that
 receiver greasing requirements are exercised. However, the choice of algorithm
 needs to consider the spread of values and the size of contiguous blocks between
 grease values. It is common for protocol extension designers to want to reserve

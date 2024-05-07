@@ -55,43 +55,39 @@ standards process {{?MAINTENANCE=RFC9413}}. Protocol deployment success
 can include modifying how the protocol is used, extending the protocol, or
 replacing the protocol.
 
-Greasing is one technique that supports the long term-viability of protocol
-extension points. It was originally designed for TLS {{?GREASE=RFC8701}} as a
-later addition to help mitigate observed deployment issues. Subsequently, other
-protocols such as QUIC {{?QUIC=RFC9000}} and HTTP/3 {{RFC9114}} added
-greasing capability into their initial versions, along with policies and
-IANA registries, in order to avoid ossification-related problems emerging in
-the first place. Greasing is suitable for many protocols but not all.
-{{Section 3.3 of ?VIABILITY=RFC9170}} discusses the applicability and limitations
-of greasing. {{grease}} presents considerations for applying grease that help
-to ensure it can most effectively reach its maintenance goals.
+Greasing, a technique initially designed for TLS {{?GREASE=RFC8701}} and later
+adopted by other protocols such as QUIC {{?QUIC=RFC9000}}, can help support the
+long-term viability of protocol extension points. Greasing is suitable for many
+protocols but not all; {{Section 3.3 of ?VIABILITY=RFC9170}} discusses the
+applicability and limitations of greasing. {{grease-considerations}} provides
+additional protocol maintenance considerations.
 
-Changing user needs {{?END-USERS=RFC8890}} may require that applications modify
-how they use a protocol without needing to change the protocol itself. For
-example, a deployment that supported a download-oriented population might wish
-to enable support for user uploads. This would change interactions and traffic
-flows but still behave completely within the design constraints of the network
-protocols. Implementations and deployments might discover ossification affects
-this form of change because expectations form around patterns of usage.
-{{variability}} presents considerations about how intentionally increasing the
-variability of protocols can mitigate some of these concerns.
+Applications are built with the intent of serving user needs {{?END-USERS=RFC8890}}, which might only
+require support for a subset of protocol features. Adapting to changing user
+needs is a maintenance activity. For example, an HTTP deployment focused on
+downloads might want to add support for uploads. Changing use of the application
+and transport protocol features can affect the deployment's network traffic
+profile. If expectations have been formed around historical patterns of use
+i.e., ossification, introducing change might lead to deployment problems. {{variability}} presents
+considerations about how intentionally increasing the variability of protocols
+can mitigate some of these concerns.
 
-Replacing a protocol may be required where the changing needs or environment
-push protocol usage outside its original design parameters and extensions cannot
-effectively fill the gap. Replacing a protocol may also be desirable as a form of
-baseline, a formal declaration of protocol and extension(s) combination that is
-common, that may simplify deployment by reducing failures related to
-combinatorial extensions problems. A replacement protocol version may or may not
-be compatible with other versions. A protocol may or may not have a mechanism
-for version selection or agility. {{versions}} presents considerations about
-designing for and/or implementing version negotiation and migration.
+Protocol extensions can provide longevity in the face of changing needs or
+environment. However, a replacment protocol might be preferred when extensions
+are not adequate or feasible. A protocol replacement could aggregate common
+extensions and possibly make them mandatory, effectively defining a new baseline
+that can simplify deployment and interoperability. A replacement protocol
+version may or may not be compatible with other versions. A protocol may or may
+not have a mechanism for version selection or agility. {{versions}} presents
+considerations about designing for and/or implementing version negotiation and
+migration.
 
 
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
 
-# Considerations for Applying Greasing {#grease}
+# Considerations for Applying Greasing {#grease-considerations}
 
 Greasing can take many forms, depending on the protocol and the nature of its
 extension points.

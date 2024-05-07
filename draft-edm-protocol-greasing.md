@@ -162,8 +162,8 @@ values they send.
 
 # Considerations for Increasing Protocol Variability {#variability}
 
-Greasing can maintain protocol extensibility by falsifying active use of it's
-extensions points. However, it does not ensure positive use. A protocol may
+Greasing can maintain protocol extensibility by falsifying active use of its
+extension points. However, greasing alone does not ensure positive use of extension mechanisms. A protocol may
 define a wide-ranging extension capability that remains unused in the absence of
 real use cases. This can lead to ossification that does not expect extensions,
 leading to interoperability problems later on.
@@ -182,7 +182,7 @@ longitudinal aspects of packets or frames - size, ordering, frequency, etc. A
 sender can quite often manipulate these parameters and stay compliant to the
 requirements of the QUIC protocol.
 
-QUIC streams are an ordered reliable byte stream that is serialized as a
+A QUIC stream is an ordered reliable byte stream that is serialized as a
 sequence of STREAM frames with a length and offset. Receivers are expected to
 reassemble frames, which could arrive in any order, into an ordered reliable
 byte stream that is readable by applications.

@@ -8,13 +8,11 @@
 <meta content="Lucas Pardue" name="author">
 <meta content="
        Long-term interoperability of protocols is an important goal of the network
-standards process. Part of realizing long-term protocol deployment success is
-the ability to support change. Change can require adjustments such as extending
-the protocol, modifying usage patterns within the current protocol
-constraints, or a creating a replacement protocol. This document presents
-considerations for protocol designers and implementers about applying techniques
-such as greasing or protocol variability as a means to exercise maintenance
-concepts. 
+standards process. Deployment success can depend on supporting change, which
+can include modifying how the protocol is used, extending the protocol, or
+replacing the protocol. This document presents concepts, considerations, and
+techniques related to protocol maintenance, such as greasing or variability. The
+intended audience is protocol designers and implementers. 
     " name="description">
 <meta content="xml2rfc 3.21.0" name="generator">
 <meta content="next generation" name="keyword">
@@ -1033,7 +1031,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <table class="ears">
 <thead><tr>
 <td class="left">Internet-Draft</td>
-<td class="center">Maintaining Protocols Using Grease and V</td>
+<td class="center">Protocol Greasing</td>
 <td class="right">May 2024</td>
 </tr></thead>
 <tfoot><tr>
@@ -1070,13 +1068,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">Long-term interoperability of protocols is an important goal of the network
-standards process. Part of realizing long-term protocol deployment success is
-the ability to support change. Change can require adjustments such as extending
-the protocol, modifying usage patterns within the current protocol
-constraints, or a creating a replacement protocol. This document presents
-considerations for protocol designers and implementers about applying techniques
-such as greasing or protocol variability as a means to exercise maintenance
-concepts.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+standards process. Deployment success can depend on supporting change, which
+can include modifying how the protocol is used, extending the protocol, or
+replacing the protocol. This document presents concepts, considerations, and
+techniques related to protocol maintenance, such as greasing or variability. The
+intended audience is protocol designers and implementers.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1125,10 +1121,7 @@ concepts.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
             (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
             publication of this document. Please review these documents
             carefully, as they describe your rights and restrictions with
-            respect to this document. Code Components extracted from this
-            document must include Revised BSD License text as described in
-            Section 4.e of the Trust Legal Provisions and are provided without
-            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+            respect to this document.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="toc">
@@ -1190,39 +1183,34 @@ concepts.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">Long-term interoperability of protocols is an important goal of the network
-standards process <span>[<a href="#MAINTENANCE" class="cite xref">MAINTENANCE</a>]</span>. Part of realizing long-term protocol
-deployment success <span>[<a href="#SUCCESS" class="cite xref">SUCCESS</a>]</span> is the ability to support change. Change
-can require adjustments such as extending the protocol, modifying usage
-patterns within the current protocol constraints, or creating a replacement
-protocol.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">Greasing is one technique that supports the long term-viability of protocol
-extension points. It was originally designed for TLS <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span> as a
-later addition to help mitigate observed deployment issues. Subsequently, other
-protocols such as QUIC <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span> and HTTP/3 <span>[<a href="#RFC9114" class="cite xref">HTTP/3</a>]</span> added
-greasing capability into their initial versions, along with policies and
-IANA registries, in order to avoid ossification-related problems emerging in
-the first place. Greasing is suitable for many protocols but not all.
-<span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> discusses the applicability and limitations
-of greasing. <a href="#grease" class="auto internal xref">Section 3</a> presents considerations for applying grease that help
-to ensure it can most effectively reach its maintenance goals.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">Changing user needs <span>[<a href="#END-USERS" class="cite xref">END-USERS</a>]</span> may require that applications modify
-how they use a protocol without needing to change the protocol itself. For
-example, a deployment that supported a download-oriented population might wish
-to enable support for user uploads. This would change interactions and traffic
-flows but still behave completely within the design constraints of the network
-protocols. Implementations and deployments might discover ossification affects
-this form of change because expectations form around patterns of usage.
-<a href="#variability" class="auto internal xref">Section 4</a> presents considerations about how intentionally increasing the
-variability of protocols can mitigate some of these concerns.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">Replacing a protocol may be required where the changing needs or environment
-push protocol usage outside its original design parameters and extensions cannot
-effectively fill the gap. Replacing a protocol may also be desirable as a form of
-baseline, a formal declaration of protocol and extension(s) combination that is
-common, that may simplify deployment by reducing failures related to
-combinatorial extensions problems. A replacement protocol version may or may not
-be compatible with other versions. A protocol may or may not have a mechanism
-for version selection or agility. <a href="#versions" class="auto internal xref">Section 5</a> presents considerations about
-designing for and/or implementing version negotiation and migration.<a href="#section-1-4" class="pilcrow">¶</a></p>
+standards process <span>[<a href="#MAINTENANCE" class="cite xref">MAINTENANCE</a>]</span>. Protocol deployment success
+<span>[<a href="#SUCCESS" class="cite xref">SUCCESS</a>]</span> can depend on supporting change, which
+can include modifying how the protocol is used, extending the protocol, or
+replacing the protocol.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Greasing, a technique initially designed for TLS <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span> and later
+adopted by other protocols such as QUIC <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span>, can help support the
+long-term viability of protocol extension points. Greasing is suitable for many
+protocols but not all; <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> discusses the
+applicability and limitations of greasing. <a href="#grease-considerations" class="auto internal xref">Section 3</a> provides
+additional protocol maintenance considerations.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">Applications are built with the intent of serving user needs <span>[<a href="#END-USERS" class="cite xref">END-USERS</a>]</span>, which might only
+require support for a subset of protocol features. Adapting to changing user
+needs is a maintenance activity. For example, an HTTP deployment focused on
+downloads might want to add support for uploads. Changing use of the application
+and transport protocol features can affect the deployment's network traffic
+profile. If expectations have been formed around historical patterns of use
+i.e., ossification, introducing change might lead to deployment problems. <a href="#variability" class="auto internal xref">Section 4</a> presents
+considerations about how intentionally increasing the variability of protocols
+can mitigate some of these concerns.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">Protocol extensions can provide longevity in the face of changing needs or
+environment. However, a replacment protocol might be preferred when extensions
+are not adequate or feasible. A protocol replacement could aggregate common
+extensions and possibly make them mandatory, effectively defining a new baseline
+that can simplify deployment and interoperability. A replacement protocol
+version may or may not be compatible with other versions. A protocol may or may
+not have a mechanism for version selection or agility. <a href="#versions" class="auto internal xref">Section 5</a> presents
+considerations about designing for and/or implementing version negotiation and
+migration.<a href="#section-1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1236,7 +1224,7 @@ described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</s
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="grease">
+<div id="grease-considerations">
 <section id="section-3">
       <h2 id="name-considerations-for-applying">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-considerations-for-applying" class="section-name selfRef">Considerations for Applying Greasing</a>
@@ -1293,17 +1281,17 @@ a label such as "reserved for greasing" may help to avoid the confusion.<a href=
       <h2 id="name-considerations-for-increasi">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-considerations-for-increasi" class="section-name selfRef">Considerations for Increasing Protocol Variability</a>
       </h2>
-<p id="section-4-1">While greasing is one method to maintain protocol extensibility by falsifying
-active use of a protocol's extensions points, it does not ensure that an
-extension point has positive use. A protocol may define a wide-ranging extension
-capability but if senders do not use it, then interoperability problems might
-exist and remain hidden, leading to ossification until a real use case emerges.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">Variation of protocol extension points with positive use in mind can help
-exercise protocols and ensure long-term maintenance and interoperability. This
-can be thought of, to some extent, as protocol fuzzing. It can be a difficult
-area to exercise because varying the protocol elements may change the actual
-outcome of interactions, leading to real errors. However, some elements can be
-safely changed, as the following examples describe.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-1">Greasing can maintain protocol extensibility by falsifying active use of its
+extension points. However, greasing alone does not ensure positive use of extension mechanisms. A protocol may
+define a wide-ranging extension capability that remains unused in the absence of
+real use cases. This can lead to ossification that does not expect extensions,
+leading to interoperability problems later on.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">Long-term maintenance and interoperability can be ensured by exercising
+extension points positively. To some extent this can be thought of as protocol
+fuzzing. This might be difficult to exercise because varying the protocol
+elements might change the outcome of interactions, leading to real errors.
+However, some protocols allow elements to be be safely changed, as shown in the
+following examples.<a href="#section-4-2" class="pilcrow">¶</a></p>
 <div id="example-quic-frames">
 <section id="section-4.1">
         <h3 id="name-example-quic-frames">
@@ -1312,16 +1300,19 @@ safely changed, as the following examples describe.<a href="#section-4-2" class=
 <p id="section-4.1-1">QUIC packets contain frames. Receivers might build expectations on the
 longitudinal aspects of packets or frames - size, ordering, frequency, etc. A
 sender can quite often manipulate these parameters and stay compliant to the
-requirements of the QUIC protocol. For example, QUIC streams are an ordered
-reliable byte stream that is serialized as a sequence of STREAM frames with a
-length and offset. Receivers are expected to reassemble frames into an ordered
-reliable byte stream such that an application reading from a stream can be
-abstracted from matters of the transport later. A sender that purposefully
-reorders STREAM frames will help exercise the reassembly features of the
-receiver. It is not expected that this would cause a functional failure in the
-application layer. However, it may introduce delays or stream head-of-line
-blocking that affect the performance aspects of a transmission, which may not be
-acceptable for a given use case.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+requirements of the QUIC protocol.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">A QUIC stream is an ordered reliable byte stream that is serialized as a
+sequence of STREAM frames with a length and offset. Receivers are expected to
+reassemble frames, which could arrive in any order, into an ordered reliable
+byte stream that is readable by applications.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">A form of positive testing is for a sender to unpredictably order the STREAM
+frames that it transmits. For example, varying the sequence order of offset
+values. This allows to exercise the QUIC reassembly features of the receiver
+with the expectation that no failure would occur. However, doing this may
+introduce delay or stream head-of-line blocking that affects the performance
+aspects of a transmission, which may not be acceptable for a given use case. As
+such, positive testing might be most appropriate to use in a subset of
+connections, or phases within a connection.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1439,7 +1430,7 @@ contributors at those meetings are thanked.<a href="#appendix-A-1" class="pilcro
 <div dir="auto" class="left"><span class="org">Cloudflare</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:lucaspardue.24.7@gmail.com" class="email">lucaspardue.24.7@gmail.com</a>
+<a href="mailto:lucas@lucaspardue.com" class="email">lucas@lucaspardue.com</a>
 </div>
 </address>
 </section>

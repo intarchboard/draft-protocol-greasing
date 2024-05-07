@@ -14,14 +14,12 @@ Expires: 8 November 2024
 Abstract
 
    Long-term interoperability of protocols is an important goal of the
-   network standards process.  Part of realizing long-term protocol
-   deployment success is the ability to support change.  Change can
-   require adjustments such as extending the protocol, modifying usage
-   patterns within the current protocol constraints, or a creating a
-   replacement protocol.  This document presents considerations for
-   protocol designers and implementers about applying techniques such as
-   greasing or protocol variability as a means to exercise maintenance
-   concepts.
+   network standards process.  Deployment success can depend on
+   supporting change, which can include modifying how the protocol is
+   used, extending the protocol, or replacing the protocol.  This
+   document presents concepts, considerations, and techniques related to
+   protocol maintenance, such as greasing or variability.  The intended
+   audience is protocol designers and implementers.
 
 About This Document
 
@@ -62,10 +60,7 @@ Copyright Notice
    Provisions Relating to IETF Documents (https://trustee.ietf.org/
    license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
-   and restrictions with respect to this document.  Code Components
-   extracted from this document must include Revised BSD License text as
-   described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Revised BSD License.
+   and restrictions with respect to this document.
 
 Table of Contents
 
@@ -86,45 +81,38 @@ Table of Contents
 1.  Introduction
 
    Long-term interoperability of protocols is an important goal of the
-   network standards process [MAINTENANCE].  Part of realizing long-term
-   protocol deployment success [SUCCESS] is the ability to support
-   change.  Change can require adjustments such as extending the
-   protocol, modifying usage patterns within the current protocol
-   constraints, or creating a replacement protocol.
+   network standards process [MAINTENANCE].  Protocol deployment success
+   [SUCCESS] can depend on supporting change, which can include
+   modifying how the protocol is used, extending the protocol, or
+   replacing the protocol.
 
-   Greasing is one technique that supports the long term-viability of
-   protocol extension points.  It was originally designed for TLS
-   [GREASE] as a later addition to help mitigate observed deployment
-   issues.  Subsequently, other protocols such as QUIC [QUIC] and HTTP/3
-   [HTTP/3] added greasing capability into their initial versions, along
-   with policies and IANA registries, in order to avoid ossification-
-   related problems emerging in the first place.  Greasing is suitable
-   for many protocols but not all.  Section 3.3 of [VIABILITY] discusses
-   the applicability and limitations of greasing.  Section 3 presents
-   considerations for applying grease that help to ensure it can most
-   effectively reach its maintenance goals.
+   Greasing, a technique initially designed for TLS [GREASE] and later
+   adopted by other protocols such as QUIC [QUIC], can help support the
+   long-term viability of protocol extension points.  Greasing is
+   suitable for many protocols but not all; Section 3.3 of [VIABILITY]
+   discusses the applicability and limitations of greasing.  Section 3
+   provides additional protocol maintenance considerations.
 
-   Changing user needs [END-USERS] may require that applications modify
-   how they use a protocol without needing to change the protocol
-   itself.  For example, a deployment that supported a download-oriented
-   population might wish to enable support for user uploads.  This would
-   change interactions and traffic flows but still behave completely
-   within the design constraints of the network protocols.
-   Implementations and deployments might discover ossification affects
-   this form of change because expectations form around patterns of
-   usage.  Section 4 presents considerations about how intentionally
-   increasing the variability of protocols can mitigate some of these
-   concerns.
+   Applications are built with the intent of serving user needs
+   [END-USERS], which might only require support for a subset of
+   protocol features.  Adapting to changing user needs is a maintenance
+   activity.  For example, an HTTP deployment focused on downloads might
+   want to add support for uploads.  Changing use of the application and
+   transport protocol features can affect the deployment's network
+   traffic profile.  If expectations have been formed around historical
+   patterns of use i.e., ossification, introducing change might lead to
+   deployment problems.  Section 4 presents considerations about how
+   intentionally increasing the variability of protocols can mitigate
+   some of these concerns.
 
-   Replacing a protocol may be required where the changing needs or
-   environment push protocol usage outside its original design
-   parameters and extensions cannot effectively fill the gap.  Replacing
-   a protocol may also be desirable as a form of baseline, a formal
-   declaration of protocol and extension(s) combination that is common,
-   that may simplify deployment by reducing failures related to
-   combinatorial extensions problems.  A replacement protocol version
-   may or may not be compatible with other versions.  A protocol may or
-   may not have a mechanism for version selection or agility.  Section 5
+   Protocol extensions can provide longevity in the face of changing
+   needs or environment.  However, a replacment protocol might be
+   preferred when extensions are not adequate or feasible.  A protocol
+   replacement could aggregate common extensions and possibly make them
+   mandatory, effectively defining a new baseline that can simplify
+   deployment and interoperability.  A replacement protocol version may
+   or may not be compatible with other versions.  A protocol may or may
+   not have a mechanism for version selection or agility.  Section 5
    presents considerations about designing for and/or implementing
    version negotiation and migration.
 
@@ -199,38 +187,42 @@ Table of Contents
 
 4.  Considerations for Increasing Protocol Variability
 
-   While greasing is one method to maintain protocol extensibility by
-   falsifying active use of a protocol's extensions points, it does not
-   ensure that an extension point has positive use.  A protocol may
-   define a wide-ranging extension capability but if senders do not use
-   it, then interoperability problems might exist and remain hidden,
-   leading to ossification until a real use case emerges.
+   Greasing can maintain protocol extensibility by falsifying active use
+   of its extension points.  However, greasing alone does not ensure
+   positive use of extension mechanisms.  A protocol may define a wide-
+   ranging extension capability that remains unused in the absence of
+   real use cases.  This can lead to ossification that does not expect
+   extensions, leading to interoperability problems later on.
 
-   Variation of protocol extension points with positive use in mind can
-   help exercise protocols and ensure long-term maintenance and
-   interoperability.  This can be thought of, to some extent, as
-   protocol fuzzing.  It can be a difficult area to exercise because
-   varying the protocol elements may change the actual outcome of
-   interactions, leading to real errors.  However, some elements can be
-   safely changed, as the following examples describe.
+   Long-term maintenance and interoperability can be ensured by
+   exercising extension points positively.  To some extent this can be
+   thought of as protocol fuzzing.  This might be difficult to exercise
+   because varying the protocol elements might change the outcome of
+   interactions, leading to real errors.  However, some protocols allow
+   elements to be be safely changed, as shown in the following examples.
 
 4.1.  Example: QUIC frames
 
    QUIC packets contain frames.  Receivers might build expectations on
    the longitudinal aspects of packets or frames - size, ordering,
    frequency, etc.  A sender can quite often manipulate these parameters
-   and stay compliant to the requirements of the QUIC protocol.  For
-   example, QUIC streams are an ordered reliable byte stream that is
-   serialized as a sequence of STREAM frames with a length and offset.
-   Receivers are expected to reassemble frames into an ordered reliable
-   byte stream such that an application reading from a stream can be
-   abstracted from matters of the transport later.  A sender that
-   purposefully reorders STREAM frames will help exercise the reassembly
-   features of the receiver.  It is not expected that this would cause a
-   functional failure in the application layer.  However, it may
-   introduce delays or stream head-of-line blocking that affect the
-   performance aspects of a transmission, which may not be acceptable
-   for a given use case.
+   and stay compliant to the requirements of the QUIC protocol.
+
+   A QUIC stream is an ordered reliable byte stream that is serialized
+   as a sequence of STREAM frames with a length and offset.  Receivers
+   are expected to reassemble frames, which could arrive in any order,
+   into an ordered reliable byte stream that is readable by
+   applications.
+
+   A form of positive testing is for a sender to unpredictably order the
+   STREAM frames that it transmits.  For example, varying the sequence
+   order of offset values.  This allows to exercise the QUIC reassembly
+   features of the receiver with the expectation that no failure would
+   occur.  However, doing this may introduce delay or stream head-of-
+   line blocking that affects the performance aspects of a transmission,
+   which may not be acceptable for a given use case.  As such, positive
+   testing might be most appropriate to use in a subset of connections,
+   or phases within a connection.
 
 5.  Considerations for Protocol Versions
 
@@ -317,4 +309,4 @@ Author's Address
 
    Lucas Pardue
    Cloudflare
-   Email: lucaspardue.24.7@gmail.com
+   Email: lucas@lucaspardue.com

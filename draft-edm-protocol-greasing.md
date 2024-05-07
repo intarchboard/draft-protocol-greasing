@@ -1,5 +1,6 @@
 ---
 title: "Maintaining Protocols Using Grease and Variability"
+abbrev: "Protocol Greasing"
 category: info
 
 docname: draft-edm-protocol-greasing-latest

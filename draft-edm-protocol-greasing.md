@@ -162,34 +162,39 @@ values they send.
 
 # Considerations for Increasing Protocol Variability {#variability}
 
-While greasing is one method to maintain protocol extensibility by falsifying
-active use of a protocol's extensions points, it does not ensure that an
-extension point has positive use. A protocol may define a wide-ranging extension
-capability but if senders do not use it, then interoperability problems might
-exist and remain hidden, leading to ossification until a real use case emerges.
+Greasing can maintain protocol extensibility by falsifying active use of it's
+extensions points. However, it does not ensure positive use. A protocol may
+define a wide-ranging extension capability that remains unused in the absence of
+real use cases. This can lead to ossification that does not expect extensions,
+leading to interoperability problems later on.
 
-Variation of protocol extension points with positive use in mind can help
-exercise protocols and ensure long-term maintenance and interoperability. This
-can be thought of, to some extent, as protocol fuzzing. It can be a difficult
-area to exercise because varying the protocol elements may change the actual
-outcome of interactions, leading to real errors. However, some elements can be
-safely changed, as the following examples describe.
+Long-term maintenance and interoperability can be ensured by exercising
+extension points positively. To some extent this can be thought of as protocol
+fuzzing. This might be difficult to exercise because varying the protocol
+elements might change the outcome of interactions, leading to real errors.
+However, some protocols allow elements to be be safely changed, as shown in the
+following examples.
 
 ## Example: QUIC frames
 
 QUIC packets contain frames. Receivers might build expectations on the
 longitudinal aspects of packets or frames - size, ordering, frequency, etc. A
 sender can quite often manipulate these parameters and stay compliant to the
-requirements of the QUIC protocol. For example, QUIC streams are an ordered
-reliable byte stream that is serialized as a sequence of STREAM frames with a
-length and offset. Receivers are expected to reassemble frames into an ordered
-reliable byte stream such that an application reading from a stream can be
-abstracted from matters of the transport later. A sender that purposefully
-reorders STREAM frames will help exercise the reassembly features of the
-receiver. It is not expected that this would cause a functional failure in the
-application layer. However, it may introduce delays or stream head-of-line
-blocking that affect the performance aspects of a transmission, which may not be
-acceptable for a given use case.
+requirements of the QUIC protocol.
+
+QUIC streams are an ordered reliable byte stream that is serialized as a
+sequence of STREAM frames with a length and offset. Receivers are expected to
+reassemble frames, which could arrive in any order, into an ordered reliable
+byte stream that is readable by applications.
+
+A form of positive testing is for a sender to unpredictably order the STREAM
+frames that it transmits. For example, varying the sequence order of offset
+values. This allows to exercise the QUIC reassembly features of the receiver
+with the expectation that no failure would occur. However, doing this may
+introduce delay or stream head-of-line blocking that affects the performance
+aspects of a transmission, which may not be acceptable for a given use case. As
+such, positive testing might be most appropriate to use in a subset of
+connections, or phases within a connection.
 
 # Considerations for Protocol Versions {#versions}
 

@@ -92,66 +92,56 @@ migration.
 Greasing can take many forms, depending on the protocol and the nature of its
 extension points.
 
-In cases where a protocol uses registered values (i.e. codepoints) or numbers in
-a well defined range, a common approach (see {{GREASE}}, {{Section 18.1 of QUIC}},
-or {{Section 7.2.8 of RFC9114}}), is to reserve a subset of the range for the
-purposes of greasing. This approach is detailed more thoroughly in {{Section 3.3
-of ?VIABILITY=RFC9170}}. However, protocol designers or implementers may find it
-difficult to apply those suggestions in abstract. The likely success or
-efficacy of this method can be improved by the following suggestions.
+Many protocols register values, codepoints, or numbers in a limited space. A
+common approach is to reserve a subset of the space for greasing (see
+{{GREASE}}, {{Section 18.1 of QUIC}}, or {{Section 7.2.8 of RFC9114}}). Values
+reserved for the purpose of greasing are herein referred to as grease values.
+Implementations that receive grease values are required to ignore them. More
+background to this approach is given in {{Section 3.3 of ?VIABILITY=RFC9170}}.
+This section provides concrete suggestions for its usage.
 
-It is assumed that endpoint should implement robust and broad extension
-handling. When acting as a receiver or a parser, the implementation should not
-treat codepoints reserved for the purposes of greasing as individually special.
-In other words, rather than implementation looking specifically for reserved
-values, it is better to have a "catch all" mechanism that can handle receipt of
-unknown extensions gracefully or without error.
+It is assumed that endpoints should implement robust and broad extension
+handling. A receiver or a parser implementation should not treat grease values
+as individually special. Instead of identifying each grease value explicitly,
+it is better to have a "catch all" mechanism that can handle receipt of unknown
+extensions, whether grease values or not, gracefully or without error.
 
-In order to exercise receiver capability, it is advisable that senders send
-values from the ranges reserved for greasing. However, picking a deterministic
-value risks a value becoming ossified itself. One outcome of that is receivers
-being written to handle a single expected value rather than the generic handling
-described above. One way to help mitigate this is to reserve a sufficiently
-large range of values for greasing, and ensure that senders chose values from
-that range with diversity and non-determinism. The specific nature of size and
-distribution of the grease range needs to accommodate the protocol constraints.
-For instance, an 8-bit field can only represent a small range of values and it
-may be too costly to dedicate many of them solely for the purpose of greasing.
-However, protocols that use 32-bit or 64-bit fields are unlikely to have such
-restrictions.
+It is recommended that senders pick an unpredictable grease value to include in
+relevant protocol elements. This ensures that receiver greasing requirements are
+exercised. Using predictable grease values risks ossification. To increase the
+variety of grease values, it is advised to reserve a large range. However, the
+specific size and distribution of the grease range needs to accommodate the
+protocol constraints. For instance, protocols that use 8-bit fields may find it
+too costly to dedicate many grease values, while 32-bit or 64-bit fields are
+likely to have no limitations.
 
-It is beneficial to have a large set of reserved numbers for the purpose of
-greasing. However, protocol designers that wish to do so may encounter
-difficulties in expressing the large range in their protocol documents and/or in
-an IANA registry. One approach to this problem has been to define the set
-algorithmically in the protocol definition and request that IANA reserve only a
-single entry in the respective table that covers the entire range; see for
-example
+It is recommended that senders use grease values at unpredictable times or
+sequence points during protocol interactions. This avoids receivers
+unintentionally ossifying on the occurrence of greasing in the temporal or
+spatial domain.
+
+It is recommended that large grease value sets are allocated in protocol
+documents by defining a unique algorithm, this increases the chance that
+receiver greasing requirements are exercised. However, the choice of algorithm
+needs to consider the spread of values and the size of contiguous blocks between
+grease values. It is common for protocol extension designers to want to reserve
+a contiguous block of code points in order to aid iteration and experimentation.
+Small contiguous blocks increase the chance that such reservations might
+unintentionally use grease values, which could lead to interoperability
+failures.
+
+Fields that use grease values should request that IANA requests allocate only a
+single registry entry for the entire grease value set. When an algorithm has
+been used, it should be included in the entry; see for example
 https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types.
-This range should be protected from registering from any other purpose. Deciding
-an appropriate label for this protected range is important. Labelling it simply
-"reserved" may be confused with other ranges that are reserved for private or
-experimental extensions. An implementer that conflates these two meanings may
-cause a new class of interoperability failure. Therefore a label such as
-"reserved for greasing" may help to avoid the confusion. If choosing to use an
-algorithm to define the set, it is encourage to use unique algorithms. This
-again improves the chances that receivers will build robust extension handling
-rather that a simple special-case ignore list.
 
-Protocols that do reserve ranges for greasing introduce a new consideration for
-real extensions. It is common to want to reserve a block of code points for
-iteration and experimentation. Depending how the algorithm spreads numbers
-through the full range, any single block of uninterrupted values may be too
-small to be usable. This could lead to unintentional use of a greased value.
+Values in the grease value set must not be used or registered for any other
+purpose. Registries should include a label to identify the protected grease
+value range; a label of "reserved" may be confused with other ranges that are
+reserved for private or experimental extensions. An implementer that conflates
+these two meanings may cause a new class of interoperability failure. Therefore
+a label such as "reserved for greasing" may help to avoid the confusion.
 
-Since it is intended for receivers to ignore values reserved for greasing,
-designers and implementers need to remain aware that unintentional use of
-greased values by a sender for a real extension may cause a failure.
-
-Receiver implementations may unintentionally build a reliance on the occurrence of
-greasing in the temporal or spatial domain. Senders are advised to
-implementation non-determinism of when they use grease in addition to what
-values they send.
 
 # Considerations for Increasing Protocol Variability {#variability}
 

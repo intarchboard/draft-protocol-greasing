@@ -65,13 +65,13 @@ protocols but not all; {{Section 3.3 of ?VIABILITY=RFC9170}} discusses the
 applicability and limitations of greasing. {{grease-considerations}} provides
 additional protocol maintenance considerations.
 
-Applications are built to user needs {{?END-USERS=RFC8890}}, which might only
-require support for a subset of protocol features. Adopting to changing user
+Applications are built with the intent of serving user needs {{?END-USERS=RFC8890}}, which might only
+require support for a subset of protocol features. Adapting to changing user
 needs is a maintenance activity. For example, an HTTP deployment focused on
 downloads might want to add support for uploads. Changing use of the application
 and transport protocol features can affect the deployment's network traffic
 profile. If expectations have been formed around historical patterns of use
-i.e., ossification, change might encounter problems. {{variability}} presents
+i.e., ossification, introducing change might lead to deployment problems. {{variability}} presents
 considerations about how intentionally increasing the variability of protocols
 can mitigate some of these concerns.
 

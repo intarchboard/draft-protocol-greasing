@@ -37,7 +37,7 @@ informative:
 --- abstract
 
 Long-term interoperability of protocols is an important goal of the network
-standards process. Deployment success could depend on supporting change, which
+standards process. Deployment success can depend on supporting change, which
 can include modifying how the protocol is used, extending the protocol, or
 replacing the protocol. This document presents concepts, considerations, and
 techniques related to protocol maintenance, such as greasing or variability. The
@@ -50,7 +50,7 @@ intended audience is protocol designers and implementers.
 
 Long-term interoperability of protocols is an important goal of the network
 standards process {{?MAINTENANCE=RFC9413}}. Protocol deployment success
-{{?SUCCESS=RFC5218}} could depend on supporting change, which
+{{?SUCCESS=RFC5218}} can depend on supporting change, which
 can include modifying how the protocol is used, extending the protocol, or
 replacing the protocol.
 

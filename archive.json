@@ -1,0 +1,289 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2023-09-05T00:40:10.016638+00:00",
+  "repo": "intarchboard/draft-protocol-greasing",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 3,
+      "id": "I_kwDOJ01T5M5spEgr",
+      "title": "Greasing considerations to endpoint features",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/3",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In my mind, greasing is currently defined with respect to _protocol features_, with something like the QUIC spin bit being one obvious example. However, the concepts and motivations behind greasing can also extend to endpoint features themselves, such as deciding whether or not to use QUIC at all in the first place. The [Privacy Pass](https://ietf-wg-privacypass.github.io/base-drafts/draft-ietf-privacypass-auth-scheme.html#name-user-interaction) specification applies this pattern, wherein client implementations can choose to provide tokens when asked or not (according to some local grease implementation behavior). If we believe that greasing extends to features in this way, should the document talk about it, and if so, what should it say?",
+      "createdAt": "2023-07-26T15:46:01Z",
+      "updatedAt": "2023-07-26T15:46:01Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOJ01T5M5spFRf",
+      "title": "Fingerprinting reference",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/4",
+      "state": "OPEN",
+      "author": "dthaler",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "At least reference RFC 6973 (Privacy Considerations for Internet Protocols) which has a very brief discussion of fingerprinting.\r\nWould be nice to have a better reference in general but I don't think one exists yet.",
+      "createdAt": "2023-07-26T15:47:44Z",
+      "updatedAt": "2023-07-26T15:47:44Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOJ01T5M5spFmW",
+      "title": "We ought to have some discussion of non-encrypted mechanisms",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/5",
+      "state": "OPEN",
+      "author": "gorryfair",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "We mentioned that QUIC also had non-encrypted examples that could be used relating to greasing.",
+      "createdAt": "2023-07-26T15:48:38Z",
+      "updatedAt": "2023-07-26T15:48:38Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOJ01T5M5spG1E",
+      "title": "Greasing at multiple layers?",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/6",
+      "state": "OPEN",
+      "author": "gorryfair",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "We have possibilities to verify that greasing is present and to log or proactively break/re-connect when we do not see greasing. Do we have thoughts on what would happen if we have a proactive mecahnism when we detect lack of greasing at a lower layer (e.g. L3) that impacts higher layer mechanisms?",
+      "createdAt": "2023-07-26T15:51:44Z",
+      "updatedAt": "2023-07-26T15:51:44Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOJ01T5M5spHNH",
+      "title": "Greasing failure detection",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/7",
+      "state": "OPEN",
+      "author": "dthaler",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Greasing alone just prevents receiver/middlebox crashing vs \"tolerating\" but unfortunately one type of middlebox \"tolerating\" is just to drop all unrecognized extensions.  I looked for a discussion of this in this document and in \r\nRFC 9170 section 3.3, and the closest I could find was the text around \r\n\r\n> The principle that grease operates on is that an implementation that is regularly exposed to unknown values is less likely to be intolerant of new values when they appear. This depends largely on the assumption that the difficulty of implementing the extension mechanism correctly is as easy or easier than implementing code to identify and filter out reserved values.\r\n\r\nHowever, for protocols that aren't end-to-end encrypted (e.g., IPv6 next-header values, ICMP codes, EtherTypes, etc.) as one of many examples) middleboxes may still choose to drop, which prevents end to end extensibility.  I think the document should discuss this issue and deal with questions like:\r\n\r\n1. Should the receiver detect/log lack of receiving the other end's greasing messages?  I.e., at least detect when extensibility is blocked?\r\n2. Is it a good or bad idea for a protocol to build in something like a greasing ack timeout (and say fail or route around the problem) if no greasing ack is received?\r\n",
+      "createdAt": "2023-07-26T15:52:36Z",
+      "updatedAt": "2023-07-26T15:53:36Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOJ01T5M5wGv-d",
+      "title": "HTTP user-agent ",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/8",
+      "state": "OPEN",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This might be an interesting use case / case study to try and distil, although it touches quite close to the fingerprinting angle we have stated was out of scope for this document.\r\n\r\nWhat I'm thinking of is some of the browser folks' efforts to _reduce variability_ of the user agent string (an infinitely variable protocol element). Lots more background on docs like https://github.com/WICG/ua-client-hints#explainer-reducing-user-agent-granularity and https://blog.chromium.org/2021/05/update-on-user-agent-string-reduction.html. From a cursory glance, Chrome, Firefox, and Safari have been going some work in this area.\r\n\r\nWhat's also amusing is Chrome's choice to try and GREASE the new substitute `sec-ch-ua` field, for example . More about that in https://github.com/chromium/chromium/commit/19ad8d3cab21013ce2d40cf2ec84267bb04b08ec. \r\n\r\nAd-hoc example I grabbed today \r\n\r\n```\r\nsec-ch-ua: \"Not/A)Brand\";v=\"99\", \"Google Chrome\";v=\"115\", \"Chromium\";v=\"115\"\r\nsec-ch-ua-platform: \"Linux\"\r\nsec-ch-ua-mobile: ?0\r\nuser-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36\r\n```\r\n",
+      "createdAt": "2023-09-04T20:10:30Z",
+      "updatedAt": "2023-09-04T20:10:30Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOJ01T5M5VHH4g",
+      "title": "Update authors",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/1",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-10T17:43:12Z",
+      "updatedAt": "2023-07-10T18:46:23Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "f0a6058fe4b9db3010589b2759a69d1213843c75",
+      "headRepository": "LPardue/draft-protocol-greasing",
+      "headRefName": "main",
+      "headRefOid": "e9a4f43e00bf24b0a1c8c188e34e89bf9df72448",
+      "closedAt": "2023-07-10T18:46:23Z",
+      "mergedAt": "2023-07-10T18:46:23Z",
+      "mergedBy": "tfpauly",
+      "mergeCommit": {
+        "oid": "c96121b847fed600d526043182eac523fb8d7451"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M5awt4Y",
+          "commit": {
+            "abbreviatedOid": "e9a4f43"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-10T18:46:05Z",
+          "updatedAt": "2023-07-10T18:46:05Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOJ01T5M5VIfnC",
+      "title": "Initial Commit",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/2",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Update authors\n- Initial commit\n",
+      "createdAt": "2023-07-10T21:51:17Z",
+      "updatedAt": "2023-07-10T22:01:09Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "c96121b847fed600d526043182eac523fb8d7451",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "first-go",
+      "headRefOid": "1e56edc88e2176fe6ae6bf7ae6d67d950c46f54f",
+      "closedAt": "2023-07-10T21:54:30Z",
+      "mergedAt": "2023-07-10T21:54:30Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "6f0a8e4843a167cf4101695beb8edaddb09bf6fe"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M5ayLVV",
+          "commit": {
+            "abbreviatedOid": "1e56edc"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-10T21:57:18Z",
+          "updatedAt": "2023-07-10T21:57:18Z",
+          "comments": [
+            {
+              "originalPosition": 142,
+              "body": "Partial sentence?",
+              "createdAt": "2023-07-10T21:57:18Z",
+              "updatedAt": "2023-07-10T21:57:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ01T5M5ayMAo",
+          "commit": {
+            "abbreviatedOid": "1e56edc"
+          },
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-10T22:00:05Z",
+          "updatedAt": "2023-07-10T22:00:05Z",
+          "comments": [
+            {
+              "originalPosition": 142,
+              "body": "yes that should be deletec oops\r\n",
+              "createdAt": "2023-07-10T22:00:05Z",
+              "updatedAt": "2023-07-10T22:00:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ01T5M5ayLjU",
+          "commit": {
+            "abbreviatedOid": "1e56edc"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "Thank you for this initial pass! I think publishing it as something for the program to start discussing is good. I have comments on the title and abstract for how to make the scope clear and not tooo broad.",
+          "createdAt": "2023-07-10T21:58:06Z",
+          "updatedAt": "2023-07-10T22:01:09Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "Might be good to mention greasing in here specifically as one thing we're giving advice on?",
+              "createdAt": "2023-07-10T21:58:06Z",
+              "updatedAt": "2023-07-10T22:01:09Z"
+            },
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\r\ntitle: \"Maintaining Protocols Using Grease and Variability\"\r\n```",
+              "createdAt": "2023-07-10T22:00:32Z",
+              "updatedAt": "2023-07-10T22:01:09Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -99,16 +99,17 @@ Table of Contents
    discusses the applicability and limitations of greasing.  Section 3
    provides additional protocol maintenance considerations.
 
-   Applications are built to user needs [END-USERS], which might only
-   require support for a subset of protocol features.  Adopting to
-   changing user needs is a maintenance activity.  For example, an HTTP
-   deployment focused on downloads might want to add support for
-   uploads.  Changing use of the application and transport protocol
-   features can affect the deployment's network traffic profile.  If
-   expectations have been formed around historical patterns of use i.e.,
-   ossification, change might encounter problems.  Section 4 presents
-   considerations about how intentionally increasing the variability of
-   protocols can mitigate some of these concerns.
+   Applications are built with the intent of serving user needs
+   [END-USERS], which might only require support for a subset of
+   protocol features.  Adapting to changing user needs is a maintenance
+   activity.  For example, an HTTP deployment focused on downloads might
+   want to add support for uploads.  Changing use of the application and
+   transport protocol features can affect the deployment's network
+   traffic profile.  If expectations have been formed around historical
+   patterns of use i.e., ossification, introducing change might lead to
+   deployment problems.  Section 4 presents considerations about how
+   intentionally increasing the variability of protocols can mitigate
+   some of these concerns.
 
    Protocol extensions can provide longevity in the face of changing
    needs or environment.  However, a replacment protocol might be

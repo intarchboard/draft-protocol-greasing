@@ -130,17 +130,18 @@ Small contiguous blocks increase the chance that such reservations might
 unintentionally use grease values, which could lead to interoperability
 failures.
 
-Fields that use grease values should request that IANA requests allocate only a
-single registry entry for the entire grease value set. When an algorithm has
-been used, it should be included in the entry; see for example
+Protocols might ask IANA to create new registries for their extension points.
+When greasing, it is recommended that only a single entry for the entire grease
+value set is registered. When an algorithm has been used, it should be included
+in the entry; see for example
 https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types.
 
-Values in the grease value set must not be used or registered for any other
-purpose. Registries should include a label to identify the protected grease
-value range; a label of "reserved" may be confused with other ranges that are
-reserved for private or experimental extensions. An implementer that conflates
-these two meanings may cause a new class of interoperability failure. Therefore
-a label such as "reserved for greasing" may help to avoid the confusion.
+Grease values must not be used or registered for any other purpose. Registries
+should include a label to identify the protected grease value range; a label of
+"reserved" may be confused with other ranges that are reserved for private or
+experimental extensions. An implementer that conflates these two meanings may
+cause a new class of interoperability failure. Therefore a label such as
+"reserved for greasing" may help to avoid the confusion.
 
 
 # Considerations for Increasing Protocol Variability {#variability}

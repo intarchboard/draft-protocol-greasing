@@ -93,7 +93,7 @@ Greasing can take many forms, depending on the protocol and the nature of its
 extension points.
 
 Many protocols register values, codepoints, or numbers in a limited space. A
-common approach is to reserve a subset of the space for greasing (see
+common approach that has developed in more recent protocols is to reserve a subset of the space for greasing (see
 {{GREASE}}, {{Section 18.1 of QUIC}}, or {{Section 7.2.8 of RFC9114}}). Values
 reserved for the purpose of greasing are herein referred to as grease values.
 Implementations that receive grease values are required to ignore them. More
@@ -121,7 +121,7 @@ unintentionally ossifying on the occurrence of greasing in the temporal or
 spatial domain.
 
 It is recommended that large grease value sets are allocated in protocol
-documents by defining a unique algorithm, this increases the chance that
+documents by defining a unique algorithm, to increase the chance that
 receiver greasing requirements are exercised. However, the choice of algorithm
 needs to consider the spread of values and the size of contiguous blocks between
 grease values. It is common for protocol extension designers to want to reserve

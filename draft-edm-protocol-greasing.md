@@ -3,7 +3,7 @@ title: "Maintaining Protocols Using Grease and Variability"
 category: info
 
 docname: draft-edm-protocol-greasing-latest
-submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
+submissiontype: IAB
 number:
 date:
 consensus: true

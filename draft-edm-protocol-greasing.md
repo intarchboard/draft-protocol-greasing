@@ -57,10 +57,12 @@ replacing the protocol.
 
 Greasing, a technique initially designed for TLS {{?GREASE=RFC8701}} and later
 adopted by other protocols such as QUIC {{?QUIC=RFC9000}}, can help support the
-long-term viability of protocol extension points. Greasing is suitable for many
-protocols but not all; {{Section 3.3 of ?VIABILITY=RFC9170}} discusses the
-applicability and limitations of greasing. {{grease-considerations}} provides
-additional protocol maintenance considerations.
+long-term viability of protocol extension points. In these protocols, extension
+codepoints are reserved only for greasing and when received must be ignored.
+Greasing is suitable for many protocols but not all; {{Section 3.3 of
+?VIABILITY=RFC9170}} discusses the applicability and limitations of greasing.
+{{grease-considerations}} provides additional protocol maintenance
+considerations.
 
 Applications are built with the intent of serving user needs {{?END-USERS=RFC8890}}, which might only
 require support for a subset of protocol features. Adapting to changing user

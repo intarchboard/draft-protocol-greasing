@@ -100,7 +100,7 @@ Implementations that receive grease values are required to ignore them. More
 background to this approach is given in {{Section 3.3 of ?VIABILITY=RFC9170}}.
 This section provides concrete suggestions for its usage.
 
-## Catch-all Handling
+## Don't Special-Case Grease Values
 
 It is assumed that endpoints should implement robust and broad extension
 handling. A receiver or a parser implementation should not treat grease values

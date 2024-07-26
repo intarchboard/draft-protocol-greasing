@@ -70,7 +70,7 @@ Table of Contents
      3.1.  Don't Special-Case Grease Values
      3.2.  Use Unpredictable Grease Values
      3.3.  Use Grease Values at Unpredictable Times
-     3.4.  Defining and Registering Grease Value Ranges
+     3.4.  Define and Register Grease Value Ranges
    4.  Considerations for Increasing Protocol Variability
      4.1.  Example: QUIC frames
    5.  Considerations for Protocol Versions
@@ -171,7 +171,7 @@ Table of Contents
    receivers unintentionally ossifying on the occurrence of greasing in
    the temporal or spatial domain.
 
-3.4.  Defining and Registering Grease Value Ranges
+3.4.  Define and Register Grease Value Ranges
 
    It is recommended that large grease value sets are allocated in
    protocol documents by defining a unique algorithm, to increase the

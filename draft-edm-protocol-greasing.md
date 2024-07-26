@@ -205,7 +205,7 @@ expend additional processing time. Insufficient monitoring or logging exposes
 endpoints to a risk of denial-of-service attacks. Therefore, it is recommended
 that implementations track use of protocol features, extensions, and versions
 and set limits on their use. When such limits are encountered, implementations
-may choose to stop interactions e.g., by closing a connection. Limits that are
+may choose to stop interactions, e.g., by closing a connection. Limits that are
 tuned too low risk false positive detections, which can disrupt otherwise valid
 exchanges.
 

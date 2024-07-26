@@ -1139,7 +1139,7 @@ intended audience is protocol designers and implementers.<a href="#section-abstr
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-considerations-for-applying" class="internal xref">Considerations for Applying Greasing</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-catch-all-handling" class="internal xref">Catch-all Handling</a></p>
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-dont-special-case-grease-va" class="internal xref">Don't Special-Case Grease Values</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-use-unpredictable-grease-va" class="internal xref">Use Unpredictable Grease Values</a></p>
@@ -1251,10 +1251,10 @@ reserved for the purpose of greasing are herein referred to as grease values.
 Implementations that receive grease values are required to ignore them. More
 background to this approach is given in <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>.
 This section provides concrete suggestions for its usage.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<div id="catch-all-handling">
+<div id="dont-special-case-grease-values">
 <section id="section-3.1">
-        <h3 id="name-catch-all-handling">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-catch-all-handling" class="section-name selfRef">Catch-all Handling</a>
+        <h3 id="name-dont-special-case-grease-va">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-dont-special-case-grease-va" class="section-name selfRef">Don't Special-Case Grease Values</a>
         </h3>
 <p id="section-3.1-1">It is assumed that endpoints should implement robust and broad extension
 handling. A receiver or a parser implementation should not treat grease values

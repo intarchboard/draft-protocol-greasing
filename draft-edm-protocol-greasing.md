@@ -193,7 +193,7 @@ The considerations in {{MAINTENANCE}}, {{GREASE}}, {{END-USERS}}, and
 {{VIABILITY}} all apply to the topics discussed in this document.
 
 The use of protocol features, extensions, and versions can already allow
-fingerprinting. Any techniques that change parameters  in any way, including but
+fingerprinting {{?PRIVCON=RFC6973}}. Any techniques that change parameters  in any way, including but
 not limited to those discussed in this document, can affect fingerprinting. A
 deeper analysis of this topic has been deemed out of scope.
 

@@ -253,8 +253,8 @@ Table of Contents
    denial-of-service attacks.  Therefore, it is recommended that
    implementations track use of protocol features, extensions, and
    versions and set limits on their use.  When such limits are
-   encountered, implementations may choose to stop interactions e.g., by
-   closing a connection.  Limits that are tuned too low risk false
+   encountered, implementations may choose to stop interactions, e.g.,
+   by closing a connection.  Limits that are tuned too low risk false
    positive detections, which can disrupt otherwise valid exchanges.
 
 7.  IANA Considerations

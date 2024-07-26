@@ -198,6 +198,17 @@ not limited to those discussed in this document, can affect fingerprinting. A
 deeper analysis of this topic has been deemed out of scope.
 
 
+While protocol features, extensions, and versions all have legitimate uses, they
+can become a burden when used to excess. For example, the ability to send
+protocol grease that a peer is required to ignore can be abused to cause it to
+expend additional processing time. Insufficient monitoring or logging exposes
+endpoints to a risk of denial-of-service attacks. Therefore, it is recommended
+that implementations track use of protocol features, extensions, and versions
+and set limits on their use. When such limits are encountered, implementations
+may choose to stop interactions e.g., by closing a connection. Limits that are
+tuned too low risk false positive detections, which can disrupt otherwise valid
+exchanges.
+
 # IANA Considerations
 
 This document has no IANA actions.

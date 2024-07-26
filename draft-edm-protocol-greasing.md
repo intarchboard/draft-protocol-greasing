@@ -126,7 +126,7 @@ sequence points during protocol interactions. This avoids receivers
 unintentionally ossifying on the occurrence of greasing in the temporal or
 spatial domain.
 
-## Defining and Registering Grease Value Ranges
+## Define and Register Grease Value Ranges
 
 It is recommended that large grease value sets are allocated in protocol
 documents by defining a unique algorithm, to increase the chance that

@@ -4,8 +4,8 @@
 
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
-Intended status: Informational                              26 July 2024
-Expires: 27 January 2025
+Intended status: Informational                              29 July 2024
+Expires: 30 January 2025
 
 
            Maintaining Protocols Using Grease and Variability
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 January 2025.
+   This Internet-Draft will expire on 30 January 2025.
 
 Copyright Notice
 
@@ -67,6 +67,10 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Definitions
    3.  Considerations for Applying Greasing
+     3.1.  Don't Handle Grease Values as a Special Case
+     3.2.  Use Unpredictable Grease Values
+     3.3.  Use Grease Values at Unpredictable Times
+     3.4.  Define and Register Grease Value Ranges
    4.  Considerations for Increasing Protocol Variability
      4.1.  Example: QUIC frames
    5.  Considerations for Protocol Versions
@@ -139,12 +143,16 @@ Table of Contents
    Section 3.3 of [VIABILITY].  This section provides concrete
    suggestions for its usage.
 
+3.1.  Don't Handle Grease Values as a Special Case
+
    It is assumed that endpoints should implement robust and broad
    extension handling.  A receiver or a parser implementation should not
    treat grease values as individually special.  Instead of identifying
    each grease value explicitly, it is better to have a "catch all"
    mechanism that can handle receipt of unknown extensions, whether
    grease values or not, gracefully or without error.
+
+3.2.  Use Unpredictable Grease Values
 
    It is recommended that senders pick an unpredictable grease value to
    include in relevant protocol elements.  This ensures that receiver
@@ -156,10 +164,14 @@ Table of Contents
    it too costly to dedicate many grease values, while 32-bit or 64-bit
    fields are likely to have no limitations.
 
+3.3.  Use Grease Values at Unpredictable Times
+
    It is recommended that senders use grease values at unpredictable
    times or sequence points during protocol interactions.  This avoids
    receivers unintentionally ossifying on the occurrence of greasing in
    the temporal or spatial domain.
+
+3.4.  Define and Register Grease Value Ranges
 
    It is recommended that large grease value sets are allocated in
    protocol documents by defining a unique algorithm, to increase the

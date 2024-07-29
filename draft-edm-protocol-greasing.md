@@ -100,11 +100,15 @@ Implementations that receive grease values are required to ignore them. More
 background to this approach is given in {{Section 3.3 of ?VIABILITY=RFC9170}}.
 This section provides concrete suggestions for its usage.
 
+## Don't Handle Grease Values as a Special Case
+
 It is assumed that endpoints should implement robust and broad extension
 handling. A receiver or a parser implementation should not treat grease values
 as individually special. Instead of identifying each grease value explicitly,
 it is better to have a "catch all" mechanism that can handle receipt of unknown
 extensions, whether grease values or not, gracefully or without error.
+
+## Use Unpredictable Grease Values
 
 It is recommended that senders pick an unpredictable grease value to include in
 relevant protocol elements. This ensures that receiver greasing requirements are
@@ -115,10 +119,14 @@ protocol constraints. For instance, protocols that use 8-bit fields may find it
 too costly to dedicate many grease values, while 32-bit or 64-bit fields are
 likely to have no limitations.
 
+## Use Grease Values at Unpredictable Times
+
 It is recommended that senders use grease values at unpredictable times or
 sequence points during protocol interactions. This avoids receivers
 unintentionally ossifying on the occurrence of greasing in the temporal or
 spatial domain.
+
+## Define and Register Grease Value Ranges
 
 It is recommended that large grease value sets are allocated in protocol
 documents by defining a unique algorithm, to increase the chance that

@@ -1202,10 +1202,11 @@ can include modifying how the protocol is used, extending the protocol, or
 replacing the protocol.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">Greasing, a technique initially designed for TLS <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span> and later
 adopted by other protocols such as QUIC <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span>, can help support the
-long-term viability of protocol extension points. Greasing is suitable for many
-protocols but not all; <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> discusses the
-applicability and limitations of greasing. <a href="#grease-considerations" class="auto internal xref">Section 3</a> provides
-additional protocol maintenance considerations.<a href="#section-1-2" class="pilcrow">¶</a></p>
+long-term viability of protocol extension points. In these protocols, extension
+codepoints are reserved only for greasing and when received must be ignored.
+Greasing is suitable for many protocols but not all; <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> discusses the applicability and limitations of greasing.
+<a href="#grease-considerations" class="auto internal xref">Section 3</a> provides additional protocol maintenance
+considerations.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">Applications are built with the intent of serving user needs <span>[<a href="#END-USERS" class="cite xref">END-USERS</a>]</span>, which might only
 require support for a subset of protocol features. Adapting to changing user
 needs is a maintenance activity. For example, an HTTP deployment focused on

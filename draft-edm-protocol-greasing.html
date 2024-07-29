@@ -1035,7 +1035,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Pardue</td>
-<td class="center">Expires 27 January 2025</td>
+<td class="center">Expires 30 January 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1048,12 +1048,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-edm-protocol-greasing-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-07-26" class="published">26 July 2024</time>
+<time datetime="2024-07-29" class="published">29 July 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-01-27">27 January 2025</time></dd>
+<dd class="expires"><time datetime="2025-01-30">30 January 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1103,7 +1103,7 @@ intended audience is protocol designers and implementers.<a href="#section-abstr
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 30 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1136,7 +1136,21 @@ intended audience is protocol designers and implementers.<a href="#section-abstr
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-considerations-for-applying" class="internal xref">Considerations for Applying Greasing</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-considerations-for-applying" class="internal xref">Considerations for Applying Greasing</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-dont-handle-grease-values-a" class="internal xref">Don't Handle Grease Values as a Special Case</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-use-unpredictable-grease-va" class="internal xref">Use Unpredictable Grease Values</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-use-grease-values-at-unpred" class="internal xref">Use Grease Values at Unpredictable Times</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-define-and-register-grease-" class="internal xref">Define and Register Grease Value Ranges</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-considerations-for-increasi" class="internal xref">Considerations for Increasing Protocol Variability</a></p>
@@ -1237,24 +1251,50 @@ reserved for the purpose of greasing are herein referred to as grease values.
 Implementations that receive grease values are required to ignore them. More
 background to this approach is given in <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>.
 This section provides concrete suggestions for its usage.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">It is assumed that endpoints should implement robust and broad extension
+<div id="dont-handle-grease-values-as-a-special-case">
+<section id="section-3.1">
+        <h3 id="name-dont-handle-grease-values-a">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-dont-handle-grease-values-a" class="section-name selfRef">Don't Handle Grease Values as a Special Case</a>
+        </h3>
+<p id="section-3.1-1">It is assumed that endpoints should implement robust and broad extension
 handling. A receiver or a parser implementation should not treat grease values
 as individually special. Instead of identifying each grease value explicitly,
 it is better to have a "catch all" mechanism that can handle receipt of unknown
-extensions, whether grease values or not, gracefully or without error.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">It is recommended that senders pick an unpredictable grease value to include in
+extensions, whether grease values or not, gracefully or without error.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="use-unpredictable-grease-values">
+<section id="section-3.2">
+        <h3 id="name-use-unpredictable-grease-va">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-use-unpredictable-grease-va" class="section-name selfRef">Use Unpredictable Grease Values</a>
+        </h3>
+<p id="section-3.2-1">It is recommended that senders pick an unpredictable grease value to include in
 relevant protocol elements. This ensures that receiver greasing requirements are
 exercised. Using predictable grease values risks ossification. To increase the
 variety of grease values, it is advised to reserve a large range. However, the
 specific size and distribution of the grease range needs to accommodate the
 protocol constraints. For instance, protocols that use 8-bit fields may find it
 too costly to dedicate many grease values, while 32-bit or 64-bit fields are
-likely to have no limitations.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">It is recommended that senders use grease values at unpredictable times or
+likely to have no limitations.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="use-grease-values-at-unpredictable-times">
+<section id="section-3.3">
+        <h3 id="name-use-grease-values-at-unpred">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-use-grease-values-at-unpred" class="section-name selfRef">Use Grease Values at Unpredictable Times</a>
+        </h3>
+<p id="section-3.3-1">It is recommended that senders use grease values at unpredictable times or
 sequence points during protocol interactions. This avoids receivers
 unintentionally ossifying on the occurrence of greasing in the temporal or
-spatial domain.<a href="#section-3-5" class="pilcrow">¶</a></p>
-<p id="section-3-6">It is recommended that large grease value sets are allocated in protocol
+spatial domain.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="define-and-register-grease-value-ranges">
+<section id="section-3.4">
+        <h3 id="name-define-and-register-grease-">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-define-and-register-grease-" class="section-name selfRef">Define and Register Grease Value Ranges</a>
+        </h3>
+<p id="section-3.4-1">It is recommended that large grease value sets are allocated in protocol
 documents by defining a unique algorithm, to increase the chance that
 receiver greasing requirements are exercised. However, the choice of algorithm
 needs to consider the spread of values and the size of contiguous blocks between
@@ -1262,18 +1302,20 @@ grease values. It is common for protocol extension designers to want to reserve
 a contiguous block of code points in order to aid iteration and experimentation.
 Small contiguous blocks increase the chance that such reservations might
 unintentionally use grease values, which could lead to interoperability
-failures.<a href="#section-3-6" class="pilcrow">¶</a></p>
-<p id="section-3-7">Protocols might ask IANA to create new registries for their extension points.
+failures.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-2">Protocols might ask IANA to create new registries for their extension points.
 When greasing, it is recommended that only a single entry for the entire grease
 value set is registered. When an algorithm has been used, it should be included
 in the entry; see for example
-https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types.<a href="#section-3-7" class="pilcrow">¶</a></p>
-<p id="section-3-8">Grease values must not be used or registered for any other purpose. Registries
+https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
+<p id="section-3.4-3">Grease values must not be used or registered for any other purpose. Registries
 should include a label to identify the protected grease value range; a label of
 "reserved" may be confused with other ranges that are reserved for private or
 experimental extensions. An implementer that conflates these two meanings may
 cause a new class of interoperability failure. Therefore a label such as
-"reserved for greasing" may help to avoid the confusion.<a href="#section-3-8" class="pilcrow">¶</a></p>
+"reserved for greasing" may help to avoid the confusion.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="variability">

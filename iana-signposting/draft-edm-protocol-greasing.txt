@@ -1,0 +1,339 @@
+
+
+
+
+Network Working Group                                          L. Pardue
+Internet-Draft                                                Cloudflare
+Intended status: Informational                           21 October 2024
+Expires: 24 April 2025
+
+
+           Maintaining Protocols Using Grease and Variability
+                   draft-edm-protocol-greasing-latest
+
+Abstract
+
+   Long-term interoperability of protocols is an important goal of the
+   network standards process.  Deployment success can depend on
+   supporting change, which can include modifying how the protocol is
+   used, extending the protocol, or replacing the protocol.  This
+   document presents concepts, considerations, and techniques related to
+   protocol maintenance, such as greasing or variability.  The intended
+   audience is protocol designers and implementers.
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   The latest revision of this draft can be found at
+   https://intarchboard.github.io/draft-protocol-greasing/draft-edm-
+   protocol-greasing.html.  Status information for this document may be
+   found at https://datatracker.ietf.org/doc/draft-edm-protocol-
+   greasing/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/intarchboard/draft-protocol-greasing.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 24 April 2025.
+
+Copyright Notice
+
+   Copyright (c) 2024 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Conventions and Definitions
+   3.  Considerations for Applying Greasing
+     3.1.  Don't Handle Grease Values as a Special Case
+     3.2.  Use Unpredictable Grease Values
+     3.3.  Use Grease Values at Unpredictable Times
+     3.4.  Define and Register Grease Value Ranges
+       3.4.1.  Effectively Instructing IANA about grease
+   4.  Considerations for Increasing Protocol Variability
+     4.1.  Example: QUIC frames
+   5.  Considerations for Protocol Versions
+   6.  Security Considerations
+   7.  IANA Considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
+   Acknowledgments
+   Author's Address
+
+1.  Introduction
+
+   Long-term interoperability of protocols is an important goal of the
+   network standards process [MAINTENANCE].  Protocol deployment success
+   [SUCCESS] can depend on supporting change, which can include
+   modifying how the protocol is used, extending the protocol, or
+   replacing the protocol.
+
+   Greasing, a technique initially designed for TLS [GREASE] and later
+   adopted by other protocols such as QUIC [QUIC], can help support the
+   long-term viability of protocol extension points.  In these
+   protocols, extension codepoints are reserved only for greasing and
+   when received must be ignored.  Greasing is suitable for many
+   protocols but not all; Section 3.3 of [VIABILITY] discusses the
+   applicability and limitations of greasing.  Section 3 provides
+   additional protocol maintenance considerations.
+
+   Applications are built with the intent of serving user needs
+   [END-USERS], which might only require support for a subset of
+   protocol features.  Adapting to changing user needs is a maintenance
+   activity.  For example, an HTTP deployment focused on downloads might
+   want to add support for uploads.  Changing use of the application and
+   transport protocol features can affect the deployment's network
+   traffic profile.  If expectations have been formed around historical
+   patterns of use i.e., ossification, introducing change might lead to
+   deployment problems.  Section 4 presents considerations about how
+   intentionally increasing the variability of protocols can mitigate
+   some of these concerns.
+
+   Protocol extensions can provide longevity in the face of changing
+   needs or environment.  However, a replacment protocol might be
+   preferred when extensions are not adequate or feasible.  A protocol
+   replacement could aggregate common extensions and possibly make them
+   mandatory, effectively defining a new baseline that can simplify
+   deployment and interoperability.  A replacement protocol version may
+   or may not be compatible with other versions.  A protocol may or may
+   not have a mechanism for version selection or agility.  Section 5
+   presents considerations about designing for and/or implementing
+   version negotiation and migration.
+
+2.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+3.  Considerations for Applying Greasing
+
+   Greasing can take many forms, depending on the protocol and the
+   nature of its extension points.
+
+   Many protocols register values, codepoints, or numbers in a limited
+   space.  A common approach that has developed in more recent protocols
+   is to reserve a subset of the space for greasing (see [GREASE],
+   Section 18.1 of [QUIC], or Section 7.2.8 of [HTTP/3]).  Values
+   reserved for the purpose of greasing are herein referred to as grease
+   values.  Implementations that receive grease values are required to
+   ignore them.  More background to this approach is given in
+   Section 3.3 of [VIABILITY].  This section provides concrete
+   suggestions for its usage.
+
+3.1.  Don't Handle Grease Values as a Special Case
+
+   It is assumed that endpoints should implement robust and broad
+   extension handling.  A receiver or a parser implementation should not
+   treat grease values as individually special.  Instead of identifying
+   each grease value explicitly, it is better to have a "catch all"
+   mechanism that can handle receipt of unknown extensions, whether
+   grease values or not, gracefully or without error.
+
+3.2.  Use Unpredictable Grease Values
+
+   It is recommended that senders pick an unpredictable grease value to
+   include in relevant protocol elements.  This ensures that receiver
+   greasing requirements are exercised.  Using predictable grease values
+   risks ossification.  To increase the variety of grease values, it is
+   advised to reserve a large range.  However, the specific size and
+   distribution of the grease range needs to accommodate the protocol
+   constraints.  For instance, protocols that use 8-bit fields may find
+   it too costly to dedicate many grease values, while 32-bit or 64-bit
+   fields are likely to have no limitations.
+
+3.3.  Use Grease Values at Unpredictable Times
+
+   It is recommended that senders use grease values at unpredictable
+   times or sequence points during protocol interactions.  This avoids
+   receivers unintentionally ossifying on the occurrence of greasing in
+   the temporal or spatial domain.
+
+3.4.  Define and Register Grease Value Ranges
+
+   It is recommended that large grease value sets are allocated in
+   protocol documents by defining a unique algorithm, to increase the
+   chance that receiver greasing requirements are exercised.  However,
+   the choice of algorithm needs to consider the spread of values and
+   the size of contiguous blocks between grease values.  It is common
+   for protocol extension designers to want to reserve a contiguous
+   block of code points in order to aid iteration and experimentation.
+   Small contiguous blocks increase the chance that such reservations
+   might unintentionally use grease values, which could lead to
+   interoperability failures.
+
+3.4.1.  Effectively Instructing IANA about grease
+
+   Protocol designers might ask IANA to create new registries for their
+   extension points.  When greasing, it is recommended that only a
+   single entry for the entire grease value set is registered.  When an
+   algorithm has been used, it should be included in the entry; see for
+   example https://www.iana.org/assignments/http3-parameters/
+   http3-parameters.xhtml#http3-parameters-frame-types.
+
+   Grease values must not be used or registered for any other purpose.
+   Registries should include a label to identify the protected grease
+   value range; a label of "reserved" may be confused with other ranges
+   that are reserved for private or experimental extensions.  An
+   implementer that conflates these two meanings may cause a new class
+   of interoperability failure.  Therefore a label such as "reserved for
+   greasing" may help to avoid the confusion.
+
+4.  Considerations for Increasing Protocol Variability
+
+   Greasing can maintain protocol extensibility by falsifying active use
+   of its extension points.  However, greasing alone does not ensure
+   positive use of extension mechanisms.  A protocol may define a wide-
+   ranging extension capability that remains unused in the absence of
+   real use cases.  This can lead to ossification that does not expect
+   extensions, leading to interoperability problems later on.
+
+   Long-term maintenance and interoperability can be ensured by
+   exercising extension points positively.  To some extent this can be
+   thought of as protocol fuzzing.  This might be difficult to exercise
+   because varying the protocol elements might change the outcome of
+   interactions, leading to real errors.  However, some protocols allow
+   elements to be be safely changed, as shown in the following examples.
+
+4.1.  Example: QUIC frames
+
+   QUIC packets contain frames.  Receivers might build expectations on
+   the longitudinal aspects of packets or frames - size, ordering,
+   frequency, etc.  A sender can quite often manipulate these parameters
+   and stay compliant to the requirements of the QUIC protocol.
+
+   A QUIC stream is an ordered reliable byte stream that is serialized
+   as a sequence of STREAM frames with a length and offset.  Receivers
+   are expected to reassemble frames, which could arrive in any order,
+   into an ordered reliable byte stream that is readable by
+   applications.
+
+   A form of positive testing is for a sender to unpredictably order the
+   STREAM frames that it transmits.  For example, varying the sequence
+   order of offset values.  This allows to exercise the QUIC reassembly
+   features of the receiver with the expectation that no failure would
+   occur.  However, doing this may introduce delay or stream head-of-
+   line blocking that affects the performance aspects of a transmission,
+   which may not be acceptable for a given use case.  As such, positive
+   testing might be most appropriate to use in a subset of connections,
+   or phases within a connection.
+
+5.  Considerations for Protocol Versions
+
+   There are intrinsic and well-documented issues related to testing
+   version negotiation of protocols; see [EXTENSIBILITY] and Sections
+   2.1 and 3.2 of [VIABILITY].  This section will be expanded with
+   advice for protocol designers and implementers about how to approach
+   these problems.
+
+6.  Security Considerations
+
+   The considerations in [MAINTENANCE], [GREASE], [END-USERS], and
+   [VIABILITY] all apply to the topics discussed in this document.
+
+   The use of protocol features, extensions, and versions can already
+   allow fingerprinting [PRIVCON].  Any techniques that change
+   parameters in any way, including but not limited to those discussed
+   in this document, can affect fingerprinting.  A deeper analysis of
+   this topic has been deemed out of scope.
+
+7.  IANA Considerations
+
+   This document has no IANA actions itself.  Guidance on how other
+   documents can effectively instruct IANA about protocol greasing is
+   provided in Section 3.4.1
+
+8.  References
+
+8.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+8.2.  Informative References
+
+   [END-USERS]
+              Nottingham, M., "The Internet is for End Users", RFC 8890,
+              DOI 10.17487/RFC8890, August 2020,
+              <https://www.rfc-editor.org/rfc/rfc8890>.
+
+   [EXTENSIBILITY]
+              Carpenter, B., Aboba, B., Ed., and S. Cheshire, "Design
+              Considerations for Protocol Extensions", RFC 6709,
+              DOI 10.17487/RFC6709, September 2012,
+              <https://www.rfc-editor.org/rfc/rfc6709>.
+
+   [GREASE]   Benjamin, D., "Applying Generate Random Extensions And
+              Sustain Extensibility (GREASE) to TLS Extensibility",
+              RFC 8701, DOI 10.17487/RFC8701, January 2020,
+              <https://www.rfc-editor.org/rfc/rfc8701>.
+
+   [HTTP/3]   Bishop, M., Ed., "HTTP/3", RFC 9114, DOI 10.17487/RFC9114,
+              June 2022, <https://www.rfc-editor.org/rfc/rfc9114>.
+
+   [MAINTENANCE]
+              Thomson, M. and D. Schinazi, "Maintaining Robust
+              Protocols", RFC 9413, DOI 10.17487/RFC9413, June 2023,
+              <https://www.rfc-editor.org/rfc/rfc9413>.
+
+   [PRIVCON]  Cooper, A., Tschofenig, H., Aboba, B., Peterson, J.,
+              Morris, J., Hansen, M., and R. Smith, "Privacy
+              Considerations for Internet Protocols", RFC 6973,
+              DOI 10.17487/RFC6973, July 2013,
+              <https://www.rfc-editor.org/rfc/rfc6973>.
+
+   [QUIC]     Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
+              Multiplexed and Secure Transport", RFC 9000,
+              DOI 10.17487/RFC9000, May 2021,
+              <https://www.rfc-editor.org/rfc/rfc9000>.
+
+   [SUCCESS]  Thaler, D. and B. Aboba, "What Makes for a Successful
+              Protocol?", RFC 5218, DOI 10.17487/RFC5218, July 2008,
+              <https://www.rfc-editor.org/rfc/rfc5218>.
+
+   [VIABILITY]
+              Thomson, M. and T. Pauly, "Long-Term Viability of Protocol
+              Extension Mechanisms", RFC 9170, DOI 10.17487/RFC9170,
+              December 2021, <https://www.rfc-editor.org/rfc/rfc9170>.
+
+Acknowledgments
+
+   This work is a summary of the topics discussed during EDM meetings.
+   The contributors at those meetings are thanked.
+
+Author's Address
+
+   Lucas Pardue
+   Cloudflare
+   Email: lucas@lucaspardue.com

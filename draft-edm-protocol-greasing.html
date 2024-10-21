@@ -1149,6 +1149,11 @@ intended audience is protocol designers and implementers.<a href="#section-abstr
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
                 <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-define-and-register-grease-" class="internal xref">Define and Register Grease Value Ranges</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4.2.1">
+                    <p id="section-toc.1-1.3.2.4.2.1.1"><a href="#section-3.4.1" class="auto internal xref">3.4.1</a>.  <a href="#name-effectively-instructing-ian" class="internal xref">Effectively Instructing IANA about grease</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -1304,17 +1309,24 @@ a contiguous block of code points in order to aid iteration and experimentation.
 Small contiguous blocks increase the chance that such reservations might
 unintentionally use grease values, which could lead to interoperability
 failures.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
-<p id="section-3.4-2">Protocols might ask IANA to create new registries for their extension points.
-When greasing, it is recommended that only a single entry for the entire grease
-value set is registered. When an algorithm has been used, it should be included
-in the entry; see for example
-https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
-<p id="section-3.4-3">Grease values must not be used or registered for any other purpose. Registries
+<div id="iana-tips">
+<section id="section-3.4.1">
+          <h4 id="name-effectively-instructing-ian">
+<a href="#section-3.4.1" class="section-number selfRef">3.4.1. </a><a href="#name-effectively-instructing-ian" class="section-name selfRef">Effectively Instructing IANA about grease</a>
+          </h4>
+<p id="section-3.4.1-1">Protocol designers might ask IANA to create new registries for their extension
+points. When greasing, it is recommended that only a single entry for the entire
+grease value set is registered. When an algorithm has been used, it should be
+included in the entry; see for example
+https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types.<a href="#section-3.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.4.1-2">Grease values must not be used or registered for any other purpose. Registries
 should include a label to identify the protected grease value range; a label of
 "reserved" may be confused with other ranges that are reserved for private or
 experimental extensions. An implementer that conflates these two meanings may
 cause a new class of interoperability failure. Therefore a label such as
-"reserved for greasing" may help to avoid the confusion.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+"reserved for greasing" may help to avoid the confusion.<a href="#section-3.4.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 </section>
@@ -1388,7 +1400,8 @@ deeper analysis of this topic has been deemed out of scope.<a href="#section-6-2
       <h2 id="name-iana-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-7-1">This document has no IANA actions.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">This document has no IANA actions itself. Guidance on how other documents can effectively
+instruct IANA about protocol greasing is provided in <a href="#iana-tips" class="auto internal xref">Section 3.4.1</a><a href="#section-7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">

@@ -140,10 +140,12 @@ Small contiguous blocks increase the chance that such reservations might
 unintentionally use grease values, which could lead to interoperability
 failures.
 
-Protocols might ask IANA to create new registries for their extension points.
-When greasing, it is recommended that only a single entry for the entire grease
-value set is registered. When an algorithm has been used, it should be included
-in the entry; see for example
+### Effectively Instructing IANA about grease {#iana-tips}
+
+Protocol designers might ask IANA to create new registries for their extension
+points. When greasing, it is recommended that only a single entry for the entire
+grease value set is registered. When an algorithm has been used, it should be
+included in the entry; see for example
 https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types.
 
 Grease values must not be used or registered for any other purpose. Registries
@@ -210,7 +212,8 @@ deeper analysis of this topic has been deemed out of scope.
 
 # IANA Considerations
 
-This document has no IANA actions.
+This document has no IANA actions itself. Guidance on how other documents can effectively
+instruct IANA about protocol greasing is provided in {{iana-tips}}
 
 
 --- back

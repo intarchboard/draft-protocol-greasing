@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-09-05T00:40:10.016638+00:00",
+  "timestamp": "2024-10-22T00:40:27.039755+00:00",
   "repo": "intarchboard/draft-protocol-greasing",
   "labels": [
     {
@@ -58,29 +58,63 @@
       "state": "OPEN",
       "author": "chris-wood",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "tfpauly"
+      ],
       "labels": [],
       "body": "In my mind, greasing is currently defined with respect to _protocol features_, with something like the QUIC spin bit being one obvious example. However, the concepts and motivations behind greasing can also extend to endpoint features themselves, such as deciding whether or not to use QUIC at all in the first place. The [Privacy Pass](https://ietf-wg-privacypass.github.io/base-drafts/draft-ietf-privacypass-auth-scheme.html#name-user-interaction) specification applies this pattern, wherein client implementations can choose to provide tokens when asked or not (according to some local grease implementation behavior). If we believe that greasing extends to features in this way, should the document talk about it, and if so, what should it say?",
       "createdAt": "2023-07-26T15:46:01Z",
-      "updatedAt": "2023-07-26T15:46:01Z",
+      "updatedAt": "2024-07-26T16:09:23Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@chris-wood @tfpauly maybe this idea extends to e.g. happy eyeballs v3?\r\n",
+          "createdAt": "2024-07-26T14:39:58Z",
+          "updatedAt": "2024-07-26T14:39:58Z"
+        },
+        {
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Seems to me we could fit some text in https://intarchboard.github.io/draft-protocol-greasing/draft-edm-protocol-greasing.html#section-4 so would happily review a proposal",
+          "createdAt": "2024-07-26T14:43:04Z",
+          "updatedAt": "2024-07-26T14:43:04Z"
+        },
+        {
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "body": "Yeah the privacy pass example works well for section 4, and I think we could talk about happy eyeballs-like client-side algorithms changing their timing and rules to make sure networks don't ossify around particular behaviors.",
+          "createdAt": "2024-07-26T14:47:38Z",
+          "updatedAt": "2024-07-26T14:47:38Z"
+        }
+      ]
     },
     {
       "number": 4,
       "id": "I_kwDOJ01T5M5spFRf",
       "title": "Fingerprinting reference",
       "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/4",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dthaler",
-      "authorAssociation": "NONE",
-      "assignees": [],
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "dthaler"
+      ],
       "labels": [],
       "body": "At least reference RFC 6973 (Privacy Considerations for Internet Protocols) which has a very brief discussion of fingerprinting.\r\nWould be nice to have a better reference in general but I don't think one exists yet.",
       "createdAt": "2023-07-26T15:47:44Z",
-      "updatedAt": "2023-07-26T15:47:44Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-07-26T15:49:33Z",
+      "closedAt": "2024-07-26T15:49:33Z",
+      "comments": [
+        {
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@dthaler would you care to propose some text?",
+          "createdAt": "2024-07-26T14:37:57Z",
+          "updatedAt": "2024-07-26T14:37:57Z"
+        }
+      ]
     },
     {
       "number": 5,
@@ -94,9 +128,17 @@
       "labels": [],
       "body": "We mentioned that QUIC also had non-encrypted examples that could be used relating to greasing.",
       "createdAt": "2023-07-26T15:48:38Z",
-      "updatedAt": "2023-07-26T15:48:38Z",
+      "updatedAt": "2024-07-26T14:36:55Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gorryfair can you propose some text?",
+          "createdAt": "2024-07-26T14:36:54Z",
+          "updatedAt": "2024-07-26T14:36:54Z"
+        }
+      ]
     },
     {
       "number": 6,
@@ -121,14 +163,24 @@
       "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/7",
       "state": "OPEN",
       "author": "dthaler",
-      "authorAssociation": "NONE",
-      "assignees": [],
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "dthaler"
+      ],
       "labels": [],
-      "body": "Greasing alone just prevents receiver/middlebox crashing vs \"tolerating\" but unfortunately one type of middlebox \"tolerating\" is just to drop all unrecognized extensions.  I looked for a discussion of this in this document and in \r\nRFC 9170 section 3.3, and the closest I could find was the text around \r\n\r\n> The principle that grease operates on is that an implementation that is regularly exposed to unknown values is less likely to be intolerant of new values when they appear. This depends largely on the assumption that the difficulty of implementing the extension mechanism correctly is as easy or easier than implementing code to identify and filter out reserved values.\r\n\r\nHowever, for protocols that aren't end-to-end encrypted (e.g., IPv6 next-header values, ICMP codes, EtherTypes, etc.) as one of many examples) middleboxes may still choose to drop, which prevents end to end extensibility.  I think the document should discuss this issue and deal with questions like:\r\n\r\n1. Should the receiver detect/log lack of receiving the other end's greasing messages?  I.e., at least detect when extensibility is blocked?\r\n2. Is it a good or bad idea for a protocol to build in something like a greasing ack timeout (and say fail or route around the problem) if no greasing ack is received?\r\n",
+      "body": "Greasing alone just prevents receiver/middlebox crashing vs \"tolerating\" but unfortunately one type of middlebox \"tolerating\" is just to drop all unrecognized extensions.  I looked for a discussion of this in this document and in \r\nRFC 9170 section 3.3, and the closest I could find was the text around \r\n\r\n> The principle that grease operates on is that an implementation that is regularly exposed to unknown values is less likely to be intolerant of new values when they appear. This depends largely on the assumption that the difficulty of implementing the extension mechanism correctly is as easy or easier than implementing code to identify and filter out reserved values.\r\n\r\nHowever, for protocols that aren't end-to-end encrypted (e.g., IPv6 next-header values, ICMP codes, EtherTypes, etc.) middleboxes may still choose to drop, which prevents end to end extensibility.  I think the document should discuss this issue and deal with questions like:\r\n\r\n1. Should the receiver detect/log lack of receiving the other end's greasing messages?  I.e., at least detect when extensibility is blocked?\r\n2. Is it a good or bad idea for a protocol to build in something like a greasing ack timeout (and say fail or route around the problem) if no greasing ack is received?\r\n",
       "createdAt": "2023-07-26T15:52:36Z",
-      "updatedAt": "2023-07-26T15:53:36Z",
+      "updatedAt": "2024-07-26T15:15:22Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@dthaler I've assigned this one to you in the hope you can propose some text to address the points you think the document should ",
+          "createdAt": "2024-07-26T14:35:36Z",
+          "updatedAt": "2024-07-26T14:35:36Z"
+        }
+      ]
     },
     {
       "number": 8,
@@ -143,6 +195,250 @@
       "body": "This might be an interesting use case / case study to try and distil, although it touches quite close to the fingerprinting angle we have stated was out of scope for this document.\r\n\r\nWhat I'm thinking of is some of the browser folks' efforts to _reduce variability_ of the user agent string (an infinitely variable protocol element). Lots more background on docs like https://github.com/WICG/ua-client-hints#explainer-reducing-user-agent-granularity and https://blog.chromium.org/2021/05/update-on-user-agent-string-reduction.html. From a cursory glance, Chrome, Firefox, and Safari have been going some work in this area.\r\n\r\nWhat's also amusing is Chrome's choice to try and GREASE the new substitute `sec-ch-ua` field, for example . More about that in https://github.com/chromium/chromium/commit/19ad8d3cab21013ce2d40cf2ec84267bb04b08ec. \r\n\r\nAd-hoc example I grabbed today \r\n\r\n```\r\nsec-ch-ua: \"Not/A)Brand\";v=\"99\", \"Google Chrome\";v=\"115\", \"Chromium\";v=\"115\"\r\nsec-ch-ua-platform: \"Linux\"\r\nsec-ch-ua-mobile: ?0\r\nuser-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36\r\n```\r\n",
       "createdAt": "2023-09-04T20:10:30Z",
       "updatedAt": "2023-09-04T20:10:30Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 17,
+      "id": "I_kwDOJ01T5M6IR_Mv",
+      "title": "example: Post Quantum experiments with TLS handshakes",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/17",
+      "state": "OPEN",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Recently some folks have been experimenting with deployments of Post-Quantum things in TLS and finding deployment concerns that problably fall within the remit of variability",
+      "createdAt": "2024-05-08T20:41:22Z",
+      "updatedAt": "2024-05-08T21:27:56Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "body": "Specifically, could testing of larger handshakes for variability have exposed ossification sooner that is impacting PQ TLS",
+          "createdAt": "2024-05-08T21:20:06Z",
+          "updatedAt": "2024-05-08T21:20:06Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "NONE",
+          "body": "More details on this issue are at https://tldr.fail/",
+          "createdAt": "2024-05-08T21:27:55Z",
+          "updatedAt": "2024-05-08T21:27:55Z"
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "id": "I_kwDOJ01T5M6ISAiS",
+      "title": "Processing of reserved fields ",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/18",
+      "state": "OPEN",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See (lengthy) discussion on wgchairs list: https://mailarchive.ietf.org/arch/msg/wgchairs/X_P6eSicxoUJw1E4eRR_nzrCQ4w/\r\n\r\nSome other documents have been cited that might be relevent. Can this document add any further salient considerations of recommendations?",
+      "createdAt": "2024-05-08T20:43:34Z",
+      "updatedAt": "2024-05-08T20:43:34Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 19,
+      "id": "I_kwDOJ01T5M6ISCTw",
+      "title": "example: SIP and RTP things",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/19",
+      "state": "OPEN",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "@fluffy shared with us some examples related to SIP and RTP: https://mailarchive.ietf.org/arch/msg/edm/NQ4eNwewWWkTK6nezv77m9kiwOA/\r\n\r\n",
+      "createdAt": "2024-05-08T20:47:08Z",
+      "updatedAt": "2024-05-08T20:47:08Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 20,
+      "id": "I_kwDOJ01T5M6ISJnn",
+      "title": "Make \"Considerations for Applying Greasing\" a bulleted list, or sub-sections?",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/20",
+      "state": "CLOSED",
+      "author": "tfpauly",
+      "authorAssociation": "MEMBER",
+      "assignees": [
+        "LPardue"
+      ],
+      "labels": [],
+      "body": "Reading through [Considerations for Applying Greasing](https://www.ietf.org/archive/id/draft-edm-protocol-greasing-03.html#name-considerations-for-applying), I'm thinking it might be nice to have this be a bulleted list or titled subsections, so it's clear how many distinct considerations and recommendations there are?",
+      "createdAt": "2024-05-08T21:00:00Z",
+      "updatedAt": "2024-07-29T21:42:19Z",
+      "closedAt": "2024-07-29T21:42:19Z",
+      "comments": []
+    },
+    {
+      "number": 21,
+      "id": "I_kwDOJ01T5M6ISR72",
+      "title": "Discuss the ability to observe or report the effects of greasing",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/21",
+      "state": "OPEN",
+      "author": "tfpauly",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Greasing is a good tool, but if breakages occur due to endpoints or middleboxes failing with greased values, it should be possible to observe or report the failures. Otherwise, the effect of greasing can be lost (since a few random failures might be ignored if not being looked at).",
+      "createdAt": "2024-05-08T21:18:24Z",
+      "updatedAt": "2024-05-08T21:40:51Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "body": "If there is a problem detected with greasing certain aspects, endpoints may choose to stop greasing to avoid the bad failure mode \u2014 but in that case there should be some reporting or way to mitigate the behaviors.",
+          "createdAt": "2024-05-08T21:37:06Z",
+          "updatedAt": "2024-05-08T21:37:06Z"
+        },
+        {
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "body": "One thing that can be done also is to reduce a type of greasing or variability to probes instead of necessary connections...",
+          "createdAt": "2024-05-08T21:40:50Z",
+          "updatedAt": "2024-05-08T21:40:50Z"
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "id": "I_kwDOJ01T5M6ISkDC",
+      "title": "Lacking commentary on denial of service",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/22",
+      "state": "OPEN",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "LPardue"
+      ],
+      "labels": [],
+      "body": "At the May interim I mentioned something about how many implementations or deployments optimise of lowest energy state, picking the more-straightforward way to do things such as ordering in a natural sequence rather than an unpredictable one.\r\n\r\nExtensibility, greasing and variability are also vectors for abuse and there are serious DoS considerations that we don't really cover. For example, [HTTP/3 Section 10.5](https://www.rfc-editor.org/rfc/rfc9114.html#section-10.5) includes this text\r\n\r\n> The ability to send undefined protocol elements that the peer is required to ignore can be abused to cause a peer to expend additional processing time. This might be done by setting multiple undefined SETTINGS parameters, unknown frame types, or unknown stream types. Note, however, that some uses are entirely legitimate, such as optional-to-understand extensions and padding to increase resistance to traffic analysis.\r\n\r\nsnip\r\n\r\n> All these features -- i.e., server push, unknown protocol elements, field compression -- have legitimate uses. \r\n> These features become a burden only when they are used unnecessarily or to excess.\r\n> An endpoint that does not monitor such behavior exposes itself to a risk of denial-of-service attack. Implementations SHOULD track the use of these features and set limits on their use. An endpoint MAY treat activity that is suspicious as a connection error of type H3_EXCESSIVE_LOAD, but false positives will result in disrupting valid connections and requests.\r\n\r\nSince these recommendations are loose, there is a potential risk that \"too much\" greasing or variability can trigger issues that are not otherwise seen but the definition of \"too much\" is opaque and very specific to each implementation or deployment.\r\n",
+      "createdAt": "2024-05-08T22:12:24Z",
+      "updatedAt": "2024-07-26T14:36:03Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 23,
+      "id": "I_kwDOJ01T5M6ISyRN",
+      "title": "Butterfly effects",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/23",
+      "state": "OPEN",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://en.wikipedia.org/wiki/Butterfly_effect (not the movie)\r\n\r\nOr in other words, changing small variables might not result in immediate and easily observable responses but instead only manifest later on in hard-to-attribute ways.\r\n\r\nShould protocols be designed or implemented in ways that fail in fast and obvious ways?\r\n\r\nShould this draft try and provide any commentary on chaos?",
+      "createdAt": "2024-05-08T23:13:06Z",
+      "updatedAt": "2024-05-08T23:13:06Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 24,
+      "id": "I_kwDOJ01T5M6IS0SK",
+      "title": "\"Flight recorders\" for protocols?",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/24",
+      "state": "OPEN",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Related to observability and monitoring but possibly outside the scope of this document, some input to figure out would be appreciated.\r\n\r\nImagine the scenario where in a local implemenation a protocol problem arises, such as breaking on an unexpected sequence of protocol elements, due the peer exercising greasing or variability. The affected party might want to get an understanding of what went wrong without having to do any more coordination with the peer. An ability to log the specific details of protocol elements can help with root cause analysis and reproducibility, aka exemplars. qlog is an example of a logging format that could be used to record details under error circumstances. And like a flight recorder box, perhaps privacy-preserving exemplars could be shared with various parties to help investigation and understanding of whether there are other systematic issues.",
+      "createdAt": "2024-05-08T23:23:40Z",
+      "updatedAt": "2024-05-08T23:23:40Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 25,
+      "id": "I_kwDOJ01T5M6Q-e6T",
+      "title": "Explain greasing earlier",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/25",
+      "state": "CLOSED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "LPardue"
+      ],
+      "labels": [],
+      "body": "Feedback received offlist:\r\n\r\nIt would be nice to briefly state what greasing is earlier in the document",
+      "createdAt": "2024-07-26T13:54:09Z",
+      "updatedAt": "2024-07-29T21:42:44Z",
+      "closedAt": "2024-07-29T21:42:44Z",
+      "comments": []
+    },
+    {
+      "number": 30,
+      "id": "I_kwDOJ01T5M6Q_Gsa",
+      "title": "Implementations special case reserved codepoints",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/30",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In \"Don't Special-Case Grease Values\" (#27), we have a request that implementers (not protocol designers) not do something.\r\n\r\nI have seen -- numerous times -- that people are inclined to special case reserved grease values on receipt.  This is a somewhat understandable thing, but it isn't always the obvious thing to do.\r\n\r\nAn example: A server that supports HTTP/3 with webtransport has to distinguish between bidirectional streams that are webtransport and ordinary requests.  This is done by looking at the type of the first frame on the stream.  The logic is *supposed* to be something like:\r\n\r\n```python\r\nif frame_type == WEBTRANSPORT:\r\n  it_is_webtransport()\r\nelse:\r\n  it_is_http3()\r\n```\r\n\r\nBut there is an interesting wrinkle that makes this rough.  There is only one HTTP/3 frame type that is described as fitting in this place (HEADERS).  That means that you tend to get:\r\n\r\n```python\r\nif frame_type == HEADERS:\r\n  it_is_http3()\r\nelse if frame_type == WEBTRANSPORT:\r\n  it_is_webtransport()\r\nelse:\r\n  error()\r\n```\r\n\r\nThe result being that the implementation chokes on extensions or grease.  To handle grease, I've seen people do this:\r\n\r\n```python\r\nif frame_type == HEADERS:\r\n  it_is_http3()\r\nelse if frame_type == WEBTRANSPORT:\r\n  it_is_webtransport()\r\nelse if is_grease(frame_type):\r\n  it_is_http3_but_ignore_this_frame()\r\nelse:\r\n  bad_error()\r\n```\r\n\r\nThat's not the first time I've seen this happen, but it's a nice case study.",
+      "createdAt": "2024-07-26T15:20:16Z",
+      "updatedAt": "2024-07-26T15:35:06Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "To continue, the right answer here is to move some of this logic into the HTTP/3 handling code, so expanding the first (and correct) example...\r\n\r\n```python\r\nif frame_type == WEBTRANSPORT:\r\n  it_is_webtransport()\r\nelse:\r\n  if frame_type == HEADERS:\r\n    handle_headers()\r\n  else if supported_frame_type(frame_type):\r\n    error()\r\n  else:\r\n    ignore_this_frame()\r\n```",
+          "createdAt": "2024-07-26T15:35:04Z",
+          "updatedAt": "2024-07-26T15:35:04Z"
+        }
+      ]
+    },
+    {
+      "number": 31,
+      "id": "I_kwDOJ01T5M6Q_HGy",
+      "title": "IANA Considerations",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/31",
+      "state": "CLOSED",
+      "author": "dthaler",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> # IANA Considerations\r\n>\r\n> This document has no IANA actions.\r\n\r\nIt might be helpful to provide guidance to document authors about what to put in their IANA Considerations section when asking for (say) ranges of a codepoint to be reserved for greasing.",
+      "createdAt": "2024-07-26T15:21:15Z",
+      "updatedAt": "2024-10-21T22:53:31Z",
+      "closedAt": "2024-10-21T22:53:31Z",
+      "comments": [
+        {
+          "author": "gorryfair",
+          "authorAssociation": "NONE",
+          "body": "I just saw this point, but I think the text starting: \"Protocols might ask IANA...\" could become a subsection and would be easier to refer people to when they propose a new registry.",
+          "createdAt": "2024-07-26T15:39:42Z",
+          "updatedAt": "2024-07-26T15:39:42Z"
+        }
+      ]
+    },
+    {
+      "number": 32,
+      "id": "I_kwDOJ01T5M6Q_WSe",
+      "title": "Add discussion of incentives and whether aligned or misaligned",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/32",
+      "state": "OPEN",
+      "author": "dthaler",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Maybe reference https://datatracker.ietf.org/doc/html/rfc8170#section-5.2\r\n\r\nNeeds further thought to decide what to say.\r\nBut if I do greasing and it breaks you, the marketplace problem is that I get blamed not you.",
+      "createdAt": "2024-07-26T15:58:35Z",
+      "updatedAt": "2024-07-26T16:18:45Z",
       "closedAt": null,
       "comments": []
     }
@@ -284,6 +580,868 @@
           ]
         }
       ]
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOJ01T5M5ena32",
+      "title": "Editorial suggestions",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/9",
+      "state": "MERGED",
+      "author": "tfpauly",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-05T11:39:22Z",
+      "updatedAt": "2023-11-05T13:29:18Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "ef7114781883265837ce9c41a1e280adfe72fe0c",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "tfpauly-patch-1",
+      "headRefOid": "934b1970626da0d69a9dfd84de845a717119f1ce",
+      "closedAt": "2023-11-05T13:29:04Z",
+      "mergedAt": "2023-11-05T13:29:04Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "167576642377da36f25e027b9b3de485e3820ba8"
+      },
+      "comments": [
+        {
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merged, thanks!",
+          "createdAt": "2023-11-05T13:29:18Z",
+          "updatedAt": "2023-11-05T13:29:18Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M5mKVgR",
+          "commit": {
+            "abbreviatedOid": "89fc7fd"
+          },
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-05T13:25:27Z",
+          "updatedAt": "2023-11-05T13:27:23Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\r\nconstraints, or a creating a replacement protocol. This document presents\r\n```",
+              "createdAt": "2023-11-05T13:25:27Z",
+              "updatedAt": "2023-11-05T13:27:23Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "PR_kwDOJ01T5M5usmDi",
+      "title": "nit: fix title or abbrev expected to be < 40 char",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/10",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-05-07T00:37:28Z",
+      "updatedAt": "2024-05-07T07:17:46Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "167576642377da36f25e027b9b3de485e3820ba8",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "nits-title-too-long",
+      "headRefOid": "3d8cdc16ffe786bb5779c653049694be2d13a2c0",
+      "closedAt": "2024-05-07T07:17:46Z",
+      "mergedAt": "2024-05-07T07:17:46Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "6dfa909569c4b36529408562a2c7b46a89db1ee3"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M55tu7G",
+          "commit": {
+            "abbreviatedOid": "3d8cdc1"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-05-07T04:20:42Z",
+          "updatedAt": "2024-05-07T04:20:42Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "PR_kwDOJ01T5M5usmhA",
+      "title": "Change submission type to IAB",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/11",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I _think_ that's what we want(?)\r\n",
+      "createdAt": "2024-05-07T00:39:50Z",
+      "updatedAt": "2024-05-07T07:20:26Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "167576642377da36f25e027b9b3de485e3820ba8",
+      "headRepository": "LPardue/draft-protocol-greasing",
+      "headRefName": "nit-venue",
+      "headRefOid": "2b3d916fc6f6f4072695cd6a11fb72d8c2f25165",
+      "closedAt": "2024-05-07T07:20:17Z",
+      "mergedAt": "2024-05-07T07:20:17Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "f54e6083a4022eea6946258828950351e6a2a045"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M55tu-G",
+          "commit": {
+            "abbreviatedOid": "2b3d916"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-05-07T04:20:59Z",
+          "updatedAt": "2024-05-07T04:20:59Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "PR_kwDOJ01T5M5usnL1",
+      "title": "Change author email",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/12",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-05-07T00:41:46Z",
+      "updatedAt": "2024-05-07T07:20:43Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "167576642377da36f25e027b9b3de485e3820ba8",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "email-address",
+      "headRefOid": "de7a1e66f8c09f06d36b99635013f003c9cf7e9e",
+      "closedAt": "2024-05-07T07:20:39Z",
+      "mergedAt": "2024-05-07T07:20:39Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "4dd15cfd802dd4521d3a6bf11844e8b10b5f247f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M55tu4h",
+          "commit": {
+            "abbreviatedOid": "de7a1e6"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-05-07T04:20:27Z",
+          "updatedAt": "2024-05-07T04:20:27Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "PR_kwDOJ01T5M5usviE",
+      "title": "Rework abstract/into para",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/13",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-05-07T01:05:33Z",
+      "updatedAt": "2024-05-07T07:25:56Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "167576642377da36f25e027b9b3de485e3820ba8",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "simplify-intro-1",
+      "headRefOid": "cde2ac70f34109c5c638d3a53346b560d6d0c6a6",
+      "closedAt": "2024-05-07T07:25:52Z",
+      "mergedAt": "2024-05-07T07:25:52Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "cfa2e015223d810c99cbff07952e8fe26dc267d6"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M55tvDq",
+          "commit": {
+            "abbreviatedOid": "0297b6f"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-05-07T04:21:29Z",
+          "updatedAt": "2024-05-07T04:22:26Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "```suggestion\nstandards process. Deployment success can depend on supporting change, which\n```\n",
+              "createdAt": "2024-05-07T04:21:29Z",
+              "updatedAt": "2024-05-07T04:22:26Z"
+            },
+            {
+              "originalPosition": 30,
+              "body": "```suggestion\n{{?SUCCESS=RFC5218}} can depend on supporting change, which\n```\n",
+              "createdAt": "2024-05-07T04:22:20Z",
+              "updatedAt": "2024-05-07T04:22:26Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "PR_kwDOJ01T5M5us-Ct",
+      "title": "Editorial changes to introduction section",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/14",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-05-07T01:59:49Z",
+      "updatedAt": "2024-05-07T07:28:16Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "167576642377da36f25e027b9b3de485e3820ba8",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "simplify-intro-2",
+      "headRefOid": "709d50dca7087fbe84ea9222682295671a7a0725",
+      "closedAt": "2024-05-07T07:28:12Z",
+      "mergedAt": "2024-05-07T07:28:12Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "e655991667111a749f0e782f1d9a129e0cbd5631"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M55tvga",
+          "commit": {
+            "abbreviatedOid": "44413c9"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-05-07T04:23:53Z",
+          "updatedAt": "2024-05-07T04:25:37Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "```suggestion\nApplications are built with the intent of serving user needs {{?END-USERS=RFC8890}}, which might only\n```\n",
+              "createdAt": "2024-05-07T04:23:54Z",
+              "updatedAt": "2024-05-07T04:25:38Z"
+            },
+            {
+              "originalPosition": 42,
+              "body": "```suggestion\nrequire support for a subset of protocol features. Adapting to changing user\n```\n",
+              "createdAt": "2024-05-07T04:24:05Z",
+              "updatedAt": "2024-05-07T04:25:38Z"
+            },
+            {
+              "originalPosition": 47,
+              "body": "```suggestion\ni.e., ossification, introducing change might lead to deployment problems. {{variability}} presents\n```\n",
+              "createdAt": "2024-05-07T04:25:02Z",
+              "updatedAt": "2024-05-07T04:25:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ01T5M55uvKR",
+          "commit": {
+            "abbreviatedOid": "44413c9"
+          },
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-07T07:26:23Z",
+          "updatedAt": "2024-05-07T07:26:23Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "i like it!",
+              "createdAt": "2024-05-07T07:26:23Z",
+              "updatedAt": "2024-05-07T07:26:23Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "id": "PR_kwDOJ01T5M5utJ8w",
+      "title": "Editorialize greasing considerations",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/15",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This attempts to make the recommendations clearer by reducing some\r\nfluff and combining some paragraphs. Effectively putting all the\r\nconcerns about grease values together, followed by registration\r\nconsiderations.\r\n",
+      "createdAt": "2024-05-07T03:08:41Z",
+      "updatedAt": "2024-05-07T16:15:02Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "b2b5288fd8d72ada213e1bf30e5208d918f010fc",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "grease-section-editorial",
+      "headRefOid": "b468a1cc766c2f9a32624ec680d9d1498afde101",
+      "closedAt": "2024-05-07T16:14:59Z",
+      "mergedAt": "2024-05-07T16:14:58Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "c93ba8c7bc41f4c33fe029b01fa2d65ffea0d66e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M55tv_O",
+          "commit": {
+            "abbreviatedOid": "1d24356"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-05-07T04:26:35Z",
+          "updatedAt": "2024-05-07T15:59:26Z",
+          "comments": [
+            {
+              "originalPosition": 40,
+              "body": "```suggestion\ncommon approach that has developed in more recent protocols is to reserve a subset of the space for greasing (see\n```\n",
+              "createdAt": "2024-05-07T04:26:35Z",
+              "updatedAt": "2024-05-07T04:29:05Z"
+            },
+            {
+              "originalPosition": 68,
+              "body": "```suggestion\ndocuments by defining a unique algorithm, to increase the chance that\n```\n",
+              "createdAt": "2024-05-07T04:27:43Z",
+              "updatedAt": "2024-05-07T04:29:05Z"
+            },
+            {
+              "originalPosition": 77,
+              "body": "```suggestion\nFields that use greased values should request that IANA requests allocate only a\n```\nIs this right?",
+              "createdAt": "2024-05-07T04:28:13Z",
+              "updatedAt": "2024-05-07T04:29:05Z"
+            },
+            {
+              "originalPosition": 77,
+              "body": "Or greasing?",
+              "createdAt": "2024-05-07T04:28:36Z",
+              "updatedAt": "2024-05-07T04:29:05Z"
+            },
+            {
+              "originalPosition": 106,
+              "body": "Grease/greased/greasing?",
+              "createdAt": "2024-05-07T04:28:50Z",
+              "updatedAt": "2024-05-07T04:29:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ01T5M55uxd-",
+          "commit": {
+            "abbreviatedOid": "3a10312"
+          },
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-07T07:28:47Z",
+          "updatedAt": "2024-05-07T07:28:47Z",
+          "comments": [
+            {
+              "originalPosition": 40,
+              "body": "good qualification",
+              "createdAt": "2024-05-07T07:28:47Z",
+              "updatedAt": "2024-05-07T07:28:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ01T5M55uyrr",
+          "commit": {
+            "abbreviatedOid": "3a10312"
+          },
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-07T07:31:14Z",
+          "updatedAt": "2024-05-07T07:31:14Z",
+          "comments": [
+            {
+              "originalPosition": 77,
+              "body": "I was attempting keep keep consistency with\r\n\r\n> Values\r\nreserved for the purpose of greasing are herein referred to as grease values.\r\n\r\n but really, I don't think \"fields that x\" can request anything from IANA because they are inanimate objects :joy:. Will take another stab.",
+              "createdAt": "2024-05-07T07:31:14Z",
+              "updatedAt": "2024-05-07T07:31:14Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "id": "PR_kwDOJ01T5M5utOTa",
+      "title": "Editorialize variability considerations",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/16",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-05-07T03:33:12Z",
+      "updatedAt": "2024-05-07T15:58:18Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "167576642377da36f25e027b9b3de485e3820ba8",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "variability-editability",
+      "headRefOid": "f6ba06a99e405ab1f7ee5ede3e840f4d8e7cdba8",
+      "closedAt": "2024-05-07T15:58:14Z",
+      "mergedAt": "2024-05-07T15:58:14Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "b2b5288fd8d72ada213e1bf30e5208d918f010fc"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M55twf8",
+          "commit": {
+            "abbreviatedOid": "cb37796"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-05-07T04:29:26Z",
+          "updatedAt": "2024-05-07T04:31:08Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\nGreasing can maintain protocol extensibility by falsifying active use of its\n```\n",
+              "createdAt": "2024-05-07T04:29:26Z",
+              "updatedAt": "2024-05-07T04:31:08Z"
+            },
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\nextension points. However, greasing alone does not ensure positive use of extension mechanisms. A protocol may\n```\n",
+              "createdAt": "2024-05-07T04:29:51Z",
+              "updatedAt": "2024-05-07T04:31:08Z"
+            },
+            {
+              "originalPosition": 46,
+              "body": "```suggestion\nA QUIC stream is an ordered reliable byte stream that is serialized as a\n```\n",
+              "createdAt": "2024-05-07T04:30:43Z",
+              "updatedAt": "2024-05-07T04:31:08Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "id": "PR_kwDOJ01T5M52lY4r",
+      "title": "Explain greasing briefly earlier",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/26",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #25\r\n",
+      "createdAt": "2024-07-26T13:55:09Z",
+      "updatedAt": "2024-07-29T21:42:47Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "c93ba8c7bc41f4c33fe029b01fa2d65ffea0d66e",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "early-sentence-greasing",
+      "headRefOid": "e9edb35ef60bf13f20dcae93448e60e68afd177f",
+      "closedAt": "2024-07-29T21:42:43Z",
+      "mergedAt": "2024-07-29T21:42:43Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "c85c3610eb8500a01124812ab886f34fa25814b9"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M6DQZxT",
+          "commit": {
+            "abbreviatedOid": "e9edb35"
+          },
+          "author": "dthaler",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-07-26T15:14:34Z",
+          "updatedAt": "2024-07-26T15:14:34Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 27,
+      "id": "PR_kwDOJ01T5M52ldLP",
+      "title": "Break greasing recommendations into sub-sections",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/27",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #20 ",
+      "createdAt": "2024-07-26T14:05:04Z",
+      "updatedAt": "2024-07-29T21:42:22Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "c93ba8c7bc41f4c33fe029b01fa2d65ffea0d66e",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "subsection-grease",
+      "headRefOid": "842fe709dd3260f25f2abf6c7030d9e091973845",
+      "closedAt": "2024-07-29T21:42:18Z",
+      "mergedAt": "2024-07-29T21:42:18Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "fa097721c3611b2d153986c1504a6178b81e5fda"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M6DQHtD",
+          "commit": {
+            "abbreviatedOid": "1a18812"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-26T14:40:50Z",
+          "updatedAt": "2024-07-26T14:40:50Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\r\n## Don't Special-Case Grease Values\r\n```",
+              "createdAt": "2024-07-26T14:40:50Z",
+              "updatedAt": "2024-07-26T14:40:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ01T5M6DQXd3",
+          "commit": {
+            "abbreviatedOid": "e28a245"
+          },
+          "author": "dthaler",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-26T15:09:59Z",
+          "updatedAt": "2024-07-26T15:10:03Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "```suggestion\r\n## Define and Register Grease Value Ranges\r\n```\r\nUse part of speech consistent with the other headings added",
+              "createdAt": "2024-07-26T15:09:59Z",
+              "updatedAt": "2024-07-26T15:10:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ01T5M6DQXrL",
+          "commit": {
+            "abbreviatedOid": "e28a245"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-26T15:10:24Z",
+          "updatedAt": "2024-07-26T15:10:25Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Is this clearer as: Don't make Grease Values a Special Case?",
+              "createdAt": "2024-07-26T15:10:24Z",
+              "updatedAt": "2024-07-26T15:10:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ01T5M6DQdxM",
+          "commit": {
+            "abbreviatedOid": "e28a245"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-26T15:23:18Z",
+          "updatedAt": "2024-07-26T15:23:18Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "I was thinking the same =)",
+              "createdAt": "2024-07-26T15:23:18Z",
+              "updatedAt": "2024-07-26T15:23:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ01T5M6DQoAf",
+          "commit": {
+            "abbreviatedOid": "71baec9"
+          },
+          "author": "dthaler",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-07-26T15:44:48Z",
+          "updatedAt": "2024-07-26T15:44:48Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ01T5M6Dfxw4",
+          "commit": {
+            "abbreviatedOid": "842fe70"
+          },
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-29T21:38:43Z",
+          "updatedAt": "2024-07-29T21:38:44Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I took the suggestion and mashed it up a little",
+              "createdAt": "2024-07-29T21:38:43Z",
+              "updatedAt": "2024-07-29T21:38:44Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "id": "PR_kwDOJ01T5M52lnKc",
+      "title": "Explain potential for abuse",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/28",
+      "state": "OPEN",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #22\r\n",
+      "createdAt": "2024-07-26T14:29:33Z",
+      "updatedAt": "2024-07-29T21:33:32Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "c93ba8c7bc41f4c33fe029b01fa2d65ffea0d66e",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "potential-for-abuse",
+      "headRefOid": "cc69e5031b14be21ac962a9da8994116ef440e33",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "body": "We could also have some positive advice earlier to generators of great to say \"don't grease too much\"",
+          "createdAt": "2024-07-26T15:21:11Z",
+          "updatedAt": "2024-07-26T15:21:11Z"
+        },
+        {
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussion in the room was: split the text across the sections, which I'll do on this PR so its not ready to be merged yet",
+          "createdAt": "2024-07-29T21:33:31Z",
+          "updatedAt": "2024-07-29T21:33:31Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M6DQYj0",
+          "commit": {
+            "abbreviatedOid": "b6c3d50"
+          },
+          "author": "dthaler",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-26T15:12:03Z",
+          "updatedAt": "2024-07-26T15:12:03Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\r\nmay choose to stop interactions, e.g., by closing a connection. Limits that are\r\n```\r\npunctuation nit",
+              "createdAt": "2024-07-26T15:12:03Z",
+              "updatedAt": "2024-07-26T15:12:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ01T5M6DQZcB",
+          "commit": {
+            "abbreviatedOid": "cc69e50"
+          },
+          "author": "dthaler",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-07-26T15:13:55Z",
+          "updatedAt": "2024-07-26T15:13:55Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ01T5M6DQZvW",
+          "commit": {
+            "abbreviatedOid": "cc69e50"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-26T15:14:30Z",
+          "updatedAt": "2024-07-26T15:14:31Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Maybe explain some examples of the abuse \u2014 not just the fact of ignoring one greased object, but having a flood of them that are all ignored, etc.",
+              "createdAt": "2024-07-26T15:14:30Z",
+              "updatedAt": "2024-07-26T15:14:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ01T5M6DQcDn",
+          "commit": {
+            "abbreviatedOid": "cc69e50"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-26T15:19:32Z",
+          "updatedAt": "2024-07-26T15:19:32Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Thought: There is a \"cost\" when the greasing creates state, even if only to ignore the greased value. (I can think of cases where seeing a new value needs the receiver to do work to ignore. )",
+              "createdAt": "2024-07-26T15:19:32Z",
+              "updatedAt": "2024-07-26T15:19:32Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "id": "PR_kwDOJ01T5M52l2QY",
+      "title": "Add fingerprinting reference",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/29",
+      "state": "MERGED",
+      "author": "dthaler",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Not sure if there is a better one\r\n\r\nFixes #4",
+      "createdAt": "2024-07-26T15:05:14Z",
+      "updatedAt": "2024-07-26T15:51:15Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "c93ba8c7bc41f4c33fe029b01fa2d65ffea0d66e",
+      "headRepository": "dthaler/draft-protocol-greasing",
+      "headRefName": "fingerprinting",
+      "headRefOid": "4aaa99692207c4ae0bfc1f61021f8988036d53b9",
+      "closedAt": "2024-07-26T15:49:32Z",
+      "mergedAt": "2024-07-26T15:49:32Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "978ad75aec644652a323cddbe4a11d71bbeb514e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ01T5M6DQnzL",
+          "commit": {
+            "abbreviatedOid": "4aaa996"
+          },
+          "author": "LPardue",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-07-26T15:44:28Z",
+          "updatedAt": "2024-07-26T15:44:28Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 33,
+      "id": "PR_kwDOJ01T5M5_Yh4T",
+      "title": "add IANA signposting",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/33",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes https://github.com/intarchboard/draft-protocol-greasing/issues/31 (I think)",
+      "createdAt": "2024-10-21T22:52:10Z",
+      "updatedAt": "2024-10-21T22:53:35Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "61c33807f3c7fc71bd1c50daf712d3a6c2223ec5",
+      "headRepository": "intarchboard/draft-protocol-greasing",
+      "headRefName": "iana-signposting",
+      "headRefOid": "54367b703041f82a4875981f8d8e7d7e48c78f6a",
+      "closedAt": "2024-10-21T22:53:31Z",
+      "mergedAt": "2024-10-21T22:53:30Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "f8ff51be3896364c8d0d8ebfbe9ed4d51d855450"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }

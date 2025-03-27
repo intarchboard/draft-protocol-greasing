@@ -2,10 +2,10 @@
 
 This is the working area for the individual Internet-Draft, "Maintaining Protocols Using Grease and Variability".
 
-* [Editor's Copy](https://LPardue.github.io/draft-protocol-greasing/#go.draft-edm-protocol-greasing.html)
+* [Editor's Copy](https://intarchboard.github.io/draft-protocol-greasing/#go.draft-edm-protocol-greasing.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-edm-protocol-greasing)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-edm-protocol-greasing)
-* [Compare Editor's Copy to Individual Draft](https://LPardue.github.io/draft-protocol-greasing/#go.draft-edm-protocol-greasing.diff)
+* [Compare Editor's Copy to Individual Draft](https://intarchboard.github.io/draft-protocol-greasing/#go.draft-edm-protocol-greasing.diff)
 
 
 ## Contributing

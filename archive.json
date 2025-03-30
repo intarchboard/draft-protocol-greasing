@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-27T00:43:10.172787+00:00",
+  "timestamp": "2025-03-30T00:47:41.189571+00:00",
   "repo": "intarchboard/draft-protocol-greasing",
   "labels": [
     {
@@ -385,7 +385,7 @@
       "url": "https://github.com/intarchboard/draft-protocol-greasing/issues/30",
       "state": "OPEN",
       "author": "martinthomson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "In \"Don't Special-Case Grease Values\" (#27), we have a request that implementers (not protocol designers) not do something.\r\n\r\nI have seen -- numerous times -- that people are inclined to special case reserved grease values on receipt.  This is a somewhat understandable thing, but it isn't always the obvious thing to do.\r\n\r\nAn example: A server that supports HTTP/3 with webtransport has to distinguish between bidirectional streams that are webtransport and ordinary requests.  This is done by looking at the type of the first frame on the stream.  The logic is *supposed* to be something like:\r\n\r\n```python\r\nif frame_type == WEBTRANSPORT:\r\n  it_is_webtransport()\r\nelse:\r\n  it_is_http3()\r\n```\r\n\r\nBut there is an interesting wrinkle that makes this rough.  There is only one HTTP/3 frame type that is described as fitting in this place (HEADERS).  That means that you tend to get:\r\n\r\n```python\r\nif frame_type == HEADERS:\r\n  it_is_http3()\r\nelse if frame_type == WEBTRANSPORT:\r\n  it_is_webtransport()\r\nelse:\r\n  error()\r\n```\r\n\r\nThe result being that the implementation chokes on extensions or grease.  To handle grease, I've seen people do this:\r\n\r\n```python\r\nif frame_type == HEADERS:\r\n  it_is_http3()\r\nelse if frame_type == WEBTRANSPORT:\r\n  it_is_webtransport()\r\nelse if is_grease(frame_type):\r\n  it_is_http3_but_ignore_this_frame()\r\nelse:\r\n  bad_error()\r\n```\r\n\r\nThat's not the first time I've seen this happen, but it's a nice case study.",
@@ -395,7 +395,7 @@
       "comments": [
         {
           "author": "martinthomson",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "To continue, the right answer here is to move some of this logic into the HTTP/3 handling code, so expanding the first (and correct) example...\r\n\r\n```python\r\nif frame_type == WEBTRANSPORT:\r\n  it_is_webtransport()\r\nelse:\r\n  if frame_type == HEADERS:\r\n    handle_headers()\r\n  else if supported_frame_type(frame_type):\r\n    error()\r\n  else:\r\n    ignore_this_frame()\r\n```",
           "createdAt": "2024-07-26T15:35:04Z",
           "updatedAt": "2024-07-26T15:35:04Z"
@@ -1440,6 +1440,60 @@
       "mergeCommit": {
         "oid": "f8ff51be3896364c8d0d8ebfbe9ed4d51d855450"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 34,
+      "id": "PR_kwDOJ01T5M6QUyOf",
+      "title": "Fix links in readme",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/34",
+      "state": "MERGED",
+      "author": "martinthomson",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The draft has a weird name, but that still seems to be accurate.",
+      "createdAt": "2025-03-27T06:21:36Z",
+      "updatedAt": "2025-03-27T10:02:14Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "f8ff51be3896364c8d0d8ebfbe9ed4d51d855450",
+      "headRepository": "martinthomson/draft-protocol-greasing",
+      "headRefName": "patch-1",
+      "headRefOid": "ba2c4230952a200a53a392eb373ad0198ae69b7f",
+      "closedAt": "2025-03-27T10:02:14Z",
+      "mergedAt": "2025-03-27T10:02:14Z",
+      "mergedBy": "LPardue",
+      "mergeCommit": {
+        "oid": "d6c76c2957057b9d569a5fac90b0bf0b81aa4182"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 35,
+      "id": "PR_kwDOJ01T5M6QnDa2",
+      "title": "Create generator-generic-ossf-slsa3-publish.yml",
+      "url": "https://github.com/intarchboard/draft-protocol-greasing/pull/35",
+      "state": "CLOSED",
+      "author": "cole67",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Internet Architecture Board (IAB)",
+      "createdAt": "2025-03-28T20:19:39Z",
+      "updatedAt": "2025-03-28T22:16:42Z",
+      "baseRepository": "intarchboard/draft-protocol-greasing",
+      "baseRefName": "main",
+      "baseRefOid": "d6c76c2957057b9d569a5fac90b0bf0b81aa4182",
+      "headRepository": "cole67/draft-protocol-greasing",
+      "headRefName": "main",
+      "headRefOid": "ffcb7d6f30ea60c47c05287c7f399fa94efbd6d6",
+      "closedAt": "2025-03-28T22:16:42Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }

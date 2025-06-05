@@ -14,24 +14,24 @@ replacing the protocol. This document presents concepts, considerations, and
 techniques related to protocol maintenance, such as greasing or variability. The
 intended audience is protocol designers and implementers. 
     " name="description">
-<meta content="xml2rfc 3.23.2" name="generator">
+<meta content="xml2rfc 3.28.1" name="generator">
 <meta content="next generation" name="keyword">
 <meta content="unicorn" name="keyword">
 <meta content="sparkling distributed ledger" name="keyword">
 <meta content="draft-edm-protocol-greasing-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.23.2
-    Python 3.12.7
+  xml2rfc 3.28.1
+    Python 3.12.10
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.4
-    lxml 4.9.4
-    platformdirs 4.3.6
-    pycountry 22.3.5
-    PyYAML 6.0.1
+    Jinja2 3.1.6
+    lxml 5.3.1
+    platformdirs 4.3.8
+    pycountry 24.6.1
+    PyYAML 6.0.2
     requests 2.32.3
-    setuptools 70.3.0
+    setuptools 80.9.0
     wcwidth 0.2.13
 -->
 <link href="draft-edm-protocol-greasing.xml" rel="alternate" type="application/rfc+xml">
@@ -168,31 +168,6 @@ intended audience is protocol designers and implementers.
 }
 
 @font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
   font-family: 'Oxygen Mono';
   font-style: normal;
   font-weight: 400;
@@ -209,6 +184,77 @@ intended audience is protocol designers and implementers.
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   color-scheme: light dark;
   --background-color: #fff;
@@ -221,6 +267,7 @@ intended audience is protocol designers and implementers.
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
   --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
   scrollbar-color: #bbb #eee;
 }
 body {
@@ -238,9 +285,15 @@ body {
 }
 
 /* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Cabin Condensed", sans-serif;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 680;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
@@ -269,6 +322,7 @@ h4, h5, h6 {
 /* general structure */
 .author {
   padding-bottom: 0.3em;
+  vertical-align: top;
 }
 #abstract+p {
   font-size: 18px;
@@ -346,25 +400,26 @@ svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
 ol, ul {
   padding: 0;
   margin: 0 0 0.5em 2em;
-}
-:is(ol, ul) :is(ol, ul) {
-  margin-left: 1em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
 }
 li {
   margin: 0 0 0.25em 0;
 }
-.ulCompact li {
-  margin: 0;
-}
 ul.empty, .ulEmpty {
   list-style-type: none;
-}
-ul.empty li, .ulEmpty li {
-  margin-top: 0.5em;
+  & li {
+    margin-top: 0.5em;
+  }
 }
 :is(ul, ol).compact, .ulCompact, .olCompact {
-  line-height: 1;
   margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
 }
 
 /* definition lists */
@@ -372,38 +427,39 @@ dl {
   clear: left;
   --indent: 3ch;
   /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
 }
-dl.olPercent {
-  --indent: 5ch;
-}
-dl > dt {
+dl:not(.dlNewline) > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
-}
-dl.dlNewline > dt {
-  float: none;
 }
 dl > dd {
   margin-bottom: .8em;
   margin-left: var(--indent) !important; /* stupid element overrides */
   min-height: 2ex;
 }
-dl.olPercent > dt {
-  min-width: calc(var(--indent) - 2ch);
-}
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
-  margin-top: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
-  margin-bottom: 0;
-}
-dl > dd > dl {
-  margin-top: 0.5em;
-  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
 }
 :is(dd, span).break {
   display: none;
@@ -467,6 +523,7 @@ figcaption, caption {
   font-style: italic;
   margin: 0.5em 1.5em;
   text-align: left;
+  caption-side: bottom;
 }
 @media screen {
   /* Auto-collapse boilerplate. */
@@ -484,7 +541,11 @@ figcaption, caption {
   }
   pre, svg {
     display: inline-block;
-    overflow-x: auto;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
   }
   pre {
     max-width: 100%;
@@ -521,6 +582,7 @@ cite {
 
 /* tables */
 table {
+  width: auto;
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
@@ -535,6 +597,16 @@ table.center {
 table.left {
   margin-right: auto;
 }
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
 thead, tbody {
   border: 1px solid var(--line-color);
 }
@@ -565,9 +637,11 @@ a.pilcrow {
   margin-left: 3px;
   opacity: 0.2;
   user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
 }
-a.pilcrow[href] { color: var(--pilcrow-weak); }
-a.pilcrow[href]:hover { text-decoration: none; }
 @media not print {
   :hover > a.pilcrow {
     opacity: 1;
@@ -607,26 +681,28 @@ sub, sup {
   font-size: var(--small-font-size);
   line-height: 18px;
   --identifier-width: 15ch;
-}
-#identifiers dt {
-  width: var(--identifier-width);
-  min-width: var(--identifier-width);
-  clear: left;
-  float: left;
-  text-align: right;
-  margin-right: 1ch;
-}
-#identifiers dd {
-  margin: 0;
-  margin-left: calc(1em + var(--identifier-width)) !important;
-  min-width: 5em;
-}
-#identifiers .authors .author {
-  display: inline-block;
-  margin-right: 1.5em;
-}
-#identifiers .authors .org {
-  font-style: italic;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
 }
 
 /* The prepared/rendered info at the very bottom of the page */
@@ -637,9 +713,6 @@ sub, sup {
   margin-top: 2em;
 }
 .docInfo .prepared {
-  float: left;
-}
-.docInfo .prepared {
   float: right;
 }
 
@@ -647,47 +720,48 @@ sub, sup {
 #toc {
   padding: 0.75em 0 2em 0;
   margin-bottom: 1em;
-}
-#toc nav ul {
-  margin: 0 0.5em 0 0;
-  padding: 0;
-  list-style: none;
-}
-#toc nav li {
-  line-height: 1.3em;
-  margin: 2px 0;
-  padding-left: 1.2em;
-  text-indent: -1.2em;
-}
-#toc a.xref {
-  white-space: normal;
-}
-/* references */
-.references dt {
-  text-align: right;
-  font-weight: bold;
-  min-width: 10ch;
-  margin-right: 1.5ch;
-}
-.references dt:target::before {
-  content: "⇒";
-  width: 15px;
-  margin: 0 10px 0 -25px;
-}
-.references dd {
-  margin-left: 12ch !important;
-  overflow: auto;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
 }
 
-.refInstance {
-  margin-bottom: 1.25em;
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
 }
 
-.references .ascii {
-  margin-bottom: 0.25em;
-}
-
-/* index */
 #rfc\.index\.index + ul {
   margin-left: 0;
 }
@@ -695,21 +769,33 @@ sub, sup {
 /* authors */
 address.vcard {
   font-style: normal;
-  margin: 1em 0;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
 }
-address.vcard .nameRole {
-  font-weight: 700;
-  margin-left: 0;
-}
-address.vcard .label {
-  margin: 0.5em 0;
-}
-address.vcard .type {
-  display: none;
-}
-.alternative-contact {
-  margin: 1.5em 0 1em;
-}
+
 hr.addr {
   border-top: 1px dashed;
   margin: 0;
@@ -731,6 +817,7 @@ hr.addr {
   }
 }
 
+/* Comments */
 .rfcEditorRemove p:first-of-type {
   font-style: italic;
 }
@@ -741,7 +828,31 @@ hr.addr {
 .crefSource {
   font-style: italic;
 }
-/* alternative layout for smaller screens */
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
 @media screen and (max-width: 929px) {
   #toc {
     position: fixed;
@@ -752,9 +863,6 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc.active {
-      opacity: 1;
   }
   #toc h2 {
     margin: 0;
@@ -767,17 +875,17 @@ hr.addr {
     background-color: #444;
     color: white;
     cursor: pointer;
-  }
-  #toc h2::before { /* css hamburger */
-    float: right;
-    position: relative;
-    width: 1em;
-    height: 1px;
-    left: -164px;
-    margin: 8px 0 0 0;
-    background: white none repeat scroll 0 0;
-    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-    content: "";
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
   }
   #toc nav {
     display: none;
@@ -788,14 +896,13 @@ hr.addr {
     height: calc(100vh - 48px);
     border-left: 1px solid #ddd;
   }
-  #toc.active nav {
-    display: block;
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
   }
   /* Make the collapsed ToC header render white on gray also when it's a link */
   #toc h2 a,
-  #toc h2 a:link,
-  #toc h2 a:focus,
-  #toc h2 a:hover,
+  #toc h2 a:is(:link, :focus, :hover),
   #toc a.toplink,
   #toc a.toplink:hover {
     color: white;
@@ -803,11 +910,11 @@ hr.addr {
     text-decoration: none;
   }
   #toc a.toplink {
-    margin-top: 2px;
+    margin: 2px 0.5em 0;
   }
 }
 
-/* alternative layout for wide screens */
+/* TOC layout for wide screens */
 @media screen and (min-width: 930px) {
   body {
     padding-right: 360px;
@@ -836,20 +943,12 @@ hr.addr {
     overscroll-behavior: contain;
     scrollbar-width: thin;
   }
-  #toc nav > ul  {
-    margin-bottom: 2em;
-  }
-  #toc ul {
-    margin: 0 0 0 4px;
-    font-size: var(--small-font-size);
-  }
-  #toc ul :is(p, li) {
-    margin: 2px 0;
-    line-height: 22px;
-  }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
   }
 }
 
@@ -892,9 +991,6 @@ hr.addr {
   td {
     border-top: 1px solid #ddd;
   }
-  .toplink {
-    display: none;
-  }
 }
 
 @page :first {
@@ -917,82 +1013,6 @@ hr.addr {
   size: A4;
   margin-bottom: 45mm;
   padding-top: 20px;
-}
-
-/* Changes introduced to fix issues found during implementation */
-
-/* Separate body from document info even without intervening H1 */
-section {
-  clear: both;
-}
-
-/* Top align author divs, to avoid names without organization dropping level with org names */
-.author {
-  vertical-align: top;
-}
-
-/* Style section numbers with more space between number and title */
-.section-number {
-  padding-right: 0.5em;
-}
-
-/* Add styling for a link in the ToC that points to the top of the document */
-a.toplink {
-  float: right;
-  margin: 8px 0.5em 0;
-}
-
-/* Provide styling for table cell text alignment */
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
-}
-
-/* Make the alternative author contact information look less like just another
-   author, and group it closer with the primary author contact information */
-.alternative-contact {
-  margin: 0.5em 0 0.25em 0;
-}
-address .non-ascii {
-  margin: 0 0 0 2em;
-}
-
-/* With it being possible to set tables with alignment
-  left, center, and right, { width: 100%; } does not make sense */
-table {
-  width: auto;
-}
-
-/* Avoid reference text that sits in a block with very wide left margin,
-   because of a long floating dt label.*/
-.references dd {
-  overflow: visible;
-}
-
-/* Control caption placement */
-caption {
-  caption-side: bottom;
-}
-
-/* Limit the width of the author address vcard, so names in right-to-left
-   script don't end up on the other side of the page. */
-
-address.vcard {
-  max-width: 20em;
-  margin-right: auto;
-}
-
-/* For address alignment dependent on LTR or RTL scripts */
-address div.left {
-  text-align: left;
-}
-address div.right {
-  text-align: right;
 }
 
 /* Dark mode. */
@@ -1031,11 +1051,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Protocol Greasing</td>
-<td class="right">October 2024</td>
+<td class="right">June 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Pardue</td>
-<td class="center">Expires 24 April 2025</td>
+<td class="center">Expires 7 December 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1048,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-edm-protocol-greasing-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-10-21" class="published">21 October 2024</time>
+<time datetime="2025-06-05" class="published">5 June 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-04-24">24 April 2025</time></dd>
+<dd class="expires"><time datetime="2025-12-07">7 December 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1103,7 +1123,7 @@ intended audience is protocol designers and implementers.<a href="#section-abstr
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1112,7 +1132,7 @@ intended audience is protocol designers and implementers.<a href="#section-abstr
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2024 IETF Trust and the persons identified as the
+            Copyright (c) 2025 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1136,24 +1156,24 @@ intended audience is protocol designers and implementers.<a href="#section-abstr
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-considerations-for-applying" class="internal xref">Considerations for Applying Greasing</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-considerations-for-greasing" class="internal xref">Considerations for Greasing Protocols</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-dont-handle-grease-values-a" class="internal xref">Don't Handle Grease Values as a Special Case</a></p>
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-define-and-register-grease-" class="internal xref">Define and Register Grease Value Ranges</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
+                    <p id="section-toc.1-1.3.2.1.2.1.1" class="keepWithNext"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-recommendations-for-iana-co" class="internal xref">Recommendations for IANA Considerations</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-use-unpredictable-grease-va" class="internal xref">Use Unpredictable Grease Values</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-use-grease-values-at-unpred" class="internal xref">Use Grease Values at Unpredictable Times</a></p>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-use-grease-values-unpredict" class="internal xref">Use Grease Values Unpredictably</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-define-and-register-grease-" class="internal xref">Define and Register Grease Value Ranges</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4.2.1">
-                    <p id="section-toc.1-1.3.2.4.2.1.1"><a href="#section-3.4.1" class="auto internal xref">3.4.1</a>.  <a href="#name-effectively-instructing-ian" class="internal xref">Effectively Instructing IANA about grease</a></p>
-</li>
-                </ul>
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-dont-handle-grease-values-a" class="internal xref">Don't Handle Grease Values as a Special Case</a></p>
 </li>
             </ul>
 </li>
@@ -1245,28 +1265,78 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 </div>
 <div id="grease-considerations">
 <section id="section-3">
-      <h2 id="name-considerations-for-applying">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-considerations-for-applying" class="section-name selfRef">Considerations for Applying Greasing</a>
+      <h2 id="name-considerations-for-greasing">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-considerations-for-greasing" class="section-name selfRef">Considerations for Greasing Protocols</a>
       </h2>
 <p id="section-3-1">Greasing can take many forms, depending on the protocol and the nature of its
-extension points.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">Many protocols register values, codepoints, or numbers in a limited space. A
-common approach that has developed in more recent protocols is to reserve a subset of the space for greasing (see
-<span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span>, <span><a href="https://rfc-editor.org/rfc/rfc9000#section-18.1" class="relref">Section 18.1</a> of [<a href="#QUIC" class="cite xref">QUIC</a>]</span>, or <span><a href="https://rfc-editor.org/rfc/rfc9114#section-7.2.8" class="relref">Section 7.2.8</a> of [<a href="#RFC9114" class="cite xref">HTTP/3</a>]</span>). Values
-reserved for the purpose of greasing are herein referred to as grease values.
-Implementations that receive grease values are required to ignore them. More
-background to this approach is given in <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>.
-This section provides concrete suggestions for its usage.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<div id="dont-handle-grease-values-as-a-special-case">
+extension points. The common pattern across forms of greasing is that values
+are generated that have no useful meaning to the protocol and are meant to
+be ignored upon receipt. Such values used for the purpose of greasing are
+referred to as "grease values" within this document.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">More background to this approach is given in <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">This section provides some practical considerations for how to define and
+use greasing, and avoid possible pitfalls.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<div id="define-and-register-grease-value-ranges">
 <section id="section-3.1">
-        <h3 id="name-dont-handle-grease-values-a">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-dont-handle-grease-values-a" class="section-name selfRef">Don't Handle Grease Values as a Special Case</a>
+        <h3 id="name-define-and-register-grease-">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-define-and-register-grease-" class="section-name selfRef">Define and Register Grease Value Ranges</a>
         </h3>
-<p id="section-3.1-1">It is assumed that endpoints should implement robust and broad extension
-handling. A receiver or a parser implementation should not treat grease values
-as individually special. Instead of identifying each grease value explicitly,
-it is better to have a "catch all" mechanism that can handle receipt of unknown
-extensions, whether grease values or not, gracefully or without error.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-1">Many protocols that use greasing have a limited set of possible values or
+codepoints that can be used in a particular extension point. A common
+approach is to reserve a subset of the registrable space for greasing.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">The following are some examples of protocols that have reserved codepoints for grease values:<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1-3.1">
+            <p id="section-3.1-3.1.1">TLS (<span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span>)<a href="#section-3.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.1-3.2">
+            <p id="section-3.1-3.2.1">QUIC (<span><a href="https://rfc-editor.org/rfc/rfc9000#section-18.1" class="relref">Section 18.1</a> of [<a href="#QUIC" class="cite xref">QUIC</a>]</span>)<a href="#section-3.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.1-3.3">
+            <p id="section-3.1-3.3.1">HTTP/3 (<span><a href="https://rfc-editor.org/rfc/rfc9114#section-7.2.8" class="relref">Section 7.2.8</a> of [<a href="#RFC9114" class="cite xref">HTTP/3</a>]</span>)<a href="#section-3.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.1-3.4">
+            <p id="section-3.1-3.4.1">Privacy Pass (<span>[<a href="#PRIVACYPASS" class="cite xref">PRIVACYPASS</a>]</span>)<a href="#section-3.1-3.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-3.1-4">The specifics of how to reserve values depends on the nature of the
+available space. For protocols with large possible spaces, it is useful
+to have a large set of grease values to increase the chance that
+receiver greasing requirements are exercised.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
+<p id="section-3.1-5">It is recommended to use an algorithm to reserving large sets of values.
+For example, <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span> uses and algorithm of <code>31 * N + 27</code> to allocate
+transport parameters grease values.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.1-6">One possible problem with some algorithms is how they will spread out
+values over the space, and impact the ability to use or reserve contiguous
+blocks of non-grease values. It is common for protocol extension designers
+to want to reserve contiguous blocks of codepoints in order to aid
+iteration and experimentation. Reserved grease values can end up being
+in spaces that would otherwise be used for such contiguous blocks.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
+<p id="section-3.1-7">Codepoints being used for new reservations, or experimentation, need
+to be careful to not unintentionally use grease values. Doing so could
+lead to interoperability failures.<a href="#section-3.1-7" class="pilcrow">¶</a></p>
+<div id="iana-tips">
+<section id="section-3.1.1">
+          <h4 id="name-recommendations-for-iana-co">
+<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-recommendations-for-iana-co" class="section-name selfRef">Recommendations for IANA Considerations</a>
+          </h4>
+<p id="section-3.1.1-1">IANA registries that contain reserved grease values must indicate that
+the values are reserved. The specifics of how to represent the reservations
+is up to the documents that define the registries.<a href="#section-3.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-2">Some registries list out the reserved grease values specifically, marked as
+"Reserved". For example, the TLS registry uses this approach
+(https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml).<a href="#section-3.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-3">If an algorithm or pattern is used to define grease values, it is recommended
+when possible to instead only define a single entry for the entire grease value
+set. This entry should include the pattern or algorithm. This approach is used by
+the QUIC registry (https://www.iana.org/assignments/quic/quic.xhtml) and the
+HTTP/3 registry (https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types)<a href="#section-3.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-4">Grease values must not be used or registered for any other purpose. This is in
+contrast to other potentially "reserved" values that might be reused or
+claimed for a new purpose in the future. To avoid confusion, it is recommended
+to label the reservation with a clear identifier, such as "reserved for greasing".<a href="#section-3.1.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="use-unpredictable-grease-values">
@@ -1274,59 +1344,84 @@ extensions, whether grease values or not, gracefully or without error.<a href="#
         <h3 id="name-use-unpredictable-grease-va">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-use-unpredictable-grease-va" class="section-name selfRef">Use Unpredictable Grease Values</a>
         </h3>
-<p id="section-3.2-1">It is recommended that senders pick an unpredictable grease value to include in
-relevant protocol elements. This ensures that receiver greasing requirements are
-exercised. Using predictable grease values risks ossification. To increase the
-variety of grease values, it is advised to reserve a large range. However, the
-specific size and distribution of the grease range needs to accommodate the
-protocol constraints. For instance, protocols that use 8-bit fields may find it
-too costly to dedicate many grease values, while 32-bit or 64-bit fields are
-likely to have no limitations.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">In order to gain the benefits of active use and avoid ossification, grease values
+need to be sent in ways that won't become a predictable pattern that implementations
+and deployments ossify around.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">Implementations that generate grease values should pick unpredictable entries
+from the set of reserved grease values. It is most important that values be
+unpredictable across the set of all protocol participants for particular deployments.
+This can be achieved in multiple ways: for example, an individual client device
+might pick random values from the grease value space on each interaction;
+alternatively, a single client could pick a specific grease value to use, while
+other clients pick other values.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2-3">In order to support picking unpredictable values, the set of reserved values
+should be large. However, the specific size and distribution
+of the grease range needs to accommodate the protocol constraints. For instance,
+protocols that use 8-bit fields may find it too costly to dedicate many grease
+values, while 32-bit or 64-bit fields are likely to have no such limitations.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="use-grease-values-at-unpredictable-times">
+<div id="use-grease-values-unpredictably">
 <section id="section-3.3">
-        <h3 id="name-use-grease-values-at-unpred">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-use-grease-values-at-unpred" class="section-name selfRef">Use Grease Values at Unpredictable Times</a>
+        <h3 id="name-use-grease-values-unpredict">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-use-grease-values-unpredict" class="section-name selfRef">Use Grease Values Unpredictably</a>
         </h3>
-<p id="section-3.3-1">It is recommended that senders use grease values at unpredictable times or
-sequence points during protocol interactions. This avoids receivers
-unintentionally ossifying on the occurrence of greasing in the temporal or
-spatial domain.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-1">In addition to selecting unpredictable values, the inclusion of grease itself
+can be made unpredictable. Implementations can vary their behavior by including
+no grease values, one grease value, or multiple grease values for a given protocol
+extension point.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">TODO: Discuss the implications of how often grease values are used; using very
+infrequently and very frequently can both be ossifying<a href="#section-3.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="define-and-register-grease-value-ranges">
+<div id="dont-handle-grease-values-as-a-special-case">
 <section id="section-3.4">
-        <h3 id="name-define-and-register-grease-">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-define-and-register-grease-" class="section-name selfRef">Define and Register Grease Value Ranges</a>
+        <h3 id="name-dont-handle-grease-values-a">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-dont-handle-grease-values-a" class="section-name selfRef">Don't Handle Grease Values as a Special Case</a>
         </h3>
-<p id="section-3.4-1">It is recommended that large grease value sets are allocated in protocol
-documents by defining a unique algorithm, to increase the chance that
-receiver greasing requirements are exercised. However, the choice of algorithm
-needs to consider the spread of values and the size of contiguous blocks between
-grease values. It is common for protocol extension designers to want to reserve
-a contiguous block of code points in order to aid iteration and experimentation.
-Small contiguous blocks increase the chance that such reservations might
-unintentionally use grease values, which could lead to interoperability
-failures.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
-<div id="iana-tips">
-<section id="section-3.4.1">
-          <h4 id="name-effectively-instructing-ian">
-<a href="#section-3.4.1" class="section-number selfRef">3.4.1. </a><a href="#name-effectively-instructing-ian" class="section-name selfRef">Effectively Instructing IANA about grease</a>
-          </h4>
-<p id="section-3.4.1-1">Protocol designers might ask IANA to create new registries for their extension
-points. When greasing, it is recommended that only a single entry for the entire
-grease value set is registered. When an algorithm has been used, it should be
-included in the entry; see for example
-https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types.<a href="#section-3.4.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.4.1-2">Grease values must not be used or registered for any other purpose. Registries
-should include a label to identify the protected grease value range; a label of
-"reserved" may be confused with other ranges that are reserved for private or
-experimental extensions. An implementer that conflates these two meanings may
-cause a new class of interoperability failure. Therefore a label such as
-"reserved for greasing" may help to avoid the confusion.<a href="#section-3.4.1-2" class="pilcrow">¶</a></p>
-</section>
-</div>
+<p id="section-3.4-1">Implementations that read and process grease values must ignore the values.
+"Ignoring" a value upon receipt can have multiple dimensions, however.
+Simply not performing any protocol action based on the grease value isn't
+enough to ensure that the protocol will remain extensible. The ignoring
+must be handled as a general case of "unknown" or "unhandled" values,
+not as a special case for ignored grease values.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-2">This means that grease values can only meaningfully be used for protocol elements
+where all unknown values are ignored by default. (Protocols may have ways
+to indicate that some specific values are "mandatory" or "critical" in order
+to have the protocol interaction succeed, but these must not be marked
+for any grease values.)<a href="#section-3.4-2" class="pilcrow">¶</a></p>
+<p id="section-3.4-3">One pitfall that implementations may encounter when building logic to
+handle the receipt of grease values is related to cases where some recognized
+non-grease values need to be handled as errors. Consider the following abstract
+example:<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-3.4-4">
+<li id="section-3.4-4.1">
+            <p id="section-3.4-4.1.1">A protocol element has values 1, 2, 3, and 4 defined and registered for
+use. The values 13 and 42 are reserved as grease values.<a href="#section-3.4-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.4-4.2">
+            <p id="section-3.4-4.2.1">In a specific scenario, only the known values 1 and 2 are valid; 3 and 4
+are considered errors.<a href="#section-3.4-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.4-4.3">
+            <p id="section-3.4-4.3.1">An implementation might naively choose to check for the value being 1 or 2, handle
+those cases, and send an error otherwise.<a href="#section-3.4-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.4-4.4">
+            <p id="section-3.4-4.4.1">When grease values are used, the previous logic will flag an error for the grease value.
+If this is detected, implementations might choose to work around this by updating
+the logic to check for the value being 1 or 2, then check for grease values to ignore,
+and then send an error otherwise. This logic is also incorrect since it doesn't
+allow for new extensibility.<a href="#section-3.4-4.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<p id="section-3.4-5">The correct logic for the above scenario would be to check for the value being 1 or 2,
+then explicitly check for the value being 3 or 4 (to handle the error), with a
+catch-all for ignored values.<a href="#section-3.4-5" class="pilcrow">¶</a></p>
+<p id="section-3.4-6">Implementations need to take care when implementing such logic. Protocol specification
+designers should emphasize that grease values must not be special-cased. It is also
+recommended to provide example logic or pseudocode in specifications as guidance to
+implementers on how to correctly process protocol elements like these.<a href="#section-3.4-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1401,7 +1496,7 @@ deeper analysis of this topic has been deemed out of scope.<a href="#section-6-2
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
 <p id="section-7-1">This document has no IANA actions itself. Guidance on how other documents can effectively
-instruct IANA about protocol greasing is provided in <a href="#iana-tips" class="auto internal xref">Section 3.4.1</a><a href="#section-7-1" class="pilcrow">¶</a></p>
+instruct IANA about protocol greasing is provided in <a href="#iana-tips" class="auto internal xref">Section 3.1.1</a><a href="#section-7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
@@ -1451,6 +1546,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dt id="MAINTENANCE">[MAINTENANCE]</dt>
         <dd>
 <span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">D. Schinazi</span>, <span class="refTitle">"Maintaining Robust Protocols"</span>, <span class="seriesInfo">RFC 9413</span>, <span class="seriesInfo">DOI 10.17487/RFC9413</span>, <time datetime="2023-06" class="refDate">June 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9413">https://www.rfc-editor.org/rfc/rfc9413</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="PRIVACYPASS">[PRIVACYPASS]</dt>
+        <dd>
+<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Valdez, S.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"The Privacy Pass HTTP Authentication Scheme"</span>, <span class="seriesInfo">RFC 9577</span>, <span class="seriesInfo">DOI 10.17487/RFC9577</span>, <time datetime="2024-06" class="refDate">June 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9577">https://www.rfc-editor.org/rfc/rfc9577</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="PRIVCON">[PRIVCON]</dt>
         <dd>

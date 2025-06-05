@@ -156,6 +156,35 @@ cause a new class of interoperability failure. Therefore a label such as
 "reserved for greasing" may help to avoid the confusion.
 
 
+# Deployment Considerations and Incentives for Greasing
+
+Greasing can be used as a tool to improve the active use of existing protocol
+elements (which weren't necessarily designed with greasing to begin with, or
+weren't deployed with greasing); or as part of new protocol design and deployments.
+
+When greasing isn't used from the beginning of protocol deployment, starting to use
+greasing comes with the risk of triggering failures. These failures might be innocuous,
+but they also might be very impactful and visible to users. This risk creates a
+disincentive to deploy greasing in existing systems, since generally the change that
+triggers failures is often blamed for the failure.
+
+Some approaches to avoid failures due to greasing include:
+
+- Designing, implementing, and using greasing very early on in protocol development
+and deployment. This avoids the risks of adding greasing later.
+- Enabling greasing along with other major protocol feature changes or deployment changes.
+For example, when upgrading to a new protocol version that requires implementation updates
+on multiple systems, greasing can be added for the new version specifically. This approach
+works well for situations where the protocol participants are known and already need
+to cooperate (such as within an encrypted protocol between two endpoints). This approach
+applies less well for situations where non-cooperating entities (such as middleboxes)
+are the source of ossification.
+- Using heuristics to disable greasing when errors are encountered. For example,
+if a protocol operation fails multiple times when grease values are used, it can be retried
+without any grease values. This reduces the effectiveness of grease values in removing
+existing ossification, but can still have benefits for flagging issues in new implementations
+when they receive greas values.
+
 # Considerations for Increasing Protocol Variability {#variability}
 
 Greasing can maintain protocol extensibility by falsifying active use of its

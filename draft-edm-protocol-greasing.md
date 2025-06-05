@@ -217,7 +217,7 @@ designers and implementers about how to approach these problems.
 
 # Security Considerations
 
-The considerations in {{MAINTENANCE}}, {{GREASE}}, {{END-USERS}}, and
+The considerations in {{?MAINTENANCE=RFC9413}}, {{GREASE}}, {{?END-USERS=RFC8890}}, and
 {{VIABILITY}} all apply to the topics discussed in this document.
 
 The use of protocol features, extensions, and versions can already allow

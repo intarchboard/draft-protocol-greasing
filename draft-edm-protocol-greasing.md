@@ -45,7 +45,7 @@ to how protocol elements are used help generate this active use.
 
 Grease and variability are used across various protocols developed
 by the IETF. This document discusses considerations when designing
-and deploying grease and variability mechanism, and provides
+and deploying grease and variability mechanisms, and provides
 advice for making them as effective as possible
 
 --- middle

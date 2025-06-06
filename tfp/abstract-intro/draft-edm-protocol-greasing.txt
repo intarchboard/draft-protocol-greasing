@@ -112,8 +112,8 @@ Table of Contents
    limitations of greasing.
 
    While it is becoming more common, designing and applying grease is
-   not necessarily trivial.  There are best practices and some common
-   pitfalls to avoid that have been developed by the protocols using
+   not necessarily trivial.  There are best practices, and some common
+   pitfalls to avoid, that have been developed by the protocols using
    grease thus far.  Section 3 takes these learnings and provides
    considerations for new protocol design and deployment.
 

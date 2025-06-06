@@ -74,8 +74,8 @@ upon receipt. Greasing is suitable for many protocols but not all; {{Section 3.3
 ?VIABILITY=RFC9170}} discusses the applicability and limitations of greasing.
 
 While it is becoming more common, designing and applying grease is not
-necessarily trivial. There are best practices and some common pitfalls to
-avoid that have been developed by the protocols using grease thus far.
+necessarily trivial. There are best practices, and some common pitfalls to
+avoid, that have been developed by the protocols using grease thus far.
 {{grease-considerations}} takes these learnings and provides considerations
 for new protocol design and deployment.
 

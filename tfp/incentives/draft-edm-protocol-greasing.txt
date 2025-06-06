@@ -4,8 +4,8 @@
 
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
-Intended status: Informational                               5 June 2025
-Expires: 7 December 2025
+Intended status: Informational                               6 June 2025
+Expires: 8 December 2025
 
 
            Maintaining Protocols Using Grease and Variability
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 December 2025.
+   This Internet-Draft will expire on 8 December 2025.
 
 Copyright Notice
 
@@ -240,7 +240,7 @@ Table of Contents
       grease values are used, it can be retried without any grease
       values.  This reduces the effectiveness of grease values in
       removing existing ossification, but can still have benefits for
-      flagging issues in new implementations when they receive greas
+      flagging issues in new implementations when they receive grease
       values.
 
 5.  Considerations for Increasing Protocol Variability

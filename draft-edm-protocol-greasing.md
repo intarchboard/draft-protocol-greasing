@@ -28,6 +28,10 @@ author:
     fullname: Lucas Pardue
     organization: Cloudflare
     email: "lucas@lucaspardue.com"
+ -
+    fullname: Tommy Pauly
+    organization: Apple
+    email: "tpauly@apple.com"
 
 normative:
 

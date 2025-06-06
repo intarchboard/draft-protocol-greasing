@@ -183,7 +183,7 @@ are the source of ossification.
 if a protocol operation fails multiple times when grease values are used, it can be retried
 without any grease values. This reduces the effectiveness of grease values in removing
 existing ossification, but can still have benefits for flagging issues in new implementations
-when they receive greas values.
+when they receive grease values.
 
 # Considerations for Increasing Protocol Variability {#variability}
 

@@ -4,8 +4,9 @@
 
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
-Intended status: Informational                           21 October 2024
-Expires: 24 April 2025
+Intended status: Informational                                  T. Pauly
+Expires: 9 December 2025                                           Apple
+                                                             7 June 2025
 
 
            Maintaining Protocols Using Grease and Variability
@@ -49,11 +50,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 April 2025.
+   This Internet-Draft will expire on 9 December 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -81,7 +82,7 @@ Table of Contents
      8.1.  Normative References
      8.2.  Informative References
    Acknowledgments
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -332,8 +333,13 @@ Acknowledgments
    This work is a summary of the topics discussed during EDM meetings.
    The contributors at those meetings are thanked.
 
-Author's Address
+Authors' Addresses
 
    Lucas Pardue
    Cloudflare
    Email: lucas@lucaspardue.com
+
+
+   Tommy Pauly
+   Apple
+   Email: tpauly@apple.com

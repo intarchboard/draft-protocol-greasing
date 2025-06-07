@@ -1,5 +1,5 @@
 ---
-title: "Maintaining Protocols Using Grease and Variability"
+title: "Considerations For Maintaining Protocols Using Grease and Variability"
 abbrev: "Protocol Greasing"
 category: info
 
@@ -41,40 +41,56 @@ informative:
 
 --- abstract
 
-Long-term interoperability of protocols is an important goal of the network
-standards process. Deployment success can depend on supporting change, which
-can include modifying how the protocol is used, extending the protocol, or
-replacing the protocol. This document presents concepts, considerations, and
-techniques related to protocol maintenance, such as greasing or variability. The
-intended audience is protocol designers and implementers.
+Active use and maintenance of network protocols is an important way to
+ensure that protocols remain interoperable and extensible over time.
+Techniques such as intentionally exercising extension points with
+non-meaningful values (referred to as "grease") or adding variability
+to how protocol elements are used help generate this active use.
 
+Grease and variability are used across various protocols developed
+by the IETF. This document discusses considerations when designing
+and deploying grease and variability mechanisms, and provides
+advice for making them as effective as possible.
 
 --- middle
 
 # Introduction
 
-Long-term interoperability of protocols is an important goal of the network
-standards process {{?MAINTENANCE=RFC9413}}. Protocol deployment success
-{{?SUCCESS=RFC5218}} can depend on supporting change, which
-can include modifying how the protocol is used, extending the protocol, or
-replacing the protocol.
+{{Section 3 of ?VIABILITY=RFC9170}} discusses "active use" as a category
+of techniques that protocol designers and implementers employ to ensure
+that protocol extension mechanisms are exercised and can be used in the
+future. This ability to change (to handle protocol updates and extensions)
+is an important factor in the success of protocol deployment, as discussed
+in {{?SUCCESS=RFC5218}}.
 
-Greasing, a technique initially designed for TLS {{?GREASE=RFC8701}} and later
-adopted by other protocols such as QUIC {{?QUIC=RFC9000}}, can help support the
-long-term viability of protocol extension points. In these protocols, extension
-codepoints are reserved only for greasing and when received must be ignored.
-Greasing is suitable for many protocols but not all; {{Section 3.3 of
+Active use of protocol features and extensions often requires intentional
+efforts beyond what would organically occur in deployments. Some extension
+points do not frequently see new values being used, but are still important
+to be usable in the future. Some patterns of protocol usage might be
+relatively static without specific efforts to ensure that they can change
+in the future.
+
+One key techique for intentional use is "grease", or "greasing".
+Greasing was initially designed for TLS {{?GREASE=RFC8701}} and was later
+adopted by other protocols such as QUIC {{?QUIC=RFC9000}}. In these protocols,
+extension codepoints are reserved only for greasing and must be ignored
+upon receipt. Greasing is suitable for many protocols but not all; {{Section 3.3 of
 ?VIABILITY=RFC9170}} discusses the applicability and limitations of greasing.
-{{grease-considerations}} provides additional protocol maintenance
-considerations.
 
-Applications are built with the intent of serving user needs {{?END-USERS=RFC8890}}, which might only
-require support for a subset of protocol features. Adapting to changing user
-needs is a maintenance activity. For example, an HTTP deployment focused on
-downloads might want to add support for uploads. Changing use of the application
-and transport protocol features can affect the deployment's network traffic
-profile. If expectations have been formed around historical patterns of use
-i.e., ossification, introducing change might lead to deployment problems. {{variability}} presents
+While it is becoming more common, designing and applying grease is not
+necessarily trivial. There are best practices, and some common pitfalls to
+avoid, that have been developed by the protocols using grease thus far.
+{{grease-considerations}} takes these learnings and provides considerations
+for new protocol design and deployment.
+
+Separate from greasing using reserved values, protocol deployments can
+intentionally add variability to ensure that network endpoints and
+middleboxes do not end up ossifying certain patterns. For example, an HTTP
+deployment focused on downloads might want to add support for uploads.
+Changing use of the application and transport protocol features can affect
+the deployment's network traffic profile. If expectations have been formed
+around historical patterns of use, i.e., ossification, introducing change
+might lead to deployment problems. {{variability}} presents
 considerations about how intentionally increasing the variability of protocols
 can mitigate some of these concerns.
 
@@ -205,7 +221,7 @@ designers and implementers about how to approach these problems.
 
 # Security Considerations
 
-The considerations in {{MAINTENANCE}}, {{GREASE}}, {{END-USERS}}, and
+The considerations in {{?MAINTENANCE=RFC9413}}, {{GREASE}}, {{?END-USERS=RFC8890}}, and
 {{VIABILITY}} all apply to the topics discussed in this document.
 
 The use of protocol features, extensions, and versions can already allow

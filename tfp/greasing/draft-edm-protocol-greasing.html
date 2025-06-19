@@ -4,24 +4,28 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>Maintaining Protocols Using Grease and Variability</title>
+<title>Considerations For Maintaining Protocols Using Grease and Variability</title>
 <meta content="Lucas Pardue" name="author">
-<meta content="
-       Long-term interoperability of protocols is an important goal of the network
-standards process. Deployment success can depend on supporting change, which
-can include modifying how the protocol is used, extending the protocol, or
-replacing the protocol. This document presents concepts, considerations, and
-techniques related to protocol maintenance, such as greasing or variability. The
-intended audience is protocol designers and implementers. 
-    " name="description">
-<meta content="xml2rfc 3.28.1" name="generator">
+<meta content="Tommy Pauly" name="author">
+<meta content='
+       Active use and maintenance of network protocols is an important way to
+ensure that protocols remain interoperable and extensible over time.
+Techniques such as intentionally exercising extension points with
+non-meaningful values (referred to as "grease") or adding variability
+to how protocol elements are used help generate this active use. 
+       Grease and variability are used across various protocols developed
+by the IETF. This document discusses considerations when designing
+and deploying grease and variability mechanisms, and provides
+advice for making them as effective as possible. 
+    ' name="description">
+<meta content="xml2rfc 3.29.0" name="generator">
 <meta content="next generation" name="keyword">
 <meta content="unicorn" name="keyword">
 <meta content="sparkling distributed ledger" name="keyword">
 <meta content="draft-edm-protocol-greasing-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.1
-    Python 3.12.10
+  xml2rfc 3.29.0
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
@@ -30,7 +34,7 @@ intended audience is protocol designers and implementers.
     platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
+    requests 2.32.4
     setuptools 80.9.0
     wcwidth 0.2.13
 -->
@@ -1054,8 +1058,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <td class="right">June 2025</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Pardue</td>
-<td class="center">Expires 7 December 2025</td>
+<td class="left">Pardue &amp; Pauly</td>
+<td class="center">Expires 21 December 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,30 +1072,37 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-edm-protocol-greasing-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-06-05" class="published">5 June 2025</time>
+<time datetime="2025-06-19" class="published">19 June 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-12-07">7 December 2025</time></dd>
-<dt class="label-authors">Author:</dt>
+<dd class="expires"><time datetime="2025-12-21">21 December 2025</time></dd>
+<dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
       <div class="author-name">L. Pardue</div>
 <div class="org">Cloudflare</div>
 </div>
+<div class="author">
+      <div class="author-name">T. Pauly</div>
+<div class="org">Apple</div>
+</div>
 </dd>
 </dl>
 </div>
-<h1 id="title">Maintaining Protocols Using Grease and Variability</h1>
+<h1 id="title">Considerations For Maintaining Protocols Using Grease and Variability</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">Long-term interoperability of protocols is an important goal of the network
-standards process. Deployment success can depend on supporting change, which
-can include modifying how the protocol is used, extending the protocol, or
-replacing the protocol. This document presents concepts, considerations, and
-techniques related to protocol maintenance, such as greasing or variability. The
-intended audience is protocol designers and implementers.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">Active use and maintenance of network protocols is an important way to
+ensure that protocols remain interoperable and extensible over time.
+Techniques such as intentionally exercising extension points with
+non-meaningful values (referred to as "grease") or adding variability
+to how protocol elements are used help generate this active use.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">Grease and variability are used across various protocols developed
+by the IETF. This document discusses considerations when designing
+and deploying grease and variability mechanisms, and provides
+advice for making them as effective as possible.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1123,7 +1134,7 @@ intended audience is protocol designers and implementers.<a href="#section-abstr
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1209,7 +1220,7 @@ intended audience is protocol designers and implementers.<a href="#section-abstr
             <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1220,28 +1231,39 @@ intended audience is protocol designers and implementers.<a href="#section-abstr
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Long-term interoperability of protocols is an important goal of the network
-standards process <span>[<a href="#MAINTENANCE" class="cite xref">MAINTENANCE</a>]</span>. Protocol deployment success
-<span>[<a href="#SUCCESS" class="cite xref">SUCCESS</a>]</span> can depend on supporting change, which
-can include modifying how the protocol is used, extending the protocol, or
-replacing the protocol.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">Greasing, a technique initially designed for TLS <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span> and later
-adopted by other protocols such as QUIC <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span>, can help support the
-long-term viability of protocol extension points. In these protocols, extension
-codepoints are reserved only for greasing and when received must be ignored.
-Greasing is suitable for many protocols but not all; <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> discusses the applicability and limitations of greasing.
-<a href="#grease-considerations" class="auto internal xref">Section 3</a> provides additional protocol maintenance
-considerations.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">Applications are built with the intent of serving user needs <span>[<a href="#END-USERS" class="cite xref">END-USERS</a>]</span>, which might only
-require support for a subset of protocol features. Adapting to changing user
-needs is a maintenance activity. For example, an HTTP deployment focused on
-downloads might want to add support for uploads. Changing use of the application
-and transport protocol features can affect the deployment's network traffic
-profile. If expectations have been formed around historical patterns of use
-i.e., ossification, introducing change might lead to deployment problems. <a href="#variability" class="auto internal xref">Section 4</a> presents
+<p id="section-1-1"><span><a href="https://rfc-editor.org/rfc/rfc9170#section-3" class="relref">Section 3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> discusses "active use" as a category
+of techniques that protocol designers and implementers employ to ensure
+that protocol extension mechanisms are exercised and can be used in the
+future. This ability to change (to handle protocol updates and extensions)
+is an important factor in the success of protocol deployment, as discussed
+in <span>[<a href="#SUCCESS" class="cite xref">SUCCESS</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Active use of protocol features and extensions often requires intentional
+efforts beyond what would organically occur in deployments. Some extension
+points do not frequently see new values being used, but are still important
+to be usable in the future. Some patterns of protocol usage might be
+relatively static without specific efforts to ensure that they can change
+in the future.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">One key techique for intentional use is "grease", or "greasing".
+Greasing was initially designed for TLS <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span> and was later
+adopted by other protocols such as QUIC <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span>. In these protocols,
+extension codepoints are reserved only for greasing and must be ignored
+upon receipt. Greasing is suitable for many protocols but not all; <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> discusses the applicability and limitations of greasing.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">While it is becoming more common, designing and applying grease is not
+necessarily trivial. There are best practices, and some common pitfalls to
+avoid, that have been developed by the protocols using grease thus far.
+<a href="#grease-considerations" class="auto internal xref">Section 3</a> takes these learnings and provides considerations
+for new protocol design and deployment.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">Separate from greasing using reserved values, protocol deployments can
+intentionally add variability to ensure that network endpoints and
+middleboxes do not end up ossifying certain patterns. For example, an HTTP
+deployment focused on downloads might want to add support for uploads.
+Changing use of the application and transport protocol features can affect
+the deployment's network traffic profile. If expectations have been formed
+around historical patterns of use, i.e., ossification, introducing change
+might lead to deployment problems. <a href="#variability" class="auto internal xref">Section 4</a> presents
 considerations about how intentionally increasing the variability of protocols
-can mitigate some of these concerns.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">Protocol extensions can provide longevity in the face of changing needs or
+can mitigate some of these concerns.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">Protocol extensions can provide longevity in the face of changing needs or
 environment. However, a replacment protocol might be preferred when extensions
 are not adequate or feasible. A protocol replacement could aggregate common
 extensions and possibly make them mandatory, effectively defining a new baseline
@@ -1249,7 +1271,7 @@ that can simplify deployment and interoperability. A replacement protocol
 version may or may not be compatible with other versions. A protocol may or may
 not have a mechanism for version selection or agility. <a href="#versions" class="auto internal xref">Section 5</a> presents
 considerations about designing for and/or implementing version negotiation and
-migration.<a href="#section-1-4" class="pilcrow">¶</a></p>
+migration.<a href="#section-1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1583,8 +1605,8 @@ contributors at those meetings are thanked.<a href="#appendix-A-1" class="pilcro
 </div>
 <div id="authors-addresses">
 <section id="appendix-B">
-      <h2 id="name-authors-address">
-<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Lucas Pardue</span></div>
@@ -1592,6 +1614,14 @@ contributors at those meetings are thanked.<a href="#appendix-A-1" class="pilcro
 <div class="email">
 <span>Email:</span>
 <a href="mailto:lucas@lucaspardue.com" class="email">lucas@lucaspardue.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Tommy Pauly</span></div>
+<div dir="auto" class="left"><span class="org">Apple</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:tpauly@apple.com" class="email">tpauly@apple.com</a>
 </div>
 </address>
 </section>

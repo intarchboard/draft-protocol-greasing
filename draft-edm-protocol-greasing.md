@@ -244,10 +244,24 @@ The correct logic for the above scenario would be to check for the value being 1
 then explicitly check for the value being 3 or 4 (to handle the error), with a
 catch-all for ignored values.
 
+In pseudo-code, the correct logic would work like this, where the grease values
+would fall into the final `else` case as ignored values.
+
+~~~
+if is_valid_case_one(value):
+  handle_case_one()
+else if is_valid_case_two(value):
+  handle_case_two()
+else if is_known_invalid_case(value):
+  handle_error()
+else:
+  ignore_value()
+~~~
+
 Implementations need to take care when implementing such logic. Protocol specification
 designers should emphasize that grease values must not be special-cased. It is also
-recommended to provide example logic or pseudocode in specifications as guidance to
-implementers on how to correctly process protocol elements like these.
+recommended to provide example logic or pseudocode in specifications, similar to the example
+above, as guidance to implementers on how to correctly process protocol elements like these.
 
 # Considerations for Increasing Protocol Variability {#variability}
 

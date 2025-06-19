@@ -122,7 +122,7 @@ More background to this approach is given in {{Section 3.3 of ?VIABILITY=RFC9170
 This section provides some practical considerations for how to define and
 use greasing, and avoid possible pitfalls.
 
-## Define and Register Grease Value Ranges
+## Define and Register Grease Value Ranges {#define}
 
 Many protocols that use greasing have a limited set of possible values or
 codepoints that can be used in a particular extension point. A common
@@ -138,7 +138,11 @@ The following are some examples of protocols that have reserved codepoints for g
 The specifics of how to reserve values depends on the nature of the
 available space. For protocols with large possible spaces, it is useful
 to have a large set of grease values to increase the chance that
-receiver greasing requirements are exercised.
+receiver greasing requirements are exercised. The specific
+size and distribution of the grease range needs to accommodate the
+protocol constraints. For instance, protocols that use 8-bit fields may
+find it too costly to dedicate many grease values, while 32-bit or 64-bit
+fields are likely to have no such limitations.
 
 It is recommended to use an algorithm to reserving large sets of values.
 For example, {{QUIC}} uses and algorithm of `31 * N + 27` to allocate
@@ -191,10 +195,8 @@ alternatively, a single client could pick a specific grease value to use, while
 other clients pick other values.
 
 In order to support picking unpredictable values, the set of reserved values
-should be large. However, the specific size and distribution
-of the grease range needs to accommodate the protocol constraints. For instance,
-protocols that use 8-bit fields may find it too costly to dedicate many grease
-values, while 32-bit or 64-bit fields are likely to have no such limitations.
+should be large, when possible. See {{define}} for a discussion of how to allocate
+grease values.
 
 ## Use Grease Values Unpredictably
 

@@ -109,72 +109,176 @@ migration.
 
 {::boilerplate bcp14-tagged}
 
-# Considerations for Applying Greasing {#grease-considerations}
+# Considerations for Greasing Protocols {#grease-considerations}
 
 Greasing can take many forms, depending on the protocol and the nature of its
-extension points.
+extension points. The common pattern across forms of greasing is that values
+are generated that have no useful meaning to the protocol and are meant to
+be ignored upon receipt. Such values used for the purpose of greasing are
+referred to as "grease values" within this document.
 
-Many protocols register values, codepoints, or numbers in a limited space. A
-common approach that has developed in more recent protocols is to reserve a subset of the space for greasing (see
-{{GREASE}}, {{Section 18.1 of QUIC}}, or {{Section 7.2.8 of RFC9114}}). Values
-reserved for the purpose of greasing are herein referred to as grease values.
-Implementations that receive grease values are required to ignore them. More
-background to this approach is given in {{Section 3.3 of ?VIABILITY=RFC9170}}.
-This section provides concrete suggestions for its usage.
+More background to this approach is given in {{Section 3.3 of ?VIABILITY=RFC9170}}.
 
-## Don't Handle Grease Values as a Special Case
+This section provides some practical considerations for how to define and
+use greasing, and avoid possible pitfalls.
 
-It is assumed that endpoints should implement robust and broad extension
-handling. A receiver or a parser implementation should not treat grease values
-as individually special. Instead of identifying each grease value explicitly,
-it is better to have a "catch all" mechanism that can handle receipt of unknown
-extensions, whether grease values or not, gracefully or without error.
+## Define and Register Grease Value Ranges {#define}
+
+Many protocols that use greasing have a limited set of possible values or
+codepoints that can be used in a particular extension point. A common
+approach is to reserve a subset of the registrable space for greasing.
+
+The following are some examples of protocols that have reserved codepoints for grease values:
+
+- TLS ({{GREASE}})
+- QUIC ({{Section 18.1 of QUIC}})
+- HTTP/3 ({{Section 7.2.8 of RFC9114}})
+- Privacy Pass ({{?PRIVACYPASS=RFC9577}})
+
+The specifics of how to reserve values depends on the nature of the
+available space. For protocols with large possible spaces, it is useful
+to have a large set of grease values to increase the chance that
+receiver greasing requirements are exercised. The specific
+size and distribution of the grease range needs to accommodate the
+protocol constraints. For instance, protocols that use 8-bit fields may
+find it too costly to dedicate many grease values, while 32-bit or 64-bit
+fields are likely to have no such limitations.
+
+It is recommended to use an algorithm to reserving large sets of values.
+For example, {{QUIC}} uses and algorithm of `31 * N + 27` to allocate
+transport parameters grease values.
+
+One possible problem with some algorithms is how they will spread out
+values over the space, and impact the ability to use or reserve contiguous
+blocks of non-grease values. It is common for protocol extension designers
+to want to reserve contiguous blocks of codepoints in order to aid
+iteration and experimentation. Reserved grease values can end up being
+in spaces that would otherwise be used for such contiguous blocks.
+
+Codepoints being used for new reservations, or experimentation, need
+to be careful to not unintentionally use grease values. Doing so could
+lead to interoperability failures.
+
+### Recommendations for IANA Considerations {#iana-tips}
+
+IANA registries that contain reserved grease values must indicate that
+the values are reserved. The specifics of how to represent the reservations
+is up to the documents that define the registries.
+
+Some registries list out the reserved grease values specifically, marked as
+"Reserved". For example, the TLS registry uses this approach
+(https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml).
+
+If an algorithm or pattern is used to define grease values, it is recommended
+when possible to instead only define a single entry for the entire grease value
+set. This entry should include the pattern or algorithm. This approach is used by
+the QUIC registry (https://www.iana.org/assignments/quic/quic.xhtml) and the
+HTTP/3 registry (https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types)
+
+Grease values must not be used or registered for any other purpose. This is in
+contrast to other potentially "reserved" values that might be reused or
+claimed for a new purpose in the future. To avoid confusion, it is recommended
+to label the reservation with a clear identifier, such as "reserved for greasing".
 
 ## Use Unpredictable Grease Values
 
-It is recommended that senders pick an unpredictable grease value to include in
-relevant protocol elements. This ensures that receiver greasing requirements are
-exercised. Using predictable grease values risks ossification. To increase the
-variety of grease values, it is advised to reserve a large range. However, the
-specific size and distribution of the grease range needs to accommodate the
-protocol constraints. For instance, protocols that use 8-bit fields may find it
-too costly to dedicate many grease values, while 32-bit or 64-bit fields are
-likely to have no limitations.
+In order to gain the benefits of active use and avoid ossification, grease values
+need to be sent in ways that won't become a predictable pattern that implementations
+and deployments ossify around.
 
-## Use Grease Values at Unpredictable Times
+Implementations that generate grease values should pick unpredictable entries
+from the set of reserved grease values. It is most important that values be
+unpredictable across the set of all protocol participants for particular deployments.
+This can be achieved in multiple ways: for example, an individual client device
+might pick random values from the grease value space on each interaction;
+alternatively, a single client could pick a specific grease value to use, while
+other clients pick other values.
 
-It is recommended that senders use grease values at unpredictable times or
-sequence points during protocol interactions. This avoids receivers
-unintentionally ossifying on the occurrence of greasing in the temporal or
-spatial domain.
+In order to support picking unpredictable values, the set of reserved values
+should be large, when possible. See {{define}} for a discussion of how to allocate
+grease values.
 
-## Define and Register Grease Value Ranges
+## Use Grease Values Unpredictably
 
-It is recommended that large grease value sets are allocated in protocol
-documents by defining a unique algorithm, to increase the chance that
-receiver greasing requirements are exercised. However, the choice of algorithm
-needs to consider the spread of values and the size of contiguous blocks between
-grease values. It is common for protocol extension designers to want to reserve
-a contiguous block of code points in order to aid iteration and experimentation.
-Small contiguous blocks increase the chance that such reservations might
-unintentionally use grease values, which could lead to interoperability
-failures.
+In addition to selecting unpredictable values, the inclusion of grease itself
+can be made unpredictable. Implementations can vary their behavior by including
+no grease values, one grease value, or multiple grease values for a given protocol
+extension point.
 
-### Effectively Instructing IANA about grease {#iana-tips}
+How consistently an frequently to use grease values is a choice that implementations
+and deployments need to consider and weigh against several factors.
 
-Protocol designers might ask IANA to create new registries for their extension
-points. When greasing, it is recommended that only a single entry for the entire
-grease value set is registered. When an algorithm has been used, it should be
-included in the entry; see for example
-https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types.
+Deployments of greasing should consider how they expect errors exposed by
+using grease values to be noticed and measured.
 
-Grease values must not be used or registered for any other purpose. Registries
-should include a label to identify the protected grease value range; a label of
-"reserved" may be confused with other ranges that are reserved for private or
-experimental extensions. An implementer that conflates these two meanings may
-cause a new class of interoperability failure. Therefore a label such as
-"reserved for greasing" may help to avoid the confusion.
+If grease values are sent too infrequently, so that errors due to sending
+grease values blend in with the noise of other errors, it is likely that
+no one will notice failures, thus defeating the purpose of greasing.
+When grease values are sent more frequently, they will be noticed more.
+However, if grease values are sent too consistently, receiver implementations
+might end up special-casing grease values.
 
+The patterns for sending grease values can be made more effective by
+coordinating between devices sending the values. One example of coordination
+is having a "flag day" where implementations start sending grease values
+broadly, and measure to see where errors occur.
+
+## Don't Handle Grease Values as a Special Case
+
+Implementations that read and process grease values must ignore the values.
+"Ignoring" a value upon receipt can have multiple dimensions, however.
+Simply not performing any protocol action based on the grease value isn't
+enough to ensure that the protocol will remain extensible. The ignoring
+must be handled as a general case of "unknown" or "unhandled" values,
+not as a special case for ignored grease values.
+
+This means that grease values can only meaningfully be used for protocol elements
+where all unknown values are ignored by default. (Protocols may have ways
+to indicate that some specific values are "mandatory" or "critical" in order
+to have the protocol interaction succeed, but these must not be marked
+for any grease values.)
+
+One pitfall that implementations may encounter when building logic to
+handle the receipt of grease values is related to cases where some recognized
+non-grease values need to be handled as errors. Consider the following abstract
+example:
+
+1. A protocol element has values 1, 2, 3, and 4 defined and registered for
+use. The values 13 and 42 are reserved as grease values.
+1. In a specific scenario, only the known values 1 and 2 are valid; 3 and 4
+are considered errors.
+1. An implementation might naively choose to check for the value being 1 or 2, handle
+those cases, and send an error otherwise.
+1. When grease values are used, the previous logic will flag an error for the grease value.
+If this is detected, implementations might choose to work around this by updating
+the logic to check for the value being 1 or 2, then check for grease values to ignore,
+and then send an error otherwise. This logic is also incorrect since it doesn't
+allow for new extensibility.
+
+The correct logic for the above scenario would be to check for the value being 1 or 2,
+then explicitly check for the value being 3 or 4 (to handle the error), with a
+catch-all for ignored values.
+
+In pseudo-code, the correct logic would work like this, where the grease values
+would fall into the final `else` case as ignored values.
+
+~~~
+if is_valid_case_one(value):
+  handle_case_one()
+else if is_valid_case_two(value):
+  handle_case_two()
+else if is_known_invalid_case(value):
+  handle_error()
+else:
+  ignore_value()
+~~~
+
+Implementations need to take care when implementing such logic. Protocol specification
+designers should emphasize that grease values must not be special-cased. It is also
+recommended to provide example logic or pseudocode in specifications, similar to the example
+above, as guidance to implementers on how to correctly process protocol elements like these.
+Documents can also provide test vectors, when applicable, that include grease values
+to ensure they are processed correctly.
 
 # Considerations for Increasing Protocol Variability {#variability}
 

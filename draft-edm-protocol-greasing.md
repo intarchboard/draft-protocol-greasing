@@ -277,6 +277,8 @@ Implementations need to take care when implementing such logic. Protocol specifi
 designers should emphasize that grease values must not be special-cased. It is also
 recommended to provide example logic or pseudocode in specifications, similar to the example
 above, as guidance to implementers on how to correctly process protocol elements like these.
+Documents can also provide test vectors, when applicable, that include grease values
+to ensure they are processed correctly.
 
 # Considerations for Increasing Protocol Variability {#variability}
 

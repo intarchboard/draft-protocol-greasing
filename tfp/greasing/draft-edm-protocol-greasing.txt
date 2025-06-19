@@ -258,8 +258,25 @@ Table of Contents
    their behavior by including no grease values, one grease value, or
    multiple grease values for a given protocol extension point.
 
-   TODO: Discuss the implications of how often grease values are used;
-   using very infrequently and very frequently can both be ossifying
+   How consistently an frequently to use grease values is a choice that
+   implementations and deployments need to consider and weigh against
+   several factors.
+
+   Deployments of greasing should consider how they expect errors
+   exposed by using grease values to be noticed and measured.
+
+   If grease values are sent too infrequently, so that errors due to
+   sending grease values blend in with the noise of other errors, it is
+   likely that no one will notice failures, thus defeating the purpose
+   of greasing.  When grease values are sent more frequently, they will
+   be noticed more.  However, if grease values are sent too
+   consistently, receiver implementations might end up special-casing
+   grease values.
+
+   The patterns for sending grease values can be made more effective by
+   coordinating between devices sending the values.  One example of
+   coordination is having a "flag day" where implementations start
+   sending grease values broadly, and measure to see where errors occur.
 
 3.4.  Don't Handle Grease Values as a Special Case
 

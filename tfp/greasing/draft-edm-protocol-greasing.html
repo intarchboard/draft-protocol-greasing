@@ -1298,7 +1298,7 @@ referred to as "grease values" within this document.<a href="#section-3-1" class
 <p id="section-3-2">More background to this approach is given in <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">This section provides some practical considerations for how to define and
 use greasing, and avoid possible pitfalls.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<div id="define-and-register-grease-value-ranges">
+<div id="define">
 <section id="section-3.1">
         <h3 id="name-define-and-register-grease-">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-define-and-register-grease-" class="section-name selfRef">Define and Register Grease Value Ranges</a>
@@ -1324,7 +1324,11 @@ approach is to reserve a subset of the registrable space for greasing.<a href="#
 <p id="section-3.1-4">The specifics of how to reserve values depends on the nature of the
 available space. For protocols with large possible spaces, it is useful
 to have a large set of grease values to increase the chance that
-receiver greasing requirements are exercised.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
+receiver greasing requirements are exercised. The specific
+size and distribution of the grease range needs to accommodate the
+protocol constraints. For instance, protocols that use 8-bit fields may
+find it too costly to dedicate many grease values, while 32-bit or 64-bit
+fields are likely to have no such limitations.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
 <p id="section-3.1-5">It is recommended to use an algorithm to reserving large sets of values.
 For example, <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span> uses and algorithm of <code>31 * N + 27</code> to allocate
 transport parameters grease values.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
@@ -1377,10 +1381,8 @@ might pick random values from the grease value space on each interaction;
 alternatively, a single client could pick a specific grease value to use, while
 other clients pick other values.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
 <p id="section-3.2-3">In order to support picking unpredictable values, the set of reserved values
-should be large. However, the specific size and distribution
-of the grease range needs to accommodate the protocol constraints. For instance,
-protocols that use 8-bit fields may find it too costly to dedicate many grease
-values, while 32-bit or 64-bit fields are likely to have no such limitations.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
+should be large, when possible. See <a href="#define" class="auto internal xref">Section 3.1</a> for a discussion of how to allocate
+grease values.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="use-grease-values-unpredictably">

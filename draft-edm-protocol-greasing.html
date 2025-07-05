@@ -18,14 +18,14 @@ by the IETF. This document discusses considerations when designing
 and deploying grease and variability mechanisms, and provides
 advice for making them as effective as possible. 
     ' name="description">
-<meta content="xml2rfc 3.28.1" name="generator">
+<meta content="xml2rfc 3.29.0" name="generator">
 <meta content="next generation" name="keyword">
 <meta content="unicorn" name="keyword">
 <meta content="sparkling distributed ledger" name="keyword">
 <meta content="draft-edm-protocol-greasing-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.1
-    Python 3.12.10
+  xml2rfc 3.29.0
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
@@ -34,7 +34,7 @@ advice for making them as effective as possible.
     platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
+    requests 2.32.4
     setuptools 80.9.0
     wcwidth 0.2.13
 -->
@@ -1055,11 +1055,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Protocol Greasing</td>
-<td class="right">June 2025</td>
+<td class="right">July 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Pardue &amp; Pauly</td>
-<td class="center">Expires 9 December 2025</td>
+<td class="center">Expires 6 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1072,12 +1072,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-edm-protocol-greasing-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-06-07" class="published">7 June 2025</time>
+<time datetime="2025-07-05" class="published">5 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-12-09">9 December 2025</time></dd>
+<dd class="expires"><time datetime="2026-01-06">6 January 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1134,7 +1134,7 @@ advice for making them as effective as possible.<a href="#section-abstract-2" cl
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 9 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1167,24 +1167,24 @@ advice for making them as effective as possible.<a href="#section-abstract-2" cl
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-considerations-for-applying" class="internal xref">Considerations for Applying Greasing</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-considerations-for-greasing" class="internal xref">Considerations for Greasing Protocols</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-dont-handle-grease-values-a" class="internal xref">Don't Handle Grease Values as a Special Case</a></p>
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-define-and-register-grease-" class="internal xref">Define and Register Grease Value Ranges</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
+                    <p id="section-toc.1-1.3.2.1.2.1.1" class="keepWithNext"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-recommendations-for-iana-co" class="internal xref">Recommendations for IANA Considerations</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-use-unpredictable-grease-va" class="internal xref">Use Unpredictable Grease Values</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-use-grease-values-at-unpred" class="internal xref">Use Grease Values at Unpredictable Times</a></p>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-use-grease-values-unpredict" class="internal xref">Use Grease Values Unpredictably</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-define-and-register-grease-" class="internal xref">Define and Register Grease Value Ranges</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4.2.1">
-                    <p id="section-toc.1-1.3.2.4.2.1.1"><a href="#section-3.4.1" class="auto internal xref">3.4.1</a>.  <a href="#name-effectively-instructing-ian" class="internal xref">Effectively Instructing IANA about grease</a></p>
-</li>
-                </ul>
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-dont-handle-grease-values-a" class="internal xref">Don't Handle Grease Values as a Special Case</a></p>
 </li>
             </ul>
 </li>
@@ -1287,28 +1287,82 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 </div>
 <div id="grease-considerations">
 <section id="section-3">
-      <h2 id="name-considerations-for-applying">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-considerations-for-applying" class="section-name selfRef">Considerations for Applying Greasing</a>
+      <h2 id="name-considerations-for-greasing">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-considerations-for-greasing" class="section-name selfRef">Considerations for Greasing Protocols</a>
       </h2>
 <p id="section-3-1">Greasing can take many forms, depending on the protocol and the nature of its
-extension points.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">Many protocols register values, codepoints, or numbers in a limited space. A
-common approach that has developed in more recent protocols is to reserve a subset of the space for greasing (see
-<span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span>, <span><a href="https://rfc-editor.org/rfc/rfc9000#section-18.1" class="relref">Section 18.1</a> of [<a href="#QUIC" class="cite xref">QUIC</a>]</span>, or <span><a href="https://rfc-editor.org/rfc/rfc9114#section-7.2.8" class="relref">Section 7.2.8</a> of [<a href="#RFC9114" class="cite xref">HTTP/3</a>]</span>). Values
-reserved for the purpose of greasing are herein referred to as grease values.
-Implementations that receive grease values are required to ignore them. More
-background to this approach is given in <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>.
-This section provides concrete suggestions for its usage.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<div id="dont-handle-grease-values-as-a-special-case">
+extension points. The common pattern across forms of greasing is that values
+are generated that have no useful meaning to the protocol and are meant to
+be ignored upon receipt. Such values used for the purpose of greasing are
+referred to as "grease values" within this document.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">More background to this approach is given in <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">This section provides some practical considerations for how to define and
+use greasing, and avoid possible pitfalls.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<div id="define">
 <section id="section-3.1">
-        <h3 id="name-dont-handle-grease-values-a">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-dont-handle-grease-values-a" class="section-name selfRef">Don't Handle Grease Values as a Special Case</a>
+        <h3 id="name-define-and-register-grease-">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-define-and-register-grease-" class="section-name selfRef">Define and Register Grease Value Ranges</a>
         </h3>
-<p id="section-3.1-1">It is assumed that endpoints should implement robust and broad extension
-handling. A receiver or a parser implementation should not treat grease values
-as individually special. Instead of identifying each grease value explicitly,
-it is better to have a "catch all" mechanism that can handle receipt of unknown
-extensions, whether grease values or not, gracefully or without error.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-1">Many protocols that use greasing have a limited set of possible values or
+codepoints that can be used in a particular extension point. A common
+approach is to reserve a subset of the registrable space for greasing.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">The following are some examples of protocols that have reserved codepoints for grease values:<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1-3.1">
+            <p id="section-3.1-3.1.1">TLS (<span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span>)<a href="#section-3.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.1-3.2">
+            <p id="section-3.1-3.2.1">QUIC (<span><a href="https://rfc-editor.org/rfc/rfc9000#section-18.1" class="relref">Section 18.1</a> of [<a href="#QUIC" class="cite xref">QUIC</a>]</span>)<a href="#section-3.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.1-3.3">
+            <p id="section-3.1-3.3.1">HTTP/3 (<span><a href="https://rfc-editor.org/rfc/rfc9114#section-7.2.8" class="relref">Section 7.2.8</a> of [<a href="#RFC9114" class="cite xref">HTTP/3</a>]</span>)<a href="#section-3.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.1-3.4">
+            <p id="section-3.1-3.4.1">Privacy Pass (<span>[<a href="#PRIVACYPASS" class="cite xref">PRIVACYPASS</a>]</span>)<a href="#section-3.1-3.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-3.1-4">The specifics of how to reserve values depends on the nature of the
+available space. For protocols with large possible spaces, it is useful
+to have a large set of grease values to increase the chance that
+receiver greasing requirements are exercised. The specific
+size and distribution of the grease range needs to accommodate the
+protocol constraints. For instance, protocols that use 8-bit fields may
+find it too costly to dedicate many grease values, while 32-bit or 64-bit
+fields are likely to have no such limitations.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
+<p id="section-3.1-5">It is recommended to use an algorithm to reserving large sets of values.
+For example, <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span> uses and algorithm of <code>31 * N + 27</code> to allocate
+transport parameters grease values.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.1-6">One possible problem with some algorithms is how they will spread out
+values over the space, and impact the ability to use or reserve contiguous
+blocks of non-grease values. It is common for protocol extension designers
+to want to reserve contiguous blocks of codepoints in order to aid
+iteration and experimentation. Reserved grease values can end up being
+in spaces that would otherwise be used for such contiguous blocks.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
+<p id="section-3.1-7">Codepoints being used for new reservations, or experimentation, need
+to be careful to not unintentionally use grease values. Doing so could
+lead to interoperability failures.<a href="#section-3.1-7" class="pilcrow">¶</a></p>
+<div id="iana-tips">
+<section id="section-3.1.1">
+          <h4 id="name-recommendations-for-iana-co">
+<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-recommendations-for-iana-co" class="section-name selfRef">Recommendations for IANA Considerations</a>
+          </h4>
+<p id="section-3.1.1-1">IANA registries that contain reserved grease values must indicate that
+the values are reserved. The specifics of how to represent the reservations
+is up to the documents that define the registries.<a href="#section-3.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-2">Some registries list out the reserved grease values specifically, marked as
+"Reserved". For example, the TLS registry uses this approach
+(https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml).<a href="#section-3.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-3">If an algorithm or pattern is used to define grease values, it is recommended
+when possible to instead only define a single entry for the entire grease value
+set. This entry should include the pattern or algorithm. This approach is used by
+the QUIC registry (https://www.iana.org/assignments/quic/quic.xhtml) and the
+HTTP/3 registry (https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types)<a href="#section-3.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-4">Grease values must not be used or registered for any other purpose. This is in
+contrast to other potentially "reserved" values that might be reused or
+claimed for a new purpose in the future. To avoid confusion, it is recommended
+to label the reservation with a clear identifier, such as "reserved for greasing".<a href="#section-3.1.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="use-unpredictable-grease-values">
@@ -1316,59 +1370,110 @@ extensions, whether grease values or not, gracefully or without error.<a href="#
         <h3 id="name-use-unpredictable-grease-va">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-use-unpredictable-grease-va" class="section-name selfRef">Use Unpredictable Grease Values</a>
         </h3>
-<p id="section-3.2-1">It is recommended that senders pick an unpredictable grease value to include in
-relevant protocol elements. This ensures that receiver greasing requirements are
-exercised. Using predictable grease values risks ossification. To increase the
-variety of grease values, it is advised to reserve a large range. However, the
-specific size and distribution of the grease range needs to accommodate the
-protocol constraints. For instance, protocols that use 8-bit fields may find it
-too costly to dedicate many grease values, while 32-bit or 64-bit fields are
-likely to have no limitations.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">In order to gain the benefits of active use and avoid ossification, grease values
+need to be sent in ways that won't become a predictable pattern that implementations
+and deployments ossify around.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">Implementations that generate grease values should pick unpredictable entries
+from the set of reserved grease values. It is most important that values be
+unpredictable across the set of all protocol participants for particular deployments.
+This can be achieved in multiple ways: for example, an individual client device
+might pick random values from the grease value space on each interaction;
+alternatively, a single client could pick a specific grease value to use, while
+other clients pick other values.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2-3">In order to support picking unpredictable values, the set of reserved values
+should be large, when possible. See <a href="#define" class="auto internal xref">Section 3.1</a> for a discussion of how to allocate
+grease values.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="use-grease-values-at-unpredictable-times">
+<div id="use-grease-values-unpredictably">
 <section id="section-3.3">
-        <h3 id="name-use-grease-values-at-unpred">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-use-grease-values-at-unpred" class="section-name selfRef">Use Grease Values at Unpredictable Times</a>
+        <h3 id="name-use-grease-values-unpredict">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-use-grease-values-unpredict" class="section-name selfRef">Use Grease Values Unpredictably</a>
         </h3>
-<p id="section-3.3-1">It is recommended that senders use grease values at unpredictable times or
-sequence points during protocol interactions. This avoids receivers
-unintentionally ossifying on the occurrence of greasing in the temporal or
-spatial domain.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-1">In addition to selecting unpredictable values, the inclusion of grease itself
+can be made unpredictable. Implementations can vary their behavior by including
+no grease values, one grease value, or multiple grease values for a given protocol
+extension point.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">How consistently an frequently to use grease values is a choice that implementations
+and deployments need to consider and weigh against several factors.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">Deployments of greasing should consider how they expect errors exposed by
+using grease values to be noticed and measured.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.3-4">If grease values are sent too infrequently, so that errors due to sending
+grease values blend in with the noise of other errors, it is likely that
+no one will notice failures, thus defeating the purpose of greasing.
+When grease values are sent more frequently, they will be noticed more.
+However, if grease values are sent too consistently, receiver implementations
+might end up special-casing grease values.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
+<p id="section-3.3-5">The patterns for sending grease values can be made more effective by
+coordinating between devices sending the values. One example of coordination
+is having a "flag day" where implementations start sending grease values
+broadly, and measure to see where errors occur.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="define-and-register-grease-value-ranges">
+<div id="dont-handle-grease-values-as-a-special-case">
 <section id="section-3.4">
-        <h3 id="name-define-and-register-grease-">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-define-and-register-grease-" class="section-name selfRef">Define and Register Grease Value Ranges</a>
+        <h3 id="name-dont-handle-grease-values-a">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-dont-handle-grease-values-a" class="section-name selfRef">Don't Handle Grease Values as a Special Case</a>
         </h3>
-<p id="section-3.4-1">It is recommended that large grease value sets are allocated in protocol
-documents by defining a unique algorithm, to increase the chance that
-receiver greasing requirements are exercised. However, the choice of algorithm
-needs to consider the spread of values and the size of contiguous blocks between
-grease values. It is common for protocol extension designers to want to reserve
-a contiguous block of code points in order to aid iteration and experimentation.
-Small contiguous blocks increase the chance that such reservations might
-unintentionally use grease values, which could lead to interoperability
-failures.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
-<div id="iana-tips">
-<section id="section-3.4.1">
-          <h4 id="name-effectively-instructing-ian">
-<a href="#section-3.4.1" class="section-number selfRef">3.4.1. </a><a href="#name-effectively-instructing-ian" class="section-name selfRef">Effectively Instructing IANA about grease</a>
-          </h4>
-<p id="section-3.4.1-1">Protocol designers might ask IANA to create new registries for their extension
-points. When greasing, it is recommended that only a single entry for the entire
-grease value set is registered. When an algorithm has been used, it should be
-included in the entry; see for example
-https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types.<a href="#section-3.4.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.4.1-2">Grease values must not be used or registered for any other purpose. Registries
-should include a label to identify the protected grease value range; a label of
-"reserved" may be confused with other ranges that are reserved for private or
-experimental extensions. An implementer that conflates these two meanings may
-cause a new class of interoperability failure. Therefore a label such as
-"reserved for greasing" may help to avoid the confusion.<a href="#section-3.4.1-2" class="pilcrow">¶</a></p>
-</section>
+<p id="section-3.4-1">Implementations that read and process grease values must ignore the values.
+"Ignoring" a value upon receipt can have multiple dimensions, however.
+Simply not performing any protocol action based on the grease value isn't
+enough to ensure that the protocol will remain extensible. The ignoring
+must be handled as a general case of "unknown" or "unhandled" values,
+not as a special case for ignored grease values.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-2">This means that grease values can only meaningfully be used for protocol elements
+where all unknown values are ignored by default. (Protocols may have ways
+to indicate that some specific values are "mandatory" or "critical" in order
+to have the protocol interaction succeed, but these must not be marked
+for any grease values.)<a href="#section-3.4-2" class="pilcrow">¶</a></p>
+<p id="section-3.4-3">One pitfall that implementations may encounter when building logic to
+handle the receipt of grease values is related to cases where some recognized
+non-grease values need to be handled as errors. Consider the following abstract
+example:<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-3.4-4">
+<li id="section-3.4-4.1">
+            <p id="section-3.4-4.1.1">A protocol element has values 1, 2, 3, and 4 defined and registered for
+use. The values 13 and 42 are reserved as grease values.<a href="#section-3.4-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.4-4.2">
+            <p id="section-3.4-4.2.1">In a specific scenario, only the known values 1 and 2 are valid; 3 and 4
+are considered errors.<a href="#section-3.4-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.4-4.3">
+            <p id="section-3.4-4.3.1">An implementation might naively choose to check for the value being 1 or 2, handle
+those cases, and send an error otherwise.<a href="#section-3.4-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.4-4.4">
+            <p id="section-3.4-4.4.1">When grease values are used, the previous logic will flag an error for the grease value.
+If this is detected, implementations might choose to work around this by updating
+the logic to check for the value being 1 or 2, then check for grease values to ignore,
+and then send an error otherwise. This logic is also incorrect since it doesn't
+allow for new extensibility.<a href="#section-3.4-4.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<p id="section-3.4-5">The correct logic for the above scenario would be to check for the value being 1 or 2,
+then explicitly check for the value being 3 or 4 (to handle the error), with a
+catch-all for ignored values.<a href="#section-3.4-5" class="pilcrow">¶</a></p>
+<p id="section-3.4-6">In pseudo-code, the correct logic would work like this, where the grease values
+would fall into the final <code>else</code> case as ignored values.<a href="#section-3.4-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.4-7">
+<pre>
+if is_valid_case_one(value):
+  handle_case_one()
+else if is_valid_case_two(value):
+  handle_case_two()
+else if is_known_invalid_case(value):
+  handle_error()
+else:
+  ignore_value()
+</pre><a href="#section-3.4-7" class="pilcrow">¶</a>
 </div>
+<p id="section-3.4-8">Implementations need to take care when implementing such logic. Protocol specification
+designers should emphasize that grease values must not be special-cased. It is also
+recommended to provide example logic or pseudocode in specifications, similar to the example
+above, as guidance to implementers on how to correctly process protocol elements like these.
+Documents can also provide test vectors, when applicable, that include grease values
+to ensure they are processed correctly.<a href="#section-3.4-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1443,7 +1548,7 @@ deeper analysis of this topic has been deemed out of scope.<a href="#section-6-2
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
 <p id="section-7-1">This document has no IANA actions itself. Guidance on how other documents can effectively
-instruct IANA about protocol greasing is provided in <a href="#iana-tips" class="auto internal xref">Section 3.4.1</a><a href="#section-7-1" class="pilcrow">¶</a></p>
+instruct IANA about protocol greasing is provided in <a href="#iana-tips" class="auto internal xref">Section 3.1.1</a><a href="#section-7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
@@ -1493,6 +1598,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dt id="MAINTENANCE">[MAINTENANCE]</dt>
         <dd>
 <span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">D. Schinazi</span>, <span class="refTitle">"Maintaining Robust Protocols"</span>, <span class="seriesInfo">RFC 9413</span>, <span class="seriesInfo">DOI 10.17487/RFC9413</span>, <time datetime="2023-06" class="refDate">June 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9413">https://www.rfc-editor.org/rfc/rfc9413</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="PRIVACYPASS">[PRIVACYPASS]</dt>
+        <dd>
+<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Valdez, S.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"The Privacy Pass HTTP Authentication Scheme"</span>, <span class="seriesInfo">RFC 9577</span>, <span class="seriesInfo">DOI 10.17487/RFC9577</span>, <time datetime="2024-06" class="refDate">June 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9577">https://www.rfc-editor.org/rfc/rfc9577</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="PRIVCON">[PRIVCON]</dt>
         <dd>

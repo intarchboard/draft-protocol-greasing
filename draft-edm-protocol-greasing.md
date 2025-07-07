@@ -185,8 +185,10 @@ to cooperate (such as within an encrypted protocol between two endpoints). This 
 applies less well for situations where non-cooperating entities (such as middleboxes)
 are the source of ossification.
 - Using heuristics to disable greasing when errors are encountered. For example,
-if a protocol operation fails multiple times when grease values are used, it can be retried
-without any grease values. This reduces the effectiveness of grease values in removing
+if a client-initiated protocol operation fails multiple times when grease values are used, it can be retried
+without any grease values. Alternatively, if a server recognizes a property of a client that always fails
+when greasing is used, it could choose to disable greasing when that client is detected. 
+This reduces the effectiveness of grease values in removing
 existing ossification, but can still have benefits for flagging issues in new implementations
 when they receive grease values.
 

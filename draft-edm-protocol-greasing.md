@@ -280,6 +280,12 @@ above, as guidance to implementers on how to correctly process protocol elements
 Documents can also provide test vectors, when applicable, that include grease values
 to ensure they are processed correctly.
 
+One limitation is that greasing does not check whether reserved values other than
+grease values are correctly treated as ignored or errors.  As such, it is still possible
+that ossification can still occur where other reserved values are not allocatable
+without causing problems in practice.  The goal is simply to increase the chances
+of correct implementation.
+
 # Deployment Considerations and Incentives for Greasing
 
 Greasing can be used as a tool to improve the active use of existing protocol

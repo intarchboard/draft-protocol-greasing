@@ -280,6 +280,42 @@ above, as guidance to implementers on how to correctly process protocol elements
 Documents can also provide test vectors, when applicable, that include grease values
 to ensure they are processed correctly.
 
+# Deployment Considerations and Incentives for Greasing
+
+Greasing can be used as a tool to improve the active use of existing protocol
+elements (which weren't necessarily designed with greasing to begin with, or
+weren't deployed with greasing); or as part of new protocol design and deployments.
+
+When greasing isn't used from the beginning of protocol deployment, starting to use
+greasing comes with the risk of triggering failures or anomalies. These failures might be innocuous,
+but they also might be very impactful and visible to users. This risk creates a
+disincentive to deploy greasing in existing systems, since generally the change that
+triggers failures is often blamed for the failure. The risk is highest when
+adding greasing to a particular protocol flow that doesn't require any
+change of behavior or adoption to hit the greasing behavior. For example,
+if a service migrates to use a new web server implementation that enables
+greasing, while the previous server didn't, some new failures may be hit
+if clients react poorly to greasing.
+
+Some approaches to avoid failures due to greasing include:
+
+- Designing, implementing, and using greasing very early on in protocol development
+and deployment. This avoids the aforementioned risk of adding greasing late in a deployment.
+- Enabling greasing along with other major protocol feature changes or deployment changes.
+For example, when upgrading to a new protocol version that requires implementation updates
+on multiple systems, greasing can be added for the new version specifically. This approach
+works well for situations where the protocol participants are known and already need
+to cooperate (such as within an encrypted protocol between two endpoints). This approach
+applies less well for situations where non-cooperating entities (such as middleboxes)
+are the source of ossification.
+- Using heuristics to disable greasing when errors are encountered. For example,
+if a client-initiated protocol operation fails multiple times when grease values are used, it can be retried
+without any grease values. Alternatively, if a server recognizes a property of a client that always fails
+when greasing is used, it could choose to disable greasing when that client is detected.
+This reduces the effectiveness of grease values in removing
+existing ossification, but can still have benefits for flagging issues in new implementations
+when they receive grease values.
+
 # Considerations for Increasing Protocol Variability {#variability}
 
 Greasing can maintain protocol extensibility by falsifying active use of its

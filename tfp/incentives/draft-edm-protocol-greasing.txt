@@ -4,8 +4,8 @@
 
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
-Intended status: Informational                               6 June 2025
-Expires: 8 December 2025
+Intended status: Informational                               7 July 2025
+Expires: 8 January 2026
 
 
            Maintaining Protocols Using Grease and Variability
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 December 2025.
+   This Internet-Draft will expire on 8 January 2026.
 
 Copyright Notice
 
@@ -213,17 +213,17 @@ Table of Contents
    protocol design and deployments.
 
    When greasing isn't used from the beginning of protocol deployment,
-   starting to use greasing comes with the risk of triggering failures.
-   These failures might be innocuous, but they also might be very
-   impactful and visible to users.  This risk creates a disincentive to
-   deploy greasing in existing systems, since generally the change that
-   triggers failures is often blamed for the failure.
+   starting to use greasing comes with the risk of triggering failures
+   or anomalies.  These failures might be innocuous, but they also might
+   be very impactful and visible to users.  This risk creates a
+   disincentive to deploy greasing in existing systems, since generally
+   the change that triggers failures is often blamed for the failure.
 
    Some approaches to avoid failures due to greasing include:
 
    *  Designing, implementing, and using greasing very early on in
-      protocol development and deployment.  This avoids the risks of
-      adding greasing later.
+      protocol development and deployment.  This avoids the
+      aforementioned risk of adding greasing late in a deployment.
 
    *  Enabling greasing along with other major protocol feature changes
       or deployment changes.  For example, when upgrading to a new

@@ -207,7 +207,7 @@ can be made unpredictable. Implementations can vary their behavior by including
 no grease values, one grease value, or multiple grease values for a given protocol
 extension point.
 
-How consistently an frequently to use grease values is a choice that implementations
+How consistently and frequently to use grease values is a choice that implementations
 and deployments need to consider and weigh against several factors.
 
 Deployments of greasing should consider how they expect errors exposed by
@@ -321,7 +321,7 @@ when they receive grease values.
 # Considerations for Increasing Protocol Variability {#variability}
 
 Greasing can maintain protocol extensibility by falsifying active use of its
-extension points. However, greasing alone does not ensure positive use of extension mechanisms. A protocol may
+extension points (see {{Section 3.3 of VIABILITY}}). However, greasing alone does not ensure positive use of extension mechanisms. A protocol may
 define a wide-ranging extension capability that remains unused in the absence of
 real use cases. This can lead to ossification that does not expect extensions,
 leading to interoperability problems later on.
@@ -331,7 +331,7 @@ extension points positively. To some extent this can be thought of as protocol
 fuzzing. This might be difficult to exercise because varying the protocol
 elements might change the outcome of interactions, leading to real errors.
 However, some protocols allow elements to be be safely changed, as shown in the
-following examples.
+following example.
 
 ## Example: QUIC frames
 
@@ -346,8 +346,8 @@ reassemble frames, which could arrive in any order, into an ordered reliable
 byte stream that is readable by applications.
 
 A form of positive testing is for a sender to unpredictably order the STREAM
-frames that it transmits. For example, varying the sequence order of offset
-values. This allows to exercise the QUIC reassembly features of the receiver
+frames that it transmits. For example, the sender can vary the sequence order of offset
+values. This allows exercising the QUIC reassembly features of the receiver
 with the expectation that no failure would occur. However, doing this may
 introduce delay or stream head-of-line blocking that affects the performance
 aspects of a transmission, which may not be acceptable for a given use case. As

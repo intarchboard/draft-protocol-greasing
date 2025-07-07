@@ -222,7 +222,8 @@ might end up special-casing grease values.
 The patterns for sending grease values can be made more effective by
 coordinating between devices sending the values. One example of coordination
 is having a "flag day" where implementations start sending grease values
-broadly, and measure to see where errors occur.
+broadly, and measure to see where errors occur.  See {{Section 3 of ?TRANSITION=RFC8710}}
+for more considerations concerning the use of a flag day.
 
 ## Don't Handle Grease Values as a Special Case
 
@@ -355,7 +356,7 @@ connections, or phases within a connection.
 
 # Considerations for Protocol Versions {#versions}
 
-{{?TRANSITION=RFC8710}} discusses considerations around planning for transitioning
+{{TRANSITION}} discusses considerations around planning for transitioning
 from an existing protocol, or protocol version, to a new one.
 There are also intrinsic and well-documented issues related to testing version
 negotiation of protocols; see {{?EXTENSIBILITY=RFC6709}} and {{Sections 2.1 and

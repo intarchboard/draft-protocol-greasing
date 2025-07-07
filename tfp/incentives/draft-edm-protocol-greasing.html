@@ -1366,7 +1366,12 @@ weren't deployed with greasing); or as part of new protocol design and deploymen
 greasing comes with the risk of triggering failures or anomalies. These failures might be innocuous,
 but they also might be very impactful and visible to users. This risk creates a
 disincentive to deploy greasing in existing systems, since generally the change that
-triggers failures is often blamed for the failure.<a href="#section-4-2" class="pilcrow">¶</a></p>
+triggers failures is often blamed for the failure. The risk is highest when
+adding greasing to a particular protocol flow that doesn't require any
+change of behavior or adoption to hit the greasing behavior. For example,
+if a service migrates to use a new web server implementation that enables
+greasing, while the previous server didn't, some new failures may be hit
+if clients react poorly to greasing.<a href="#section-4-2" class="pilcrow">¶</a></p>
 <p id="section-4-3">Some approaches to avoid failures due to greasing include:<a href="#section-4-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4-4.1">

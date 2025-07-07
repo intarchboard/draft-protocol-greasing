@@ -1389,8 +1389,10 @@ are the source of ossification.<a href="#section-4-4.2.1" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-4-4.3">
           <p id="section-4-4.3.1">Using heuristics to disable greasing when errors are encountered. For example,
-if a protocol operation fails multiple times when grease values are used, it can be retried
-without any grease values. This reduces the effectiveness of grease values in removing
+if a client-initiated protocol operation fails multiple times when grease values are used, it can be retried
+without any grease values. Alternatively, if a server recognizes a property of a client that always fails
+when greasing is used, it could choose to disable greasing when that client is detected.
+This reduces the effectiveness of grease values in removing
 existing ossification, but can still have benefits for flagging issues in new implementations
 when they receive grease values.<a href="#section-4-4.3.1" class="pilcrow">¶</a></p>
 </li>

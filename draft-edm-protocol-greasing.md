@@ -163,7 +163,7 @@ elements (which weren't necessarily designed with greasing to begin with, or
 weren't deployed with greasing); or as part of new protocol design and deployments.
 
 When greasing isn't used from the beginning of protocol deployment, starting to use
-greasing comes with the risk of triggering failures. These failures might be innocuous,
+greasing comes with the risk of triggering failures or anomalies. These failures might be innocuous,
 but they also might be very impactful and visible to users. This risk creates a
 disincentive to deploy greasing in existing systems, since generally the change that
 triggers failures is often blamed for the failure.
@@ -171,7 +171,7 @@ triggers failures is often blamed for the failure.
 Some approaches to avoid failures due to greasing include:
 
 - Designing, implementing, and using greasing very early on in protocol development
-and deployment. This avoids the risks of adding greasing later.
+and deployment. This avoids the aforementioned risk of adding greasing late in a deployment.
 - Enabling greasing along with other major protocol feature changes or deployment changes.
 For example, when upgrading to a new protocol version that requires implementation updates
 on multiple systems, greasing can be added for the new version specifically. This approach

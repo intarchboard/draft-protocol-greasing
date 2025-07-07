@@ -166,7 +166,12 @@ When greasing isn't used from the beginning of protocol deployment, starting to 
 greasing comes with the risk of triggering failures or anomalies. These failures might be innocuous,
 but they also might be very impactful and visible to users. This risk creates a
 disincentive to deploy greasing in existing systems, since generally the change that
-triggers failures is often blamed for the failure.
+triggers failures is often blamed for the failure. The risk is highest when
+adding greasing to a particular protocol flow that doesn't require any
+change of behavior or adoption to hit the greasing behavior. For example,
+if a service migrates to use a new web server implementation that enables
+greasing, while the previous server didn't, some new failures may be hit
+if clients react poorly to greasing.
 
 Some approaches to avoid failures due to greasing include:
 

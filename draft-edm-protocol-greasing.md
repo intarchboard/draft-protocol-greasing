@@ -144,11 +144,11 @@ protocol constraints. For instance, protocols that use 8-bit fields may
 find it too costly to dedicate many grease values, while 32-bit or 64-bit
 fields are likely to have no such limitations.
 
-It is recommended to use an algorithm to reserving large sets of values.
-For example, {{QUIC}} uses and algorithm of `31 * N + 27` to allocate
-transport parameters grease values.
+It is recommended to use an algorithm to reserve large sets of values.
+For example, {{QUIC}} use and algorithm of `31 * N + 27` to allocate
+grease values for transport parameters.
 
-One possible problem with some algorithms is how they will spread out
+One possible problem with some algorithms is that they will spread out
 values over the space, and impact the ability to use or reserve contiguous
 blocks of non-grease values. It is common for protocol extension designers
 to want to reserve contiguous blocks of codepoints in order to aid
@@ -165,7 +165,7 @@ IANA registries that contain reserved grease values must indicate that
 the values are reserved. The specifics of how to represent the reservations
 is up to the documents that define the registries.
 
-Some registries list out the reserved grease values specifically, marked as
+Some registries list out the reserved grease values individually, marked as
 "Reserved". For example, the TLS registry uses this approach
 (https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml).
 
@@ -183,16 +183,18 @@ to label the reservation with a clear identifier, such as "reserved for greasing
 ## Use Unpredictable Grease Values
 
 In order to gain the benefits of active use and avoid ossification, grease values
-need to be sent in ways that won't become a predictable pattern that implementations
+used in actual packets
+need to be sent in ways that won't become a predictable pattern that receiver and
+middlebox implementations
 and deployments ossify around.
 
 Implementations that generate grease values should pick unpredictable entries
 from the set of reserved grease values. It is most important that values be
 unpredictable across the set of all protocol participants for particular deployments.
-This can be achieved in multiple ways: for example, an individual client device
+This can be achieved in multiple ways: for example, an individual sender
 might pick random values from the grease value space on each interaction;
-alternatively, a single client could pick a specific grease value to use, while
-other clients pick other values.
+alternatively, a single sender could pick a specific grease value to use, while
+other senders pick other values.
 
 In order to support picking unpredictable values, the set of reserved values
 should be large, when possible. See {{define}} for a discussion of how to allocate

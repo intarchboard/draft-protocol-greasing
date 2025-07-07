@@ -5,8 +5,8 @@
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
 Intended status: Informational                                  T. Pauly
-Expires: 6 January 2026                                            Apple
-                                                             5 July 2025
+Expires: 8 January 2026                                            Apple
+                                                             7 July 2025
 
 
  Considerations For Maintaining Protocols Using Grease and Variability
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 January 2026.
+   This Internet-Draft will expire on 8 January 2026.
 
 Copyright Notice
 
@@ -77,14 +77,15 @@ Table of Contents
      3.2.  Use Unpredictable Grease Values
      3.3.  Use Grease Values Unpredictably
      3.4.  Don't Handle Grease Values as a Special Case
-   4.  Considerations for Increasing Protocol Variability
-     4.1.  Example: QUIC frames
-   5.  Considerations for Protocol Versions
-   6.  Security Considerations
-   7.  IANA Considerations
-   8.  References
-     8.1.  Normative References
-     8.2.  Informative References
+   4.  Deployment Considerations and Incentives for Greasing
+   5.  Considerations for Increasing Protocol Variability
+     5.1.  Example: QUIC frames
+   6.  Considerations for Protocol Versions
+   7.  Security Considerations
+   8.  IANA Considerations
+   9.  References
+     9.1.  Normative References
+     9.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -126,7 +127,7 @@ Table of Contents
    protocol features can affect the deployment's network traffic
    profile.  If expectations have been formed around historical patterns
    of use, i.e., ossification, introducing change might lead to
-   deployment problems.  Section 4 presents considerations about how
+   deployment problems.  Section 5 presents considerations about how
    intentionally increasing the variability of protocols can mitigate
    some of these concerns.
 
@@ -137,7 +138,7 @@ Table of Contents
    mandatory, effectively defining a new baseline that can simplify
    deployment and interoperability.  A replacement protocol version may
    or may not be compatible with other versions.  A protocol may or may
-   not have a mechanism for version selection or agility.  Section 5
+   not have a mechanism for version selection or agility.  Section 6
    presents considerations about designing for and/or implementing
    version negotiation and migration.
 
@@ -341,7 +342,53 @@ Table of Contents
    applicable, that include grease values to ensure they are processed
    correctly.
 
-4.  Considerations for Increasing Protocol Variability
+4.  Deployment Considerations and Incentives for Greasing
+
+   Greasing can be used as a tool to improve the active use of existing
+   protocol elements (which weren't necessarily designed with greasing
+   to begin with, or weren't deployed with greasing); or as part of new
+   protocol design and deployments.
+
+   When greasing isn't used from the beginning of protocol deployment,
+   starting to use greasing comes with the risk of triggering failures
+   or anomalies.  These failures might be innocuous, but they also might
+   be very impactful and visible to users.  This risk creates a
+   disincentive to deploy greasing in existing systems, since generally
+   the change that triggers failures is often blamed for the failure.
+   The risk is highest when adding greasing to a particular protocol
+   flow that doesn't require any change of behavior or adoption to hit
+   the greasing behavior.  For example, if a service migrates to use a
+   new web server implementation that enables greasing, while the
+   previous server didn't, some new failures may be hit if clients react
+   poorly to greasing.
+
+   Some approaches to avoid failures due to greasing include:
+
+   *  Designing, implementing, and using greasing very early on in
+      protocol development and deployment.  This avoids the
+      aforementioned risk of adding greasing late in a deployment.
+
+   *  Enabling greasing along with other major protocol feature changes
+      or deployment changes.  For example, when upgrading to a new
+      protocol version that requires implementation updates on multiple
+      systems, greasing can be added for the new version specifically.
+      This approach works well for situations where the protocol
+      participants are known and already need to cooperate (such as
+      within an encrypted protocol between two endpoints).  This
+      approach applies less well for situations where non-cooperating
+      entities (such as middleboxes) are the source of ossification.
+
+   *  Using heuristics to disable greasing when errors are encountered.
+      For example, if a client-initiated protocol operation fails
+      multiple times when grease values are used, it can be retried
+      without any grease values.  Alternatively, if a server recognizes
+      a property of a client that always fails when greasing is used, it
+      could choose to disable greasing when that client is detected.
+      This reduces the effectiveness of grease values in removing
+      existing ossification, but can still have benefits for flagging
+      issues in new implementations when they receive grease values.
+
+5.  Considerations for Increasing Protocol Variability
 
    Greasing can maintain protocol extensibility by falsifying active use
    of its extension points.  However, greasing alone does not ensure
@@ -357,7 +404,7 @@ Table of Contents
    interactions, leading to real errors.  However, some protocols allow
    elements to be be safely changed, as shown in the following examples.
 
-4.1.  Example: QUIC frames
+5.1.  Example: QUIC frames
 
    QUIC packets contain frames.  Receivers might build expectations on
    the longitudinal aspects of packets or frames - size, ordering,
@@ -380,7 +427,7 @@ Table of Contents
    testing might be most appropriate to use in a subset of connections,
    or phases within a connection.
 
-5.  Considerations for Protocol Versions
+6.  Considerations for Protocol Versions
 
    There are intrinsic and well-documented issues related to testing
    version negotiation of protocols; see [EXTENSIBILITY] and Sections
@@ -388,7 +435,7 @@ Table of Contents
    advice for protocol designers and implementers about how to approach
    these problems.
 
-6.  Security Considerations
+7.  Security Considerations
 
    The considerations in [MAINTENANCE], [GREASE], [END-USERS], and
    [VIABILITY] all apply to the topics discussed in this document.
@@ -399,15 +446,15 @@ Table of Contents
    in this document, can affect fingerprinting.  A deeper analysis of
    this topic has been deemed out of scope.
 
-7.  IANA Considerations
+8.  IANA Considerations
 
    This document has no IANA actions itself.  Guidance on how other
    documents can effectively instruct IANA about protocol greasing is
    provided in Section 3.1.1
 
-8.  References
+9.  References
 
-8.1.  Normative References
+9.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -418,7 +465,7 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-8.2.  Informative References
+9.2.  Informative References
 
    [END-USERS]
               Nottingham, M., "The Internet is for End Users", RFC 8890,

@@ -222,7 +222,7 @@ might end up special-casing grease values.
 The patterns for sending grease values can be made more effective by
 coordinating between devices sending the values. One example of coordination
 is having a "flag day" where implementations start sending grease values
-broadly, and measure to see where errors occur.  See {{Section 3 of ?TRANSITION=RFC8710}}
+broadly, and measure to see where errors occur.  See {{Section 3 of ?TRANSITION=RFC8170}}
 for more considerations concerning the use of a flag day.
 
 ## Don't Handle Grease Values as a Special Case

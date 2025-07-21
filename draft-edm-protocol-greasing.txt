@@ -5,8 +5,8 @@
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
 Intended status: Informational                                  T. Pauly
-Expires: 8 January 2026                                            Apple
-                                                             7 July 2025
+Expires: 22 January 2026                                           Apple
+                                                            21 July 2025
 
 
  Considerations For Maintaining Protocols Using Grease and Variability
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2026.
+   This Internet-Draft will expire on 22 January 2026.
 
 Copyright Notice
 
@@ -210,8 +210,9 @@ Table of Contents
 
 3.1.1.  Recommendations for IANA Considerations
 
-   IANA registries that contain reserved grease values must indicate
-   that the values are reserved.  The specifics of how to represent the
+   IANA registries that contain reserved grease values need to indicate
+   that the values are reserved in order to prevent them from being
+   allocated for other uses.  The specifics of how to represent the
    reservations is up to the documents that define the registries.
 
    Some registries list out the reserved grease values specifically,

@@ -161,8 +161,9 @@ lead to interoperability failures.
 
 ### Recommendations for IANA Considerations {#iana-tips}
 
-IANA registries that contain reserved grease values must indicate that
-the values are reserved. The specifics of how to represent the reservations
+IANA registries that contain reserved grease values need to indicate that
+the values are reserved in order to prevent them from being allocated
+for other uses. The specifics of how to represent the reservations
 is up to the documents that define the registries.
 
 Some registries list out the reserved grease values specifically, marked as

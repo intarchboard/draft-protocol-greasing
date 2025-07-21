@@ -145,7 +145,7 @@ find it too costly to dedicate many grease values, while 32-bit or 64-bit
 fields are likely to have no such limitations.
 
 It is recommended to use an algorithm to reserve large sets of values.
-For example, {{QUIC}} use and algorithm of `31 * N + 27` to allocate
+For example, {{QUIC}} uses an algorithm of `31 * N + 27` to allocate
 grease values for transport parameters.
 
 One possible problem with some algorithms is that they will spread out

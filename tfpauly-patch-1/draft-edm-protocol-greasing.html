@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Considerations For Maintaining Protocols Using Grease and Variability</title>
+<meta content="Lucas Pardue" name="author">
+<meta content="Tommy Pauly" name="author">
+<meta content='
+       Active use and maintenance of network protocols is an important way to
+ensure that protocols remain interoperable and extensible over time.
+Techniques such as intentionally exercising extension points with
+non-meaningful values (referred to as "grease") or adding variability
+to how protocol elements are used help generate this active use. 
+       Grease and variability are used across various protocols developed
+by the IETF. This document discusses considerations when designing
+and deploying grease and variability mechanisms, and provides
+advice for making them as effective as possible. 
+    ' name="description">
+<meta content="xml2rfc 3.30.0" name="generator">
+<meta content="next generation" name="keyword">
+<meta content="unicorn" name="keyword">
+<meta content="sparkling distributed ledger" name="keyword">
+<meta content="draft-edm-protocol-greasing-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.30.0
+    Python 3.12.11
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.1
+    intervaltree 3.1.0
+    Jinja2 3.1.6
+    lxml 5.3.1
+    platformdirs 4.3.8
+    pycountry 24.6.1
+    PyYAML 6.0.2
+    requests 2.32.4
+    setuptools 80.9.0
+    wcwidth 0.2.13
+-->
+<link href="draft-edm-protocol-greasing.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+  & li {
+    margin-top: 0.5em;
+  }
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+}
+dl:not(.dlNewline) > dt {
+  float: left;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+  caption-side: bottom;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
+}
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
+}
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
+}
+
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+/* Comments */
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:is(:link, :focus, :hover),
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin: 2px 0.5em 0;
+  }
+}
+
+/* TOC layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Protocol Greasing</td>
+<td class="right">July 2025</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Pardue &amp; Pauly</td>
+<td class="center">Expires 22 January 2026</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Network Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-edm-protocol-greasing-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2025-07-21" class="published">21 July 2025</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2026-01-22">22 January 2026</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">L. Pardue</div>
+<div class="org">Cloudflare</div>
+</div>
+<div class="author">
+      <div class="author-name">T. Pauly</div>
+<div class="org">Apple</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Considerations For Maintaining Protocols Using Grease and Variability</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">Active use and maintenance of network protocols is an important way to
+ensure that protocols remain interoperable and extensible over time.
+Techniques such as intentionally exercising extension points with
+non-meaningful values (referred to as "grease") or adding variability
+to how protocol elements are used help generate this active use.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">Grease and variability are used across various protocols developed
+by the IETF. This document discusses considerations when designing
+and deploying grease and variability mechanisms, and provides
+advice for making them as effective as possible.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://intarchboard.github.io/draft-protocol-greasing/draft-edm-protocol-greasing.html">https://intarchboard.github.io/draft-protocol-greasing/draft-edm-protocol-greasing.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-edm-protocol-greasing/">https://datatracker.ietf.org/doc/draft-edm-protocol-greasing/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/intarchboard/draft-protocol-greasing">https://github.com/intarchboard/draft-protocol-greasing</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 22 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2025 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-considerations-for-greasing" class="internal xref">Considerations for Greasing Protocols</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-define-and-register-grease-" class="internal xref">Define and Register Grease Value Ranges</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.1">
+                    <p id="section-toc.1-1.2.2.1.2.1.1" class="keepWithNext"><a href="#section-2.1.1" class="auto internal xref">2.1.1</a>.  <a href="#name-recommendations-for-iana-co" class="internal xref">Recommendations for IANA Considerations</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-use-unpredictable-grease-va" class="internal xref">Use Unpredictable Grease Values</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-use-grease-values-unpredict" class="internal xref">Use Grease Values Unpredictably</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4">
+                <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="auto internal xref">2.4</a>.  <a href="#name-dont-handle-grease-values-a" class="internal xref">Don't Handle Grease Values as a Special Case</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-deployment-considerations-a" class="internal xref">Deployment Considerations and Incentives for Greasing</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-considerations-for-increasi" class="internal xref">Considerations for Increasing Protocol Variability</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-example-quic-frames" class="internal xref">Example: QUIC frames</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-considerations-for-protocol" class="internal xref">Considerations for Protocol Versions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1"><span><a href="https://rfc-editor.org/rfc/rfc9170#section-3" class="relref">Section 3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> discusses "active use" as a category
+of techniques that protocol designers and implementers employ to ensure
+that protocol extension mechanisms are exercised and can be used in the
+future. This ability to change (to handle protocol updates and extensions)
+is an important factor in the success of protocol deployment, as discussed
+in <span>[<a href="#SUCCESS" class="cite xref">SUCCESS</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Active use of protocol features and extensions often requires intentional
+efforts beyond what would organically occur in deployments. Some extension
+points do not frequently see new values being used, but are still important
+to be usable in the future. Some patterns of protocol usage might be
+relatively static without specific efforts to ensure that they can change
+in the future.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">One key techique for intentional use is "grease", or "greasing".
+Greasing was initially designed for TLS <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span> and was later
+adopted by other protocols such as QUIC <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span>. In these protocols,
+extension codepoints are reserved only for greasing and must be ignored
+upon receipt. Greasing is suitable for many protocols but not all; <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> discusses the applicability and limitations of greasing.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">While it is becoming more common, designing and applying grease is not
+necessarily trivial. There are best practices, and some common pitfalls to
+avoid, that have been developed by the protocols using grease thus far.
+<a href="#grease-considerations" class="auto internal xref">Section 2</a> takes these learnings and provides considerations
+for new protocol design and deployment.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">Separate from greasing using reserved values, protocol deployments can
+intentionally add variability to ensure that network endpoints and
+middleboxes do not end up ossifying certain patterns. For example, an HTTP
+deployment focused on downloads might want to add support for uploads.
+Changing use of the application and transport protocol features can affect
+the deployment's network traffic profile. If expectations have been formed
+around historical patterns of use, i.e., ossification, introducing change
+might lead to deployment problems. <a href="#variability" class="auto internal xref">Section 4</a> presents
+considerations about how intentionally increasing the variability of protocols
+can mitigate some of these concerns.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">Protocol extensions can provide longevity in the face of changing needs or
+environment. However, a replacment protocol might be preferred when extensions
+are not adequate or feasible. A protocol replacement could aggregate common
+extensions and possibly make them mandatory, effectively defining a new baseline
+that can simplify deployment and interoperability. A replacement protocol
+version may or may not be compatible with other versions. A protocol may or may
+not have a mechanism for version selection or agility. <a href="#versions" class="auto internal xref">Section 5</a> presents
+considerations about designing for and/or implementing version negotiation and
+migration.<a href="#section-1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="grease-considerations">
+<section id="section-2">
+      <h2 id="name-considerations-for-greasing">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-considerations-for-greasing" class="section-name selfRef">Considerations for Greasing Protocols</a>
+      </h2>
+<p id="section-2-1">Greasing can take many forms, depending on the protocol and the nature of its
+extension points. The common pattern across forms of greasing is that values
+are generated that have no useful meaning to the protocol and are meant to
+be ignored upon receipt. Such values used for the purpose of greasing are
+referred to as "grease values" within this document.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">More background to this approach is given in <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-3">This section provides some practical considerations for how to define and
+use greasing, and avoid possible pitfalls.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<div id="define">
+<section id="section-2.1">
+        <h3 id="name-define-and-register-grease-">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-define-and-register-grease-" class="section-name selfRef">Define and Register Grease Value Ranges</a>
+        </h3>
+<p id="section-2.1-1">Many protocols that use greasing have a limited set of possible values or
+codepoints that can be used in a particular extension point. A common
+approach is to reserve a subset of the registrable space for greasing.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-2">The following are some examples of protocols that have reserved codepoints for grease values:<a href="#section-2.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.1-3.1">
+            <p id="section-2.1-3.1.1">TLS (<span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span>)<a href="#section-2.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-3.2">
+            <p id="section-2.1-3.2.1">QUIC (<span><a href="https://rfc-editor.org/rfc/rfc9000#section-18.1" class="relref">Section 18.1</a> of [<a href="#QUIC" class="cite xref">QUIC</a>]</span>)<a href="#section-2.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-3.3">
+            <p id="section-2.1-3.3.1">HTTP/3 (<span><a href="https://rfc-editor.org/rfc/rfc9114#section-7.2.8" class="relref">Section 7.2.8</a> of [<a href="#RFC9114" class="cite xref">HTTP/3</a>]</span>)<a href="#section-2.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-3.4">
+            <p id="section-2.1-3.4.1">Privacy Pass (<span>[<a href="#PRIVACYPASS" class="cite xref">PRIVACYPASS</a>]</span>)<a href="#section-2.1-3.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-2.1-4">The specifics of how to reserve values depends on the nature of the
+available space. For protocols with large possible spaces, it is useful
+to have a large set of grease values to increase the chance that
+receiver greasing requirements are exercised. The specific
+size and distribution of the grease range needs to accommodate the
+protocol constraints. For instance, protocols that use 8-bit fields may
+find it too costly to dedicate many grease values, while 32-bit or 64-bit
+fields are likely to have no such limitations.<a href="#section-2.1-4" class="pilcrow">¶</a></p>
+<p id="section-2.1-5">It is recommended to use an algorithm to reserving large sets of values.
+For example, <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span> uses and algorithm of <code>31 * N + 27</code> to allocate
+transport parameters grease values.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
+<p id="section-2.1-6">One possible problem with some algorithms is how they will spread out
+values over the space, and impact the ability to use or reserve contiguous
+blocks of non-grease values. It is common for protocol extension designers
+to want to reserve contiguous blocks of codepoints in order to aid
+iteration and experimentation. Reserved grease values can end up being
+in spaces that would otherwise be used for such contiguous blocks.<a href="#section-2.1-6" class="pilcrow">¶</a></p>
+<p id="section-2.1-7">Codepoints being used for new reservations, or experimentation, need
+to be careful to not unintentionally use grease values. Doing so could
+lead to interoperability failures.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
+<div id="iana-tips">
+<section id="section-2.1.1">
+          <h4 id="name-recommendations-for-iana-co">
+<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-recommendations-for-iana-co" class="section-name selfRef">Recommendations for IANA Considerations</a>
+          </h4>
+<p id="section-2.1.1-1">IANA registries that contain reserved grease values must indicate that
+the values are reserved. The specifics of how to represent the reservations
+is up to the documents that define the registries.<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-2">Some registries list out the reserved grease values specifically, marked as
+"Reserved". For example, the TLS registry uses this approach
+(https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml).<a href="#section-2.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-3">If an algorithm or pattern is used to define grease values, it is recommended
+when possible to instead only define a single entry for the entire grease value
+set. This entry should include the pattern or algorithm. This approach is used by
+the QUIC registry (https://www.iana.org/assignments/quic/quic.xhtml) and the
+HTTP/3 registry (https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types)<a href="#section-2.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-4">Grease values must not be used or registered for any other purpose. This is in
+contrast to other potentially "reserved" values that might be reused or
+claimed for a new purpose in the future. To avoid confusion, it is recommended
+to label the reservation with a clear identifier, such as "reserved for greasing".<a href="#section-2.1.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="use-unpredictable-grease-values">
+<section id="section-2.2">
+        <h3 id="name-use-unpredictable-grease-va">
+<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-use-unpredictable-grease-va" class="section-name selfRef">Use Unpredictable Grease Values</a>
+        </h3>
+<p id="section-2.2-1">In order to gain the benefits of active use and avoid ossification, grease values
+need to be sent in ways that won't become a predictable pattern that implementations
+and deployments ossify around.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.2-2">Implementations that generate grease values should pick unpredictable entries
+from the set of reserved grease values. It is most important that values be
+unpredictable across the set of all protocol participants for particular deployments.
+This can be achieved in multiple ways: for example, an individual client device
+might pick random values from the grease value space on each interaction;
+alternatively, a single client could pick a specific grease value to use, while
+other clients pick other values.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.2-3">In order to support picking unpredictable values, the set of reserved values
+should be large, when possible. See <a href="#define" class="auto internal xref">Section 2.1</a> for a discussion of how to allocate
+grease values.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="use-grease-values-unpredictably">
+<section id="section-2.3">
+        <h3 id="name-use-grease-values-unpredict">
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-use-grease-values-unpredict" class="section-name selfRef">Use Grease Values Unpredictably</a>
+        </h3>
+<p id="section-2.3-1">In addition to selecting unpredictable values, the inclusion of grease itself
+can be made unpredictable. Implementations can vary their behavior by including
+no grease values, one grease value, or multiple grease values for a given protocol
+extension point.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-2">How consistently an frequently to use grease values is a choice that implementations
+and deployments need to consider and weigh against several factors.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
+<p id="section-2.3-3">Deployments of greasing should consider how they expect errors exposed by
+using grease values to be noticed and measured.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+<p id="section-2.3-4">If grease values are sent too infrequently, so that errors due to sending
+grease values blend in with the noise of other errors, it is likely that
+no one will notice failures, thus defeating the purpose of greasing.
+When grease values are sent more frequently, they will be noticed more.
+However, if grease values are sent too consistently, receiver implementations
+might end up special-casing grease values.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
+<p id="section-2.3-5">The patterns for sending grease values can be made more effective by
+coordinating between devices sending the values. One example of coordination
+is having a "flag day" where implementations start sending grease values
+broadly, and measure to see where errors occur.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="dont-handle-grease-values-as-a-special-case">
+<section id="section-2.4">
+        <h3 id="name-dont-handle-grease-values-a">
+<a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-dont-handle-grease-values-a" class="section-name selfRef">Don't Handle Grease Values as a Special Case</a>
+        </h3>
+<p id="section-2.4-1">Implementations that read and process grease values must ignore the values.
+"Ignoring" a value upon receipt can have multiple dimensions, however.
+Simply not performing any protocol action based on the grease value isn't
+enough to ensure that the protocol will remain extensible. The ignoring
+must be handled as a general case of "unknown" or "unhandled" values,
+not as a special case for ignored grease values.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-2">This means that grease values can only meaningfully be used for protocol elements
+where all unknown values are ignored by default. (Protocols may have ways
+to indicate that some specific values are "mandatory" or "critical" in order
+to have the protocol interaction succeed, but these must not be marked
+for any grease values.)<a href="#section-2.4-2" class="pilcrow">¶</a></p>
+<p id="section-2.4-3">One pitfall that implementations may encounter when building logic to
+handle the receipt of grease values is related to cases where some recognized
+non-grease values need to be handled as errors. Consider the following abstract
+example:<a href="#section-2.4-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-2.4-4">
+<li id="section-2.4-4.1">
+            <p id="section-2.4-4.1.1">A protocol element has values 1, 2, 3, and 4 defined and registered for
+use. The values 13 and 42 are reserved as grease values.<a href="#section-2.4-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.4-4.2">
+            <p id="section-2.4-4.2.1">In a specific scenario, only the known values 1 and 2 are valid; 3 and 4
+are considered errors.<a href="#section-2.4-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.4-4.3">
+            <p id="section-2.4-4.3.1">An implementation might naively choose to check for the value being 1 or 2, handle
+those cases, and send an error otherwise.<a href="#section-2.4-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.4-4.4">
+            <p id="section-2.4-4.4.1">When grease values are used, the previous logic will flag an error for the grease value.
+If this is detected, implementations might choose to work around this by updating
+the logic to check for the value being 1 or 2, then check for grease values to ignore,
+and then send an error otherwise. This logic is also incorrect since it doesn't
+allow for new extensibility.<a href="#section-2.4-4.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<p id="section-2.4-5">The correct logic for the above scenario would be to check for the value being 1 or 2,
+then explicitly check for the value being 3 or 4 (to handle the error), with a
+catch-all for ignored values.<a href="#section-2.4-5" class="pilcrow">¶</a></p>
+<p id="section-2.4-6">In pseudo-code, the correct logic would work like this, where the grease values
+would fall into the final <code>else</code> case as ignored values.<a href="#section-2.4-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.4-7">
+<pre>
+if is_valid_case_one(value):
+  handle_case_one()
+else if is_valid_case_two(value):
+  handle_case_two()
+else if is_known_invalid_case(value):
+  handle_error()
+else:
+  ignore_value()
+</pre><a href="#section-2.4-7" class="pilcrow">¶</a>
+</div>
+<p id="section-2.4-8">Implementations need to take care when implementing such logic. Protocol specification
+designers should emphasize that grease values must not be special-cased. It is also
+recommended to provide example logic or pseudocode in specifications, similar to the example
+above, as guidance to implementers on how to correctly process protocol elements like these.
+Documents can also provide test vectors, when applicable, that include grease values
+to ensure they are processed correctly.<a href="#section-2.4-8" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="deployment-considerations-and-incentives-for-greasing">
+<section id="section-3">
+      <h2 id="name-deployment-considerations-a">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-deployment-considerations-a" class="section-name selfRef">Deployment Considerations and Incentives for Greasing</a>
+      </h2>
+<p id="section-3-1">Greasing can be used as a tool to improve the active use of existing protocol
+elements (which weren't necessarily designed with greasing to begin with, or
+weren't deployed with greasing); or as part of new protocol design and deployments.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">When greasing isn't used from the beginning of protocol deployment, starting to use
+greasing comes with the risk of triggering failures or anomalies. These failures might be innocuous,
+but they also might be very impactful and visible to users. This risk creates a
+disincentive to deploy greasing in existing systems, since generally the change that
+triggers failures is often blamed for the failure. The risk is highest when
+adding greasing to a particular protocol flow that doesn't require any
+change of behavior or adoption to hit the greasing behavior. For example,
+if a service migrates to use a new web server implementation that enables
+greasing, while the previous server didn't, some new failures may be hit
+if clients react poorly to greasing.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">Some approaches to avoid failures due to greasing include:<a href="#section-3-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3-4.1">
+          <p id="section-3-4.1.1">Designing, implementing, and using greasing very early on in protocol development
+and deployment. This avoids the aforementioned risk of adding greasing late in a deployment.<a href="#section-3-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-3-4.2">
+          <p id="section-3-4.2.1">Enabling greasing along with other major protocol feature changes or deployment changes.
+For example, when upgrading to a new protocol version that requires implementation updates
+on multiple systems, greasing can be added for the new version specifically. This approach
+works well for situations where the protocol participants are known and already need
+to cooperate (such as within an encrypted protocol between two endpoints). This approach
+applies less well for situations where non-cooperating entities (such as middleboxes)
+are the source of ossification.<a href="#section-3-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-3-4.3">
+          <p id="section-3-4.3.1">Using heuristics to disable greasing when errors are encountered. For example,
+if a client-initiated protocol operation fails multiple times when grease values are used, it can be retried
+without any grease values. Alternatively, if a server recognizes a property of a client that always fails
+when greasing is used, it could choose to disable greasing when that client is detected.
+This reduces the effectiveness of grease values in removing
+existing ossification, but can still have benefits for flagging issues in new implementations
+when they receive grease values.<a href="#section-3-4.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+</section>
+</div>
+<div id="variability">
+<section id="section-4">
+      <h2 id="name-considerations-for-increasi">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-considerations-for-increasi" class="section-name selfRef">Considerations for Increasing Protocol Variability</a>
+      </h2>
+<p id="section-4-1">Greasing can maintain protocol extensibility by falsifying active use of its
+extension points. However, greasing alone does not ensure positive use of extension mechanisms. A protocol may
+define a wide-ranging extension capability that remains unused in the absence of
+real use cases. This can lead to ossification that does not expect extensions,
+leading to interoperability problems later on.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">Long-term maintenance and interoperability can be ensured by exercising
+extension points positively. To some extent this can be thought of as protocol
+fuzzing. This might be difficult to exercise because varying the protocol
+elements might change the outcome of interactions, leading to real errors.
+However, some protocols allow elements to be be safely changed, as shown in the
+following examples.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<div id="example-quic-frames">
+<section id="section-4.1">
+        <h3 id="name-example-quic-frames">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-example-quic-frames" class="section-name selfRef">Example: QUIC frames</a>
+        </h3>
+<p id="section-4.1-1">QUIC packets contain frames. Receivers might build expectations on the
+longitudinal aspects of packets or frames - size, ordering, frequency, etc. A
+sender can quite often manipulate these parameters and stay compliant to the
+requirements of the QUIC protocol.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">A QUIC stream is an ordered reliable byte stream that is serialized as a
+sequence of STREAM frames with a length and offset. Receivers are expected to
+reassemble frames, which could arrive in any order, into an ordered reliable
+byte stream that is readable by applications.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">A form of positive testing is for a sender to unpredictably order the STREAM
+frames that it transmits. For example, varying the sequence order of offset
+values. This allows to exercise the QUIC reassembly features of the receiver
+with the expectation that no failure would occur. However, doing this may
+introduce delay or stream head-of-line blocking that affects the performance
+aspects of a transmission, which may not be acceptable for a given use case. As
+such, positive testing might be most appropriate to use in a subset of
+connections, or phases within a connection.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="versions">
+<section id="section-5">
+      <h2 id="name-considerations-for-protocol">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-considerations-for-protocol" class="section-name selfRef">Considerations for Protocol Versions</a>
+      </h2>
+<p id="section-5-1">There are intrinsic and well-documented issues related to testing version
+negotiation of protocols; see <span>[<a href="#EXTENSIBILITY" class="cite xref">EXTENSIBILITY</a>]</span> and Sections <a href="https://rfc-editor.org/rfc/rfc9170#section-2.1" class="relref">2.1</a> and <a href="https://rfc-editor.org/rfc/rfc9170#section-3.2" class="relref">3.2</a> of <span>[<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>. This section will be expanded with advice for protocol
+designers and implementers about how to approach these problems.<a href="#section-5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-6">
+      <h2 id="name-security-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-6-1">The considerations in <span>[<a href="#MAINTENANCE" class="cite xref">MAINTENANCE</a>]</span>, <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span>, <span>[<a href="#END-USERS" class="cite xref">END-USERS</a>]</span>, and
+<span>[<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> all apply to the topics discussed in this document.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">The use of protocol features, extensions, and versions can already allow
+fingerprinting <span>[<a href="#PRIVCON" class="cite xref">PRIVCON</a>]</span>. Any techniques that change parameters  in any way, including but
+not limited to those discussed in this document, can affect fingerprinting. A
+deeper analysis of this topic has been deemed out of scope.<a href="#section-6-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-7">
+      <h2 id="name-iana-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-7-1">This document has no IANA actions itself. Guidance on how other documents can effectively
+instruct IANA about protocol greasing is provided in <a href="#iana-tips" class="auto internal xref">Section 2.1.1</a><a href="#section-7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-8">
+      <h2 id="name-informative-references">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+      </h2>
+<dl class="references">
+<dt id="END-USERS">[END-USERS]</dt>
+      <dd>
+<span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"The Internet is for End Users"</span>, <span class="seriesInfo">RFC 8890</span>, <span class="seriesInfo">DOI 10.17487/RFC8890</span>, <time datetime="2020-08" class="refDate">August 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8890">https://www.rfc-editor.org/rfc/rfc8890</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="EXTENSIBILITY">[EXTENSIBILITY]</dt>
+      <dd>
+<span class="refAuthor">Carpenter, B.</span>, <span class="refAuthor">Aboba, B., Ed.</span>, and <span class="refAuthor">S. Cheshire</span>, <span class="refTitle">"Design Considerations for Protocol Extensions"</span>, <span class="seriesInfo">RFC 6709</span>, <span class="seriesInfo">DOI 10.17487/RFC6709</span>, <time datetime="2012-09" class="refDate">September 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6709">https://www.rfc-editor.org/rfc/rfc6709</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="GREASE">[GREASE]</dt>
+      <dd>
+<span class="refAuthor">Benjamin, D.</span>, <span class="refTitle">"Applying Generate Random Extensions And Sustain Extensibility (GREASE) to TLS Extensibility"</span>, <span class="seriesInfo">RFC 8701</span>, <span class="seriesInfo">DOI 10.17487/RFC8701</span>, <time datetime="2020-01" class="refDate">January 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8701">https://www.rfc-editor.org/rfc/rfc8701</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9114">[HTTP/3]</dt>
+      <dd>
+<span class="refAuthor">Bishop, M., Ed.</span>, <span class="refTitle">"HTTP/3"</span>, <span class="seriesInfo">RFC 9114</span>, <span class="seriesInfo">DOI 10.17487/RFC9114</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9114">https://www.rfc-editor.org/rfc/rfc9114</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="MAINTENANCE">[MAINTENANCE]</dt>
+      <dd>
+<span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">D. Schinazi</span>, <span class="refTitle">"Maintaining Robust Protocols"</span>, <span class="seriesInfo">RFC 9413</span>, <span class="seriesInfo">DOI 10.17487/RFC9413</span>, <time datetime="2023-06" class="refDate">June 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9413">https://www.rfc-editor.org/rfc/rfc9413</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="PRIVACYPASS">[PRIVACYPASS]</dt>
+      <dd>
+<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Valdez, S.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"The Privacy Pass HTTP Authentication Scheme"</span>, <span class="seriesInfo">RFC 9577</span>, <span class="seriesInfo">DOI 10.17487/RFC9577</span>, <time datetime="2024-06" class="refDate">June 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9577">https://www.rfc-editor.org/rfc/rfc9577</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="PRIVCON">[PRIVCON]</dt>
+      <dd>
+<span class="refAuthor">Cooper, A.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Aboba, B.</span>, <span class="refAuthor">Peterson, J.</span>, <span class="refAuthor">Morris, J.</span>, <span class="refAuthor">Hansen, M.</span>, and <span class="refAuthor">R. Smith</span>, <span class="refTitle">"Privacy Considerations for Internet Protocols"</span>, <span class="seriesInfo">RFC 6973</span>, <span class="seriesInfo">DOI 10.17487/RFC6973</span>, <time datetime="2013-07" class="refDate">July 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6973">https://www.rfc-editor.org/rfc/rfc6973</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="QUIC">[QUIC]</dt>
+      <dd>
+<span class="refAuthor">Iyengar, J., Ed.</span> and <span class="refAuthor">M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="seriesInfo">RFC 9000</span>, <span class="seriesInfo">DOI 10.17487/RFC9000</span>, <time datetime="2021-05" class="refDate">May 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9000">https://www.rfc-editor.org/rfc/rfc9000</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SUCCESS">[SUCCESS]</dt>
+      <dd>
+<span class="refAuthor">Thaler, D.</span> and <span class="refAuthor">B. Aboba</span>, <span class="refTitle">"What Makes for a Successful Protocol?"</span>, <span class="seriesInfo">RFC 5218</span>, <span class="seriesInfo">DOI 10.17487/RFC5218</span>, <time datetime="2008-07" class="refDate">July 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5218">https://www.rfc-editor.org/rfc/rfc5218</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="VIABILITY">[VIABILITY]</dt>
+    <dd>
+<span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">T. Pauly</span>, <span class="refTitle">"Long-Term Viability of Protocol Extension Mechanisms"</span>, <span class="seriesInfo">RFC 9170</span>, <span class="seriesInfo">DOI 10.17487/RFC9170</span>, <time datetime="2021-12" class="refDate">December 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9170">https://www.rfc-editor.org/rfc/rfc9170</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-A">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-A-1">This work is a summary of the topics discussed during EDM meetings. The
+contributors at those meetings are thanked.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Lucas Pardue</span></div>
+<div dir="auto" class="left"><span class="org">Cloudflare</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:lucas@lucaspardue.com" class="email">lucas@lucaspardue.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Tommy Pauly</span></div>
+<div dir="auto" class="left"><span class="org">Apple</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:tpauly@apple.com" class="email">tpauly@apple.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>

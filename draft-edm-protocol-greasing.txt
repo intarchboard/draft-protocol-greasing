@@ -70,22 +70,19 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-   2.  Conventions and Definitions
-   3.  Considerations for Greasing Protocols
-     3.1.  Define and Register Grease Value Ranges
-       3.1.1.  Recommendations for IANA Considerations
-     3.2.  Use Unpredictable Grease Values
-     3.3.  Use Grease Values Unpredictably
-     3.4.  Don't Handle Grease Values as a Special Case
-   4.  Deployment Considerations and Incentives for Greasing
-   5.  Considerations for Increasing Protocol Variability
-     5.1.  Example: QUIC frames
-   6.  Considerations for Protocol Versions
-   7.  Security Considerations
-   8.  IANA Considerations
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+   2.  Considerations for Greasing Protocols
+     2.1.  Define and Register Grease Value Ranges
+       2.1.1.  Recommendations for IANA Considerations
+     2.2.  Use Unpredictable Grease Values
+     2.3.  Use Grease Values Unpredictably
+     2.4.  Don't Handle Grease Values as a Special Case
+   3.  Deployment Considerations and Incentives for Greasing
+   4.  Considerations for Increasing Protocol Variability
+     4.1.  Example: QUIC frames
+   5.  Considerations for Protocol Versions
+   6.  Security Considerations
+   7.  IANA Considerations
+   8.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -116,7 +113,7 @@ Table of Contents
    While it is becoming more common, designing and applying grease is
    not necessarily trivial.  There are best practices, and some common
    pitfalls to avoid, that have been developed by the protocols using
-   grease thus far.  Section 3 takes these learnings and provides
+   grease thus far.  Section 2 takes these learnings and provides
    considerations for new protocol design and deployment.
 
    Separate from greasing using reserved values, protocol deployments
@@ -127,7 +124,7 @@ Table of Contents
    protocol features can affect the deployment's network traffic
    profile.  If expectations have been formed around historical patterns
    of use, i.e., ossification, introducing change might lead to
-   deployment problems.  Section 5 presents considerations about how
+   deployment problems.  Section 4 presents considerations about how
    intentionally increasing the variability of protocols can mitigate
    some of these concerns.
 
@@ -138,19 +135,11 @@ Table of Contents
    mandatory, effectively defining a new baseline that can simplify
    deployment and interoperability.  A replacement protocol version may
    or may not be compatible with other versions.  A protocol may or may
-   not have a mechanism for version selection or agility.  Section 6
+   not have a mechanism for version selection or agility.  Section 5
    presents considerations about designing for and/or implementing
    version negotiation and migration.
 
-2.  Conventions and Definitions
-
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in
-   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
-   capitals, as shown here.
-
-3.  Considerations for Greasing Protocols
+2.  Considerations for Greasing Protocols
 
    Greasing can take many forms, depending on the protocol and the
    nature of its extension points.  The common pattern across forms of
@@ -165,7 +154,7 @@ Table of Contents
    This section provides some practical considerations for how to define
    and use greasing, and avoid possible pitfalls.
 
-3.1.  Define and Register Grease Value Ranges
+2.1.  Define and Register Grease Value Ranges
 
    Many protocols that use greasing have a limited set of possible
    values or codepoints that can be used in a particular extension
@@ -208,7 +197,7 @@ Table of Contents
    to be careful to not unintentionally use grease values.  Doing so
    could lead to interoperability failures.
 
-3.1.1.  Recommendations for IANA Considerations
+2.1.1.  Recommendations for IANA Considerations
 
    IANA registries that contain reserved grease values need to indicate
    that the values are reserved in order to prevent them from being
@@ -234,7 +223,7 @@ Table of Contents
    confusion, it is recommended to label the reservation with a clear
    identifier, such as "reserved for greasing".
 
-3.2.  Use Unpredictable Grease Values
+2.2.  Use Unpredictable Grease Values
 
    In order to gain the benefits of active use and avoid ossification,
    grease values need to be sent in ways that won't become a predictable
@@ -250,10 +239,10 @@ Table of Contents
    use, while other clients pick other values.
 
    In order to support picking unpredictable values, the set of reserved
-   values should be large, when possible.  See Section 3.1 for a
+   values should be large, when possible.  See Section 2.1 for a
    discussion of how to allocate grease values.
 
-3.3.  Use Grease Values Unpredictably
+2.3.  Use Grease Values Unpredictably
 
    In addition to selecting unpredictable values, the inclusion of
    grease itself can be made unpredictable.  Implementations can vary
@@ -280,7 +269,7 @@ Table of Contents
    coordination is having a "flag day" where implementations start
    sending grease values broadly, and measure to see where errors occur.
 
-3.4.  Don't Handle Grease Values as a Special Case
+2.4.  Don't Handle Grease Values as a Special Case
 
    Implementations that read and process grease values must ignore the
    values.  "Ignoring" a value upon receipt can have multiple
@@ -343,7 +332,7 @@ Table of Contents
    applicable, that include grease values to ensure they are processed
    correctly.
 
-4.  Deployment Considerations and Incentives for Greasing
+3.  Deployment Considerations and Incentives for Greasing
 
    Greasing can be used as a tool to improve the active use of existing
    protocol elements (which weren't necessarily designed with greasing
@@ -389,7 +378,7 @@ Table of Contents
       existing ossification, but can still have benefits for flagging
       issues in new implementations when they receive grease values.
 
-5.  Considerations for Increasing Protocol Variability
+4.  Considerations for Increasing Protocol Variability
 
    Greasing can maintain protocol extensibility by falsifying active use
    of its extension points.  However, greasing alone does not ensure
@@ -405,7 +394,7 @@ Table of Contents
    interactions, leading to real errors.  However, some protocols allow
    elements to be be safely changed, as shown in the following examples.
 
-5.1.  Example: QUIC frames
+4.1.  Example: QUIC frames
 
    QUIC packets contain frames.  Receivers might build expectations on
    the longitudinal aspects of packets or frames - size, ordering,
@@ -428,7 +417,7 @@ Table of Contents
    testing might be most appropriate to use in a subset of connections,
    or phases within a connection.
 
-6.  Considerations for Protocol Versions
+5.  Considerations for Protocol Versions
 
    There are intrinsic and well-documented issues related to testing
    version negotiation of protocols; see [EXTENSIBILITY] and Sections
@@ -436,7 +425,7 @@ Table of Contents
    advice for protocol designers and implementers about how to approach
    these problems.
 
-7.  Security Considerations
+6.  Security Considerations
 
    The considerations in [MAINTENANCE], [GREASE], [END-USERS], and
    [VIABILITY] all apply to the topics discussed in this document.
@@ -447,26 +436,13 @@ Table of Contents
    in this document, can affect fingerprinting.  A deeper analysis of
    this topic has been deemed out of scope.
 
-8.  IANA Considerations
+7.  IANA Considerations
 
    This document has no IANA actions itself.  Guidance on how other
    documents can effectively instruct IANA about protocol greasing is
-   provided in Section 3.1.1
+   provided in Section 2.1.1
 
-9.  References
-
-9.1.  Normative References
-
-   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-              Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/rfc/rfc2119>.
-
-   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
-
-9.2.  Informative References
+8.  Informative References
 
    [END-USERS]
               Nottingham, M., "The Internet is for End Users", RFC 8890,

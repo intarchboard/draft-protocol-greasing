@@ -326,7 +326,7 @@ but may not provide enough incentive to discourage ossification.
 One approach to preserving the incentive to grease without being blamed for doing so,
 while still potentially discouraging ossification, is to make any such ossification visible.
 For example, a sender can log and report ossification issues on a given path
-when falling back to non-grease values.  Or a receiver can log and report communication
+when falling back to non-grease values. Similarly, a receiver can log and report communication
 that does not include grease values.  Such reports might be used in social feedback
 (e.g., public product or service reviews), or in contractual business relationship (e.g., SLA)
 discussion, in order to provide an incentive to implementers or deployers of ossified implementations.

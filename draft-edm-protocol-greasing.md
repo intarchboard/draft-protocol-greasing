@@ -104,11 +104,6 @@ not have a mechanism for version selection or agility. {{versions}} presents
 considerations about designing for and/or implementing version negotiation and
 migration.
 
-
-# Conventions and Definitions
-
-{::boilerplate bcp14-tagged}
-
 # Considerations for Greasing Protocols {#grease-considerations}
 
 Greasing can take many forms, depending on the protocol and the nature of its

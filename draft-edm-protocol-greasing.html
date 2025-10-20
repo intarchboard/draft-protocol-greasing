@@ -1468,6 +1468,11 @@ recommended to provide example logic or pseudocode in specifications, similar to
 above, as guidance to implementers on how to correctly process protocol elements like these.
 Documents can also provide test vectors, when applicable, that include grease values
 to ensure they are processed correctly.<a href="#section-2.4-8" class="pilcrow">¶</a></p>
+<p id="section-2.4-9">One limitation of greasing is that it only exercises grease values. It does not check whether
+other values that are reserved for future use are correctly treated as ignored or errors.
+As such, ossification remains a possibility for non-grease values. The goal of greasing
+is to increase the chances of correct implementation, and there by reduce (but not
+eliminate) the possibility of ossification.<a href="#section-2.4-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

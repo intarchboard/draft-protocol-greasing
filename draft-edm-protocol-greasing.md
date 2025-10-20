@@ -32,6 +32,10 @@ author:
     fullname: Tommy Pauly
     organization: Apple
     email: "tpauly@apple.com"
+ -
+    fullname: Dave Thaler
+    organization: Armidale Consulting
+    email: "dave.thaler.ietf@gmail.com"
 
 normative:
 

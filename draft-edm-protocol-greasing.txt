@@ -5,8 +5,10 @@
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
 Intended status: Informational                                  T. Pauly
-Expires: 22 January 2026                                           Apple
-                                                            21 July 2025
+Expires: 23 April 2026                                             Apple
+                                                               D. Thaler
+                                                     Armidale Consulting
+                                                         20 October 2025
 
 
  Considerations For Maintaining Protocols Using Grease and Variability
@@ -54,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 January 2026.
+   This Internet-Draft will expire on 23 April 2026.
 
 Copyright Notice
 
@@ -509,3 +511,8 @@ Authors' Addresses
    Tommy Pauly
    Apple
    Email: tpauly@apple.com
+
+
+   Dave Thaler
+   Armidale Consulting
+   Email: dave.thaler.ietf@gmail.com

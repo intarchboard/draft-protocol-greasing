@@ -343,7 +343,7 @@ Table of Contents
    use are correctly treated as ignored or errors.  As such,
    ossification remains a possibility for non-grease values.  The goal
    of greasing is to increase the chances of correct implementation, and
-   there by reduce (but not eliminate) the possibility of ossification.
+   thereby reduce (but not eliminate) the possibility of ossification.
 
 3.  Deployment Considerations and Incentives for Greasing
 

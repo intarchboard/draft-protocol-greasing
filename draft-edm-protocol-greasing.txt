@@ -79,6 +79,7 @@ Table of Contents
      2.3.  Use Grease Values Unpredictably
      2.4.  Don't Handle Grease Values as a Special Case
    3.  Deployment Considerations and Incentives for Greasing
+     3.1.  Discouraging Ossification
    4.  Considerations for Increasing Protocol Variability
      4.1.  Example: QUIC frames
    5.  Considerations for Protocol Versions
@@ -379,6 +380,26 @@ Table of Contents
       This reduces the effectiveness of grease values in removing
       existing ossification, but can still have benefits for flagging
       issues in new implementations when they receive grease values.
+
+3.1.  Discouraging Ossification
+
+   Greasing alone can help ensure that middleboxes tolerate unrecognized
+   extensions rather than crashing, but one common middlebox behavior is
+   to simply drop all unrecognized extensions.  Techniques such as
+   disabling greasing when errors are encountered can enable
+   communication but may not provide enough incentive to discourage
+   ossification.
+
+   One approach to preserving the incentive to grease without being
+   blamed for doing so, while still potentially discouraging
+   ossification, is to make any such ossification visible.  For example,
+   a sender can log and report ossification issues on a given path when
+   falling back to non-grease values.  Similarly, a receiver can log and
+   report communication that does not include grease values.  Such
+   reports might be used in social feedback (e.g., public product or
+   service reviews), or in contractual business relationship (e.g., SLA)
+   discussion, in order to provide an incentive to implementers or
+   deployers of ossified implementations.
 
 4.  Considerations for Increasing Protocol Variability
 

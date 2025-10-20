@@ -1191,6 +1191,11 @@ advice for making them as effective as possible.<a href="#section-abstract-2" cl
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-deployment-considerations-a" class="internal xref">Deployment Considerations and Incentives for Greasing</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-discouraging-ossification" class="internal xref">Discouraging Ossification</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-considerations-for-increasi" class="internal xref">Considerations for Increasing Protocol Variability</a></p>
@@ -1507,6 +1512,24 @@ existing ossification, but can still have benefits for flagging issues in new im
 when they receive grease values.<a href="#section-3-4.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
+<div id="discouraging-ossification">
+<section id="section-3.1">
+        <h3 id="name-discouraging-ossification">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-discouraging-ossification" class="section-name selfRef">Discouraging Ossification</a>
+        </h3>
+<p id="section-3.1-1">Greasing alone can help ensure that middleboxes tolerate unrecognized extensions rather than
+crashing, but one common middlebox behavior is to simply drop all unrecognized extensions.
+Techniques such as disabling greasing when errors are encountered can enable communication
+but may not provide enough incentive to discourage ossification.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">One approach to preserving the incentive to grease without being blamed for doing so,
+while still potentially discouraging ossification, is to make any such ossification visible.
+For example, a sender can log and report ossification issues on a given path
+when falling back to non-grease values. Similarly, a receiver can log and report communication
+that does not include grease values.  Such reports might be used in social feedback
+(e.g., public product or service reviews), or in contractual business relationship (e.g., SLA)
+discussion, in order to provide an incentive to implementers or deployers of ossified implementations.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="variability">

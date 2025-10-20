@@ -184,12 +184,12 @@ Table of Contents
    may find it too costly to dedicate many grease values, while 32-bit
    or 64-bit fields are likely to have no such limitations.
 
-   It is recommended to use an algorithm to reserving large sets of
-   values.  For example, [QUIC] uses and algorithm of 31 * N + 27 to
-   allocate transport parameters grease values.
+   It is recommended to use an algorithm to reserve large sets of
+   values.  For example, [QUIC] uses an algorithm of 31 * N + 27 to
+   allocate grease values for transport parameters.
 
-   One possible problem with some algorithms is how they will spread out
-   values over the space, and impact the ability to use or reserve
+   One possible problem with some algorithms is that they will spread
+   out values over the space, and impact the ability to use or reserve
    contiguous blocks of non-grease values.  It is common for protocol
    extension designers to want to reserve contiguous blocks of
    codepoints in order to aid iteration and experimentation.  Reserved
@@ -207,7 +207,7 @@ Table of Contents
    allocated for other uses.  The specifics of how to represent the
    reservations is up to the documents that define the registries.
 
-   Some registries list out the reserved grease values specifically,
+   Some registries list out the reserved grease values individually,
    marked as "Reserved".  For example, the TLS registry uses this
    approach (https://www.iana.org/assignments/tls-parameters/tls-
    parameters.xhtml).
@@ -229,17 +229,18 @@ Table of Contents
 2.2.  Use Unpredictable Grease Values
 
    In order to gain the benefits of active use and avoid ossification,
-   grease values need to be sent in ways that won't become a predictable
-   pattern that implementations and deployments ossify around.
+   grease values used in actual packets need to be sent in ways that
+   won't become a predictable pattern that receiver and middlebox
+   implementations and deployments ossify around.
 
    Implementations that generate grease values should pick unpredictable
    entries from the set of reserved grease values.  It is most important
    that values be unpredictable across the set of all protocol
    participants for particular deployments.  This can be achieved in
-   multiple ways: for example, an individual client device might pick
-   random values from the grease value space on each interaction;
-   alternatively, a single client could pick a specific grease value to
-   use, while other clients pick other values.
+   multiple ways: for example, an individual sender might pick random
+   values from the grease value space on each interaction;
+   alternatively, a single sender could pick a specific grease value to
+   use, while other senders pick other values.
 
    In order to support picking unpredictable values, the set of reserved
    values should be large, when possible.  See Section 2.1 for a
@@ -252,7 +253,7 @@ Table of Contents
    their behavior by including no grease values, one grease value, or
    multiple grease values for a given protocol extension point.
 
-   How consistently an frequently to use grease values is a choice that
+   How consistently and frequently to use grease values is a choice that
    implementations and deployments need to consider and weigh against
    several factors.
 
@@ -404,18 +405,19 @@ Table of Contents
 4.  Considerations for Increasing Protocol Variability
 
    Greasing can maintain protocol extensibility by falsifying active use
-   of its extension points.  However, greasing alone does not ensure
-   positive use of extension mechanisms.  A protocol may define a wide-
-   ranging extension capability that remains unused in the absence of
-   real use cases.  This can lead to ossification that does not expect
-   extensions, leading to interoperability problems later on.
+   of its extension points (see Section 3.3 of [VIABILITY]).  However,
+   greasing alone does not ensure positive use of extension mechanisms.
+   A protocol may define a wide-ranging extension capability that
+   remains unused in the absence of real use cases.  This can lead to
+   ossification that does not expect extensions, leading to
+   interoperability problems later on.
 
    Long-term maintenance and interoperability can be ensured by
    exercising extension points positively.  To some extent this can be
    thought of as protocol fuzzing.  This might be difficult to exercise
    because varying the protocol elements might change the outcome of
    interactions, leading to real errors.  However, some protocols allow
-   elements to be be safely changed, as shown in the following examples.
+   elements to be be safely changed, as shown in the following example.
 
 4.1.  Example: QUIC frames
 
@@ -431,14 +433,14 @@ Table of Contents
    applications.
 
    A form of positive testing is for a sender to unpredictably order the
-   STREAM frames that it transmits.  For example, varying the sequence
-   order of offset values.  This allows to exercise the QUIC reassembly
-   features of the receiver with the expectation that no failure would
-   occur.  However, doing this may introduce delay or stream head-of-
-   line blocking that affects the performance aspects of a transmission,
-   which may not be acceptable for a given use case.  As such, positive
-   testing might be most appropriate to use in a subset of connections,
-   or phases within a connection.
+   STREAM frames that it transmits.  For example, the sender can vary
+   the sequence order of offset values.  This allows exercising the QUIC
+   reassembly features of the receiver with the expectation that no
+   failure would occur.  However, doing this may introduce delay or
+   stream head-of-line blocking that affects the performance aspects of
+   a transmission, which may not be acceptable for a given use case.  As
+   such, positive testing might be most appropriate to use in a subset
+   of connections, or phases within a connection.
 
 5.  Considerations for Protocol Versions
 

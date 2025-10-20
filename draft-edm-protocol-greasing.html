@@ -1400,7 +1400,8 @@ might end up special-casing grease values.<a href="#section-2.3-4" class="pilcro
 <p id="section-2.3-5">The patterns for sending grease values can be made more effective by
 coordinating between devices sending the values. One example of coordination
 is having a "flag day" where implementations start sending grease values
-broadly, and measure to see where errors occur.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
+broadly, and measure to see where errors occur.  See <span><a href="https://rfc-editor.org/rfc/rfc8170#section-3" class="relref">Section 3</a> of [<a href="#TRANSITION" class="cite xref">TRANSITION</a>]</span>
+for more considerations concerning the use of a flag day.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="dont-handle-grease-values-as-a-special-case">
@@ -1580,9 +1581,12 @@ connections, or phases within a connection.<a href="#section-4.1-3" class="pilcr
       <h2 id="name-considerations-for-protocol">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-considerations-for-protocol" class="section-name selfRef">Considerations for Protocol Versions</a>
       </h2>
-<p id="section-5-1">There are intrinsic and well-documented issues related to testing version
-negotiation of protocols; see <span>[<a href="#EXTENSIBILITY" class="cite xref">EXTENSIBILITY</a>]</span> and Sections <a href="https://rfc-editor.org/rfc/rfc9170#section-2.1" class="relref">2.1</a> and <a href="https://rfc-editor.org/rfc/rfc9170#section-3.2" class="relref">3.2</a> of <span>[<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>. This section will be expanded with advice for protocol
-designers and implementers about how to approach these problems.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1"><span>[<a href="#TRANSITION" class="cite xref">TRANSITION</a>]</span> discusses considerations around planning for transitioning
+from an existing protocol, or protocol version, to a new one.
+There are also intrinsic and well-documented issues related to testing version
+negotiation of protocols; see <span>[<a href="#EXTENSIBILITY" class="cite xref">EXTENSIBILITY</a>]</span> and Sections <a href="https://rfc-editor.org/rfc/rfc9170#section-2.1" class="relref">2.1</a> and <a href="https://rfc-editor.org/rfc/rfc9170#section-3.2" class="relref">3.2</a> of <span>[<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">This section will be expanded with advice for protocol
+designers and implementers about how to approach these problems.<a href="#section-5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
@@ -1648,6 +1652,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dt id="SUCCESS">[SUCCESS]</dt>
       <dd>
 <span class="refAuthor">Thaler, D.</span> and <span class="refAuthor">B. Aboba</span>, <span class="refTitle">"What Makes for a Successful Protocol?"</span>, <span class="seriesInfo">RFC 5218</span>, <span class="seriesInfo">DOI 10.17487/RFC5218</span>, <time datetime="2008-07" class="refDate">July 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5218">https://www.rfc-editor.org/rfc/rfc5218</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="TRANSITION">[TRANSITION]</dt>
+      <dd>
+<span class="refAuthor">Thaler, D., Ed.</span>, <span class="refTitle">"Planning for Protocol Adoption and Subsequent Transitions"</span>, <span class="seriesInfo">RFC 8170</span>, <span class="seriesInfo">DOI 10.17487/RFC8170</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8170">https://www.rfc-editor.org/rfc/rfc8170</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="VIABILITY">[VIABILITY]</dt>
     <dd>

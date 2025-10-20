@@ -272,6 +272,8 @@ Table of Contents
    coordinating between devices sending the values.  One example of
    coordination is having a "flag day" where implementations start
    sending grease values broadly, and measure to see where errors occur.
+   See Section 3 of [TRANSITION] for more considerations concerning the
+   use of a flag day.
 
 2.4.  Don't Handle Grease Values as a Special Case
 
@@ -444,11 +446,14 @@ Table of Contents
 
 5.  Considerations for Protocol Versions
 
-   There are intrinsic and well-documented issues related to testing
-   version negotiation of protocols; see [EXTENSIBILITY] and Sections
-   2.1 and 3.2 of [VIABILITY].  This section will be expanded with
-   advice for protocol designers and implementers about how to approach
-   these problems.
+   [TRANSITION] discusses considerations around planning for
+   transitioning from an existing protocol, or protocol version, to a
+   new one.  There are also intrinsic and well-documented issues related
+   to testing version negotiation of protocols; see [EXTENSIBILITY] and
+   Sections 2.1 and 3.2 of [VIABILITY].
+
+   This section will be expanded with advice for protocol designers and
+   implementers about how to approach these problems.
 
 6.  Security Considerations
 
@@ -513,6 +518,11 @@ Table of Contents
    [SUCCESS]  Thaler, D. and B. Aboba, "What Makes for a Successful
               Protocol?", RFC 5218, DOI 10.17487/RFC5218, July 2008,
               <https://www.rfc-editor.org/rfc/rfc5218>.
+
+   [TRANSITION]
+              Thaler, D., Ed., "Planning for Protocol Adoption and
+              Subsequent Transitions", RFC 8170, DOI 10.17487/RFC8170,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8170>.
 
    [VIABILITY]
               Thomson, M. and T. Pauly, "Long-Term Viability of Protocol

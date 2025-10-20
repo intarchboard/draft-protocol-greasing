@@ -316,6 +316,21 @@ This reduces the effectiveness of grease values in removing
 existing ossification, but can still have benefits for flagging issues in new implementations
 when they receive grease values.
 
+## Discouraging Ossification
+
+Greasing alone can help ensure that middleboxes tolerate unrecognized extensions rather than
+crashing, but one common middlebox behavior is to simply drop all unrecognized extensions.
+Techniques such as disabling greasing when errors are encountered can enable communication
+but may not provide enough incentive to discourage ossification.
+
+One approach to preserving the incentive to grease without being blamed for doing so,
+while still potentially discouraging ossification, is to make any such ossification visible.
+For example, a sender can log and report ossification issues on a given path
+when falling back to non-grease values. Similarly, a receiver can log and report communication
+that does not include grease values.  Such reports might be used in social feedback
+(e.g., public product or service reviews), or in contractual business relationship (e.g., SLA)
+discussion, in order to provide an incentive to implementers or deployers of ossified implementations.
+
 # Considerations for Increasing Protocol Variability {#variability}
 
 Greasing can maintain protocol extensibility by falsifying active use of its

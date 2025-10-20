@@ -286,7 +286,7 @@ to ensure they are processed correctly.
 One limitation of greasing is that it only exercises grease values. It does not check whether
 other values that are reserved for future use are correctly treated as ignored or errors.
 As such, ossification remains a possibility for non-grease values. The goal of greasing
-is to increase the chances of correct implementation, and there by reduce (but not
+is to increase the chances of correct implementation, and thereby reduce (but not
 eliminate) the possibility of ossification.
 
 # Deployment Considerations and Incentives for Greasing

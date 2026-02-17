@@ -5,10 +5,10 @@
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
 Intended status: Informational                                  T. Pauly
-Expires: 23 April 2026                                             Apple
+Expires: 21 August 2026                                            Apple
                                                                D. Thaler
                                                      Armidale Consulting
-                                                         20 October 2025
+                                                        17 February 2026
 
 
  Considerations For Maintaining Protocols Using Grease and Variability
@@ -56,11 +56,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 April 2026.
+   This Internet-Draft will expire on 21 August 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -101,8 +101,8 @@ Table of Contents
    Active use of protocol features and extensions often requires
    intentional efforts beyond what would organically occur in
    deployments.  Some extension points do not frequently see new values
-   being used, but are still important to be usable in the future.  Some
-   patterns of protocol usage might be relatively static without
+   being used, but that they remain usable in the future is important.
+   Some patterns of protocol usage might be relatively static without
    specific efforts to ensure that they can change in the future.
 
    One key techique for intentional use is "grease", or "greasing".

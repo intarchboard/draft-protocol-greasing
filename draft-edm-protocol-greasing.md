@@ -69,8 +69,8 @@ in {{?SUCCESS=RFC5218}}.
 
 Active use of protocol features and extensions often requires intentional
 efforts beyond what would organically occur in deployments. Some extension
-points do not frequently see new values being used, but are still important
-to be usable in the future. Some patterns of protocol usage might be
+points do not frequently see new values being used, but that they remain
+usable in the future is important. Some patterns of protocol usage might be
 relatively static without specific efforts to ensure that they can change
 in the future.
 

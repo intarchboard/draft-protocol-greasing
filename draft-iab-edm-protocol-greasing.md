@@ -3,7 +3,7 @@ title: "Considerations For Maintaining Protocols Using Grease and Variability"
 abbrev: "Protocol Greasing"
 category: info
 
-docname: draft-edm-protocol-greasing-latest
+docname: draft-iab-edm-protocol-greasing-latest
 submissiontype: IAB
 number:
 date:
@@ -21,7 +21,7 @@ venue:
 #  mail: WG@example.com
 #  arch: https://example.com/WG
   github: "intarchboard/draft-protocol-greasing"
-  latest: "https://intarchboard.github.io/draft-protocol-greasing/draft-edm-protocol-greasing.html"
+  latest: "https://intarchboard.github.io/draft-protocol-greasing/draft-iab-edm-protocol-greasing.html"
 
 author:
  -

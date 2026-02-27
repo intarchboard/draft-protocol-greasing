@@ -340,6 +340,15 @@ that does not include grease values.  Such reports might be used in social feedb
 (e.g., public product or service reviews), or in contractual business relationship (e.g., SLA)
 discussion, in order to provide an incentive to implementers or deployers of ossified implementations.
 
+Similar techniques can be used to encourage greasing and variability by others, to
+provide further discouragements against ossification in the future.
+Having a receiver log and report communication that does not include grease values,
+as noted above, can also be used to report on senders that do not support greasing.
+It is useful, however, to be able to distinguish between the sender not supporting greasing,
+versus the sender supporting greasing but only non-greased messages arriving at the
+receiver.  Protocols defining greasing mechanisms should consider whether receivers
+can distinguish between these two cases.
+
 # Considerations for Increasing Protocol Variability {#variability}
 
 Greasing can maintain protocol extensibility by falsifying active use of its

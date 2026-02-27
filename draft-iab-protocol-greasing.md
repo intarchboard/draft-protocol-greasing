@@ -384,8 +384,15 @@ There are also intrinsic and well-documented issues related to testing version
 negotiation of protocols; see {{?EXTENSIBILITY=RFC6709}} and {{Sections 2.1 and
 3.2 of VIABILITY}}.
 
-This section will be expanded with advice for protocol
-designers and implementers about how to approach these problems.
+One way to grease protocol versions is where a protocol supports passing
+a list of supported versions or features (e.g., cipher suites), and a grease
+value can be added to the list such that it will not impact the actual version
+or features chosen, since it will not be selected by the receiving entity.
+
+Another method is where a protocol includes a recovery mechanism (e.g., an extra
+round trip to try with another option) if an unsupported version or feature
+is attempted.  In this case, a grease value might be attempted at some
+frequency or opportunity that would not adversely affect performance.
 
 # Security Considerations
 

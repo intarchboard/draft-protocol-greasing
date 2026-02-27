@@ -74,7 +74,7 @@ usable in the future is important. Some patterns of protocol usage might be
 relatively static without specific efforts to ensure that they can change
 in the future.
 
-One key techique for intentional use is "grease", or "greasing".
+One key technique for intentional use is "grease", or "greasing".
 Greasing was initially designed for TLS {{?GREASE=RFC8701}} and was later
 adopted by other protocols such as QUIC {{?QUIC=RFC9000}}. In these protocols,
 extension codepoints are reserved only for greasing and must be ignored

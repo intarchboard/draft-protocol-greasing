@@ -349,6 +349,15 @@ versus the sender supporting greasing but only non-greased messages arriving at 
 receiver.  Protocols defining greasing mechanisms should consider whether receivers
 can distinguish between these two cases.
 
+It is not generally recommended to use more drastic incentives to require greasing
+such as degrading performance or reliability for senders that don't support greasing.
+While this is possible, the benefits of greasing are longer term, rather than immediate,
+and the incentives are often not aligned. {{Section 2.1.1 of SUCCESS}} explains that success
+most easily comes when those who are required to make a change are the ones who gain
+the most benefit, and the benefit is noticeable.  If the sending implementation does
+not plan to use new extensions in the future, it would not see any benefit from being
+pushed to add greasing.
+
 # Considerations for Increasing Protocol Variability {#variability}
 
 Greasing can maintain protocol extensibility by falsifying active use of its

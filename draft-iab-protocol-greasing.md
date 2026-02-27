@@ -352,8 +352,10 @@ Long-term maintenance and interoperability can be ensured by exercising
 extension points positively. To some extent this can be thought of as protocol
 fuzzing. This might be difficult to exercise because varying the protocol
 elements might change the outcome of interactions, leading to real errors.
-However, some protocols allow elements to be be safely changed, as shown in the
-following examples.
+However, some protocols allow elements to be safely changed, as shown in the
+following examples. The principles in these two examples are not limited to
+the protocols mentioned, but also arise in many other protocols as well
+(e.g., the Session Initiation Protocol (SIP) {{?SIP=RFC3261}}).
 
 ## Example: QUIC frames
 
@@ -387,18 +389,18 @@ and offset most of the time, middleboxes can begin to incorrectly rely on assump
 that those will always be the case, and lead to ossification and inability to
 use new headers or options or differing orders in the future.
 
-IPv6 did not define grease values, but a sender could vary some aspects of the
+IPv6 did not define grease values, but a sender may vary some aspects of the
 protocol, such as varying the order of options within an extension header,
 or even including a Destination Options Header with only Pad1 or PadN options
 between other headers.
 
-Doing such variations might discourage ossification but might have some performance
-impact if done indiscriminately. For example, making packets larger as a result
-might result in fragmentation.
+While doing such variations can discourage ossification, they might also have
+a negative performance impact if done indiscriminately. For example, making packets
+larger as a result might result in fragmentation.
 
-Finally, there may be security products that already incorrectly rely on
-assumptions about header order, size, or location in a packet.  Using
-variability might then cause operational problems in such networks and
+Finally, there may be security or gateway middleboxes already deployed that
+incorrectly rely on assumptions about header order, size, or location in a packet.
+Introducing variability might then cause operational problems in such networks and
 result in a disincentive to use the protocol or device or application using it.
 
 # Considerations for Protocol Versions {#versions}

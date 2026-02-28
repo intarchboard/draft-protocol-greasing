@@ -105,7 +105,8 @@ Table of Contents
    Some patterns of protocol usage might be relatively static without
    specific efforts to ensure that they can change in the future.
 
-   One key techique for intentional use is "grease", or "greasing".
+   One key technique for intentional use is "grease" (an acronym for
+   Generate Random Extensions And Sustain Extensibility), or "greasing".
    Greasing was initially designed for TLS [GREASE] and was later
    adopted by other protocols such as QUIC [QUIC].  In these protocols,
    extension codepoints are reserved only for greasing and must be

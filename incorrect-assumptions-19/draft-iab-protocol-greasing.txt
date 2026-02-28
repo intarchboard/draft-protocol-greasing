@@ -5,14 +5,14 @@
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
 Intended status: Informational                                  T. Pauly
-Expires: 31 August 2026                                            Apple
+Expires: 1 September 2026                                          Apple
                                                                D. Thaler
                                                      Armidale Consulting
-                                                        27 February 2026
+                                                        28 February 2026
 
 
  Considerations For Maintaining Protocols Using Grease and Variability
-                   draft-edm-protocol-greasing-latest
+                   draft-iab-protocol-greasing-latest
 
 Abstract
 
@@ -33,9 +33,9 @@ About This Document
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at
-   https://intarchboard.github.io/draft-protocol-greasing/draft-edm-
+   https://intarchboard.github.io/draft-protocol-greasing/draft-iab-
    protocol-greasing.html.  Status information for this document may be
-   found at https://datatracker.ietf.org/doc/draft-edm-protocol-
+   found at https://datatracker.ietf.org/doc/draft-iab-protocol-
    greasing/.
 
    Source for this draft and an issue tracker can be found at
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 August 2026.
+   This Internet-Draft will expire on 1 September 2026.
 
 Copyright Notice
 

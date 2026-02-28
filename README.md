@@ -1,11 +1,11 @@
-# Maintaining Protocols Using Grease and Variability
+# Considerations For Maintaining Protocols Using Grease and Variability
 
-This is the working area for the individual Internet-Draft, "Maintaining Protocols Using Grease and Variability".
+This is the working area for the IAB stream Internet-Draft, "Considerations For Maintaining Protocols Using Grease and Variability".
 
-* [Editor's Copy](https://intarchboard.github.io/draft-protocol-greasing/#go.draft-edm-protocol-greasing.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-edm-protocol-greasing)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-edm-protocol-greasing)
-* [Compare Editor's Copy to Individual Draft](https://intarchboard.github.io/draft-protocol-greasing/#go.draft-edm-protocol-greasing.diff)
+* [Editor's Copy](https://intarchboard.github.io/draft-protocol-greasing/#go.draft-ietf-protocol-greasing.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-protocol-greasing)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-protocol-greasing)
+* [Compare Editor's Copy to Individual Draft](https://intarchboard.github.io/draft-protocol-greasing/#go.draft-ietf-protocol-greasing.diff)
 
 
 ## Contributing

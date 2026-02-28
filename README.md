@@ -2,10 +2,10 @@
 
 This is the working area for the IAB stream Internet-Draft, "Considerations For Maintaining Protocols Using Grease and Variability".
 
-* [Editor's Copy](https://intarchboard.github.io/draft-protocol-greasing/#go.draft-ietf-protocol-greasing.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-protocol-greasing)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-protocol-greasing)
-* [Compare Editor's Copy to Individual Draft](https://intarchboard.github.io/draft-protocol-greasing/#go.draft-ietf-protocol-greasing.diff)
+* [Editor's Copy](https://intarchboard.github.io/draft-protocol-greasing/#go.draft-iab-protocol-greasing.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-iab-protocol-greasing)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-iab-protocol-greasing)
+* [Compare Editor's Copy to Individual Draft](https://intarchboard.github.io/draft-protocol-greasing/#go.draft-iab-protocol-greasing.diff)
 
 
 ## Contributing

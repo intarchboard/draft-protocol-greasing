@@ -1206,7 +1206,10 @@ advice for making them as effective as possible.<a href="#section-abstract-2" cl
                 <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-example-quic-frames" class="internal xref">Example: QUIC frames</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-example-ipv6" class="internal xref">Example: IPv6</a></p>
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-example-post-quantum-key-ex" class="internal xref">Example: Post-quantum key exchange in TLS</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-example-ipv6" class="internal xref">Example: IPv6</a></p>
 </li>
             </ul>
 </li>
@@ -1577,7 +1580,7 @@ extension points positively. To some extent this can be thought of as protocol
 fuzzing. This might be difficult to exercise because varying the protocol
 elements might change the outcome of interactions, leading to real errors.
 However, some protocols allow elements to be safely changed, as shown in the
-following examples. The principles in these two examples are not limited to
+following examples. The principles in these examples are not limited to
 the protocols mentioned, but also arise in many other protocols as well
 (e.g., the Session Initiation Protocol (SIP) <span>[<a href="#SIP" class="cite xref">SIP</a>]</span>).<a href="#section-4-2" class="pilcrow">¶</a></p>
 <div id="example-quic-frames">
@@ -1603,29 +1606,49 @@ such, positive testing might be most appropriate to use in a subset of
 connections, or phases within a connection.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="example-ipv6">
+<div id="example-post-quantum-key-exchange-in-tls">
 <section id="section-4.2">
-        <h3 id="name-example-ipv6">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-example-ipv6" class="section-name selfRef">Example: IPv6</a>
+        <h3 id="name-example-post-quantum-key-ex">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-example-post-quantum-key-ex" class="section-name selfRef">Example: Post-quantum key exchange in TLS</a>
         </h3>
-<p id="section-4.2-1">The IPv6 protocol <span>[<a href="#IPV6" class="cite xref">IPV6</a>]</span> defines the ability to use extension headers,
+<p id="section-4.2-1">Post-quantum key exchange in TLS (such as defined in
+<span>[<a href="#PQTLS" class="cite xref">PQTLS</a>]</span>) expands the key sizes sent in Client Hello
+messages in TLS 1.3 <span>[<a href="#TLS" class="cite xref">TLS</a>]</span>. Before using these algorithms,
+Client Hello messages would generally fit within a single packet (either in
+TCP or QUIC). However, with these larger keys, Client Hello messages need to be
+split across two (or more) separate packets. Initial deployments of these keys uncovered
+many buggy server and middlebox implementations that did not correctly handle
+Client Hello messages being split across multiple packets.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">This is a case in which adding variability to how TLS Client Hello messages were
+sent could have helped avoid ossification and buggy implementations. Variations
+could include intentionally splitting the messages across packets without increasing
+message size, and also adding other values to messages to force them to exceed
+the length that can fit within a single packet.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="example-ipv6">
+<section id="section-4.3">
+        <h3 id="name-example-ipv6">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-example-ipv6" class="section-name selfRef">Example: IPv6</a>
+        </h3>
+<p id="section-4.3-1">The IPv6 protocol <span>[<a href="#IPV6" class="cite xref">IPV6</a>]</span> defines the ability to use extension headers,
 and further defines the ability to include options in two of those headers. It
-also defines a recommended (but not required) order of such headers.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
-<p id="section-4.2-2">If the same headers tend to appear in the same order, and with the same size
+also defines a recommended (but not required) order of such headers.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-2">If the same headers tend to appear in the same order, and with the same size
 and offset most of the time, middleboxes can begin to incorrectly rely on assumptions
 that those will always be the case, and lead to ossification and inability to
-use new headers or options or differing orders in the future.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
-<p id="section-4.2-3">IPv6 did not define grease values, but a sender may vary some aspects of the
+use new headers or options or differing orders in the future.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
+<p id="section-4.3-3">IPv6 did not define grease values, but a sender may vary some aspects of the
 protocol, such as varying the order of options within an extension header,
 or even including a Destination Options Header with only Pad1 or PadN options
-between other headers.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
-<p id="section-4.2-4">While doing such variations can discourage ossification, they might also have
+between other headers.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.3-4">While doing such variations can discourage ossification, they might also have
 a negative performance impact if done indiscriminately. For example, making packets
-larger as a result might result in fragmentation.<a href="#section-4.2-4" class="pilcrow">¶</a></p>
-<p id="section-4.2-5">Finally, there may be security or gateway middleboxes already deployed that
+larger as a result might result in fragmentation.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
+<p id="section-4.3-5">Finally, there may be security or gateway middleboxes already deployed that
 incorrectly rely on assumptions about header order, size, or location in a packet.
 Introducing variability might then cause operational problems in such networks and
-result in a disincentive to use the protocol or device or application using it.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
+result in a disincentive to use the protocol or device or application using it.<a href="#section-4.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1701,6 +1724,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
       <dd>
 <span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">D. Schinazi</span>, <span class="refTitle">"Maintaining Robust Protocols"</span>, <span class="seriesInfo">RFC 9413</span>, <span class="seriesInfo">DOI 10.17487/RFC9413</span>, <time datetime="2023-06" class="refDate">June 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9413">https://www.rfc-editor.org/rfc/rfc9413</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="PQTLS">[PQTLS]</dt>
+      <dd>
+<span class="refAuthor">Kwiatkowski, K.</span>, <span class="refAuthor">Kampanakis, P.</span>, <span class="refAuthor">Westerbaan, B.</span>, and <span class="refAuthor">D. Stebila</span>, <span class="refTitle">"Post-quantum hybrid ECDHE-MLKEM Key Agreement for TLSv1.3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-ecdhe-mlkem-04</span>, <time datetime="2026-02-08" class="refDate">8 February 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-ecdhe-mlkem-04">https://datatracker.ietf.org/doc/html/draft-ietf-tls-ecdhe-mlkem-04</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="PRIVACYPASS">[PRIVACYPASS]</dt>
       <dd>
 <span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Valdez, S.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"The Privacy Pass HTTP Authentication Scheme"</span>, <span class="seriesInfo">RFC 9577</span>, <span class="seriesInfo">DOI 10.17487/RFC9577</span>, <time datetime="2024-06" class="refDate">June 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9577">https://www.rfc-editor.org/rfc/rfc9577</a>&gt;</span>. </dd>
@@ -1720,6 +1747,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dt id="SUCCESS">[SUCCESS]</dt>
       <dd>
 <span class="refAuthor">Thaler, D.</span> and <span class="refAuthor">B. Aboba</span>, <span class="refTitle">"What Makes for a Successful Protocol?"</span>, <span class="seriesInfo">RFC 5218</span>, <span class="seriesInfo">DOI 10.17487/RFC5218</span>, <time datetime="2008-07" class="refDate">July 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5218">https://www.rfc-editor.org/rfc/rfc5218</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="TLS">[TLS]</dt>
+      <dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="TRANSITION">[TRANSITION]</dt>
       <dd>

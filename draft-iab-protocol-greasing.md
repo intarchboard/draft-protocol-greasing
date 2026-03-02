@@ -353,8 +353,10 @@ Long-term maintenance and interoperability can be ensured by exercising
 extension points positively. To some extent this can be thought of as protocol
 fuzzing. This might be difficult to exercise because varying the protocol
 elements might change the outcome of interactions, leading to real errors.
-However, some protocols allow elements to be be safely changed, as shown in the
-following example.
+However, some protocols allow elements to be safely changed, as shown in the
+following examples. The principles in these two examples are not limited to
+the protocols mentioned, but also arise in many other protocols as well
+(e.g., the Session Initiation Protocol (SIP) {{?SIP=RFC3261}}).
 
 ## Example: QUIC frames
 
@@ -376,6 +378,31 @@ introduce delay or stream head-of-line blocking that affects the performance
 aspects of a transmission, which may not be acceptable for a given use case. As
 such, positive testing might be most appropriate to use in a subset of
 connections, or phases within a connection.
+
+## Example: IPv6
+
+The IPv6 protocol {{?IPV6=RFC8200}} defines the ability to use extension headers,
+and further defines the ability to include options in two of those headers. It
+also defines a recommended (but not required) order of such headers.
+
+If the same headers tend to appear in the same order, and with the same size
+and offset most of the time, middleboxes can begin to incorrectly rely on assumptions
+that those will always be the case, and lead to ossification and inability to
+use new headers or options or differing orders in the future.
+
+IPv6 did not define grease values, but a sender may vary some aspects of the
+protocol, such as varying the order of options within an extension header,
+or even including a Destination Options Header with only Pad1 or PadN options
+between other headers.
+
+While doing such variations can discourage ossification, they might also have
+a negative performance impact if done indiscriminately. For example, making packets
+larger as a result might result in fragmentation.
+
+Finally, there may be security or gateway middleboxes already deployed that
+incorrectly rely on assumptions about header order, size, or location in a packet.
+Introducing variability might then cause operational problems in such networks and
+result in a disincentive to use the protocol or device or application using it.
 
 # Considerations for Protocol Versions {#versions}
 

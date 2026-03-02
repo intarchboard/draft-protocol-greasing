@@ -372,7 +372,7 @@ extension points positively. To some extent this can be thought of as protocol
 fuzzing. This might be difficult to exercise because varying the protocol
 elements might change the outcome of interactions, leading to real errors.
 However, some protocols allow elements to be safely changed, as shown in the
-following examples. The principles in these two examples are not limited to
+following examples. The principles in these examples are not limited to
 the protocols mentioned, but also arise in many other protocols as well
 (e.g., the Session Initiation Protocol (SIP) {{?SIP=RFC3261}}).
 
@@ -396,6 +396,23 @@ introduce delay or stream head-of-line blocking that affects the performance
 aspects of a transmission, which may not be acceptable for a given use case. As
 such, positive testing might be most appropriate to use in a subset of
 connections, or phases within a connection.
+
+## Example: Post-quantum key exchange in TLS
+
+Post-quantum key exchange in TLS (such as defined in
+{{?PQTLS=I-D.ietf-tls-ecdhe-mlkem}}) expands the key sizes sent in Client Hello
+messages in TLS 1.3 {{?TLS=RFC8446}}. Before using these algorithms,
+Client Hello messages would generally fit within a single packet (either in
+TCP or QUIC). However, with these larger keys, Client Hello messages need to be
+split across two separate packets. Initial deployments of these keys uncovered
+many buggy server and middlebox implementations that did not correctly handle
+Client Hello messages being split across multiple packets.
+
+This is a case in which adding variability to how TLS Client Hello messages were
+sent could have helped avoid ossification and buggy implementations. Variations
+could include intentionally splitting the messages across packets without increasing
+message size, and also adding other values to messages to force them to exceed
+the length that can fit within a single packet.
 
 ## Example: IPv6
 

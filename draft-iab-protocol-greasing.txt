@@ -82,6 +82,7 @@ Table of Contents
      3.1.  Discouraging Ossification
    4.  Considerations for Increasing Protocol Variability
      4.1.  Example: QUIC frames
+     4.2.  Example: IPv6
    5.  Considerations for Protocol Versions
    6.  Security Considerations
    7.  IANA Considerations
@@ -427,7 +428,10 @@ Table of Contents
    thought of as protocol fuzzing.  This might be difficult to exercise
    because varying the protocol elements might change the outcome of
    interactions, leading to real errors.  However, some protocols allow
-   elements to be be safely changed, as shown in the following example.
+   elements to be safely changed, as shown in the following examples.
+   The principles in these two examples are not limited to the protocols
+   mentioned, but also arise in many other protocols as well (e.g., the
+   Session Initiation Protocol (SIP) [SIP]).
 
 4.1.  Example: QUIC frames
 
@@ -451,6 +455,35 @@ Table of Contents
    a transmission, which may not be acceptable for a given use case.  As
    such, positive testing might be most appropriate to use in a subset
    of connections, or phases within a connection.
+
+4.2.  Example: IPv6
+
+   The IPv6 protocol [IPV6] defines the ability to use extension
+   headers, and further defines the ability to include options in two of
+   those headers.  It also defines a recommended (but not required)
+   order of such headers.
+
+   If the same headers tend to appear in the same order, and with the
+   same size and offset most of the time, middleboxes can begin to
+   incorrectly rely on assumptions that those will always be the case,
+   and lead to ossification and inability to use new headers or options
+   or differing orders in the future.
+
+   IPv6 did not define grease values, but a sender may vary some aspects
+   of the protocol, such as varying the order of options within an
+   extension header, or even including a Destination Options Header with
+   only Pad1 or PadN options between other headers.
+
+   While doing such variations can discourage ossification, they might
+   also have a negative performance impact if done indiscriminately.
+   For example, making packets larger as a result might result in
+   fragmentation.
+
+   Finally, there may be security or gateway middleboxes already
+   deployed that incorrectly rely on assumptions about header order,
+   size, or location in a packet.  Introducing variability might then
+   cause operational problems in such networks and result in a
+   disincentive to use the protocol or device or application using it.
 
 5.  Considerations for Protocol Versions
 
@@ -510,6 +543,11 @@ Table of Contents
    [HTTP/3]   Bishop, M., Ed., "HTTP/3", RFC 9114, DOI 10.17487/RFC9114,
               June 2022, <https://www.rfc-editor.org/rfc/rfc9114>.
 
+   [IPV6]     Deering, S. and R. Hinden, "Internet Protocol, Version 6
+              (IPv6) Specification", STD 86, RFC 8200,
+              DOI 10.17487/RFC8200, July 2017,
+              <https://www.rfc-editor.org/rfc/rfc8200>.
+
    [MAINTENANCE]
               Thomson, M. and D. Schinazi, "Maintaining Robust
               Protocols", RFC 9413, DOI 10.17487/RFC9413, June 2023,
@@ -531,6 +569,12 @@ Table of Contents
               Multiplexed and Secure Transport", RFC 9000,
               DOI 10.17487/RFC9000, May 2021,
               <https://www.rfc-editor.org/rfc/rfc9000>.
+
+   [SIP]      Rosenberg, J., Schulzrinne, H., Camarillo, G., Johnston,
+              A., Peterson, J., Sparks, R., Handley, M., and E.
+              Schooler, "SIP: Session Initiation Protocol", RFC 3261,
+              DOI 10.17487/RFC3261, June 2002,
+              <https://www.rfc-editor.org/rfc/rfc3261>.
 
    [SUCCESS]  Thaler, D. and B. Aboba, "What Makes for a Successful
               Protocol?", RFC 5218, DOI 10.17487/RFC5218, July 2008,

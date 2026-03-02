@@ -1205,6 +1205,9 @@ advice for making them as effective as possible.<a href="#section-abstract-2" cl
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
                 <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-example-quic-frames" class="internal xref">Example: QUIC frames</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-example-ipv6" class="internal xref">Example: IPv6</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
@@ -1557,8 +1560,10 @@ leading to interoperability problems later on.<a href="#section-4-1" class="pilc
 extension points positively. To some extent this can be thought of as protocol
 fuzzing. This might be difficult to exercise because varying the protocol
 elements might change the outcome of interactions, leading to real errors.
-However, some protocols allow elements to be be safely changed, as shown in the
-following example.<a href="#section-4-2" class="pilcrow">¶</a></p>
+However, some protocols allow elements to be safely changed, as shown in the
+following examples. The principles in these two examples are not limited to
+the protocols mentioned, but also arise in many other protocols as well
+(e.g., the Session Initiation Protocol (SIP) <span>[<a href="#SIP" class="cite xref">SIP</a>]</span>).<a href="#section-4-2" class="pilcrow">¶</a></p>
 <div id="example-quic-frames">
 <section id="section-4.1">
         <h3 id="name-example-quic-frames">
@@ -1580,6 +1585,31 @@ introduce delay or stream head-of-line blocking that affects the performance
 aspects of a transmission, which may not be acceptable for a given use case. As
 such, positive testing might be most appropriate to use in a subset of
 connections, or phases within a connection.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="example-ipv6">
+<section id="section-4.2">
+        <h3 id="name-example-ipv6">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-example-ipv6" class="section-name selfRef">Example: IPv6</a>
+        </h3>
+<p id="section-4.2-1">The IPv6 protocol <span>[<a href="#IPV6" class="cite xref">IPV6</a>]</span> defines the ability to use extension headers,
+and further defines the ability to include options in two of those headers. It
+also defines a recommended (but not required) order of such headers.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">If the same headers tend to appear in the same order, and with the same size
+and offset most of the time, middleboxes can begin to incorrectly rely on assumptions
+that those will always be the case, and lead to ossification and inability to
+use new headers or options or differing orders in the future.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-3">IPv6 did not define grease values, but a sender may vary some aspects of the
+protocol, such as varying the order of options within an extension header,
+or even including a Destination Options Header with only Pad1 or PadN options
+between other headers.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+<p id="section-4.2-4">While doing such variations can discourage ossification, they might also have
+a negative performance impact if done indiscriminately. For example, making packets
+larger as a result might result in fragmentation.<a href="#section-4.2-4" class="pilcrow">¶</a></p>
+<p id="section-4.2-5">Finally, there may be security or gateway middleboxes already deployed that
+incorrectly rely on assumptions about header order, size, or location in a packet.
+Introducing variability might then cause operational problems in such networks and
+result in a disincentive to use the protocol or device or application using it.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1647,6 +1677,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
       <dd>
 <span class="refAuthor">Bishop, M., Ed.</span>, <span class="refTitle">"HTTP/3"</span>, <span class="seriesInfo">RFC 9114</span>, <span class="seriesInfo">DOI 10.17487/RFC9114</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9114">https://www.rfc-editor.org/rfc/rfc9114</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="IPV6">[IPV6]</dt>
+      <dd>
+<span class="refAuthor">Deering, S.</span> and <span class="refAuthor">R. Hinden</span>, <span class="refTitle">"Internet Protocol, Version 6 (IPv6) Specification"</span>, <span class="seriesInfo">STD 86</span>, <span class="seriesInfo">RFC 8200</span>, <span class="seriesInfo">DOI 10.17487/RFC8200</span>, <time datetime="2017-07" class="refDate">July 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8200">https://www.rfc-editor.org/rfc/rfc8200</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="MAINTENANCE">[MAINTENANCE]</dt>
       <dd>
 <span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">D. Schinazi</span>, <span class="refTitle">"Maintaining Robust Protocols"</span>, <span class="seriesInfo">RFC 9413</span>, <span class="seriesInfo">DOI 10.17487/RFC9413</span>, <time datetime="2023-06" class="refDate">June 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9413">https://www.rfc-editor.org/rfc/rfc9413</a>&gt;</span>. </dd>
@@ -1662,6 +1696,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dt id="QUIC">[QUIC]</dt>
       <dd>
 <span class="refAuthor">Iyengar, J., Ed.</span> and <span class="refAuthor">M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="seriesInfo">RFC 9000</span>, <span class="seriesInfo">DOI 10.17487/RFC9000</span>, <time datetime="2021-05" class="refDate">May 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9000">https://www.rfc-editor.org/rfc/rfc9000</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SIP">[SIP]</dt>
+      <dd>
+<span class="refAuthor">Rosenberg, J.</span>, <span class="refAuthor">Schulzrinne, H.</span>, <span class="refAuthor">Camarillo, G.</span>, <span class="refAuthor">Johnston, A.</span>, <span class="refAuthor">Peterson, J.</span>, <span class="refAuthor">Sparks, R.</span>, <span class="refAuthor">Handley, M.</span>, and <span class="refAuthor">E. Schooler</span>, <span class="refTitle">"SIP: Session Initiation Protocol"</span>, <span class="seriesInfo">RFC 3261</span>, <span class="seriesInfo">DOI 10.17487/RFC3261</span>, <time datetime="2002-06" class="refDate">June 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3261">https://www.rfc-editor.org/rfc/rfc3261</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SUCCESS">[SUCCESS]</dt>
       <dd>

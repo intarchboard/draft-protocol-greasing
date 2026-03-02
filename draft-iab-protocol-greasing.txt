@@ -5,10 +5,10 @@
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
 Intended status: Informational                                  T. Pauly
-Expires: 1 September 2026                                          Apple
+Expires: 3 September 2026                                          Apple
                                                                D. Thaler
                                                      Armidale Consulting
-                                                        28 February 2026
+                                                            2 March 2026
 
 
  Considerations For Maintaining Protocols Using Grease and Variability
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 September 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -460,8 +460,17 @@ Table of Contents
    to testing version negotiation of protocols; see [EXTENSIBILITY] and
    Sections 2.1 and 3.2 of [VIABILITY].
 
-   This section will be expanded with advice for protocol designers and
-   implementers about how to approach these problems.
+   One way to grease protocol versions is to have a protocol pass a list
+   of supported versions or features (e.g., cipher suites), along with a
+   grease value, such that the grease value will not impact the actual
+   version or features chosen, since it will not be selected by the
+   receiving entity.
+
+   Another method is to have a protocol include a recovery mechanism
+   (e.g., an extra round trip to try with another option) for cases when
+   an unsupported version or feature is attempted.  In this case, a
+   grease value might be attempted at some frequency or opportunity that
+   would not adversely affect performance.
 
 6.  Security Considerations
 

@@ -485,10 +485,11 @@ Table of Contents
    the key sizes sent in Client Hello messages in TLS 1.3 [TLS].  Before
    using these algorithms, Client Hello messages would generally fit
    within a single packet (either in TCP or QUIC).  However, with these
-   larger keys, Client Hello messages need to be split across two
-   separate packets.  Initial deployments of these keys uncovered many
-   buggy server and middlebox implementations that did not correctly
-   handle Client Hello messages being split across multiple packets.
+   larger keys, Client Hello messages need to be split across two (or
+   more) separate packets.  Initial deployments of these keys uncovered
+   many buggy server and middlebox implementations that did not
+   correctly handle Client Hello messages being split across multiple
+   packets.
 
    This is a case in which adding variability to how TLS Client Hello
    messages were sent could have helped avoid ossification and buggy

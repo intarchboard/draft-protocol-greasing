@@ -413,6 +413,28 @@ Table of Contents
    discussion, in order to provide an incentive to implementers or
    deployers of ossified implementations.
 
+   Similar techniques can be used to encourage greasing and variability
+   by others, to provide further discouragements against ossification in
+   the future.  Having a receiver log and report communication that does
+   not include grease values, as noted above, can also be used to report
+   on senders that do not support greasing.  It is useful, however, to
+   be able to distinguish between the sender not supporting greasing,
+   versus the sender supporting greasing but only non-greased messages
+   arriving at the receiver.  Protocols defining greasing mechanisms
+   should consider whether receivers can distinguish between these two
+   cases.
+
+   It is not generally recommended to use more drastic incentives to
+   require greasing such as degrading performance or reliability for
+   senders that don't support greasing.  While this is possible, the
+   benefits of greasing are longer term, rather than immediate, and the
+   incentives are often not aligned.  Section 2.1.1 of [SUCCESS]
+   explains that success most easily comes when those who are required
+   to make a change are the ones who gain the most benefit, and the
+   benefit is noticeable.  If the sending implementation does not plan
+   to use new extensions in the future, it would not see any benefit
+   from being pushed to add greasing.
+
 4.  Considerations for Increasing Protocol Variability
 
    Greasing can maintain protocol extensibility by falsifying active use

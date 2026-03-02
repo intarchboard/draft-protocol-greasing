@@ -1542,6 +1542,22 @@ when falling back to non-grease values. Similarly, a receiver can log and report
 that does not include grease values.  Such reports might be used in social feedback
 (e.g., public product or service reviews), or in contractual business relationship (e.g., SLA)
 discussion, in order to provide an incentive to implementers or deployers of ossified implementations.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-3">Similar techniques can be used to encourage greasing and variability by others, to
+provide further discouragements against ossification in the future.
+Having a receiver log and report communication that does not include grease values,
+as noted above, can also be used to report on senders that do not support greasing.
+It is useful, however, to be able to distinguish between the sender not supporting greasing,
+versus the sender supporting greasing but only non-greased messages arriving at the
+receiver.  Protocols defining greasing mechanisms should consider whether receivers
+can distinguish between these two cases.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1-4">It is not generally recommended to use more drastic incentives to require greasing
+such as degrading performance or reliability for senders that don't support greasing.
+While this is possible, the benefits of greasing are longer term, rather than immediate,
+and the incentives are often not aligned. <span><a href="https://rfc-editor.org/rfc/rfc5218#section-2.1.1" class="relref">Section 2.1.1</a> of [<a href="#SUCCESS" class="cite xref">SUCCESS</a>]</span> explains that success
+most easily comes when those who are required to make a change are the ones who gain
+the most benefit, and the benefit is noticeable.  If the sending implementation does
+not plan to use new extensions in the future, it would not see any benefit from being
+pushed to add greasing.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

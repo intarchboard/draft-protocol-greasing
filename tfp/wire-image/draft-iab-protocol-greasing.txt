@@ -5,10 +5,10 @@
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
 Intended status: Informational                                  T. Pauly
-Expires: 1 September 2026                                          Apple
+Expires: 4 January 2027                                            Apple
                                                                D. Thaler
                                                      Armidale Consulting
-                                                        28 February 2026
+                                                             3 July 2026
 
 
  Considerations For Maintaining Protocols Using Grease and Variability
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 September 2026.
+   This Internet-Draft will expire on 4 January 2027.
 
 Copyright Notice
 
@@ -79,10 +79,15 @@ Table of Contents
      2.3.  Use Grease Values Unpredictably
      2.4.  Don't Handle Grease Values as a Special Case
    3.  Deployment Considerations and Incentives for Greasing
-     3.1.  Discouraging Ossification
+     3.1.  Negotiating Greasing: Greasing the Wire Image
+     3.2.  Discouraging Ossification
    4.  Considerations for Increasing Protocol Variability
      4.1.  Example: QUIC frames
-     4.2.  Example: IPv6
+     4.2.  Example: Post-quantum key exchange in TLS
+     4.3.  Example: IPv6
+     4.4.  Wire Image Variation
+     4.5.  Variability in Protocol Choice
+     4.6.  Cost of Variability
    5.  Considerations for Protocol Versions
    6.  Security Considerations
    7.  IANA Considerations
@@ -106,7 +111,8 @@ Table of Contents
    Some patterns of protocol usage might be relatively static without
    specific efforts to ensure that they can change in the future.
 
-   One key techique for intentional use is "grease", or "greasing".
+   One key technique for intentional use is "grease" (an acronym for
+   Generate Random Extensions And Sustain Extensibility), or "greasing".
    Greasing was initially designed for TLS [GREASE] and was later
    adopted by other protocols such as QUIC [QUIC].  In these protocols,
    extension codepoints are reserved only for greasing and must be
@@ -392,7 +398,34 @@ Table of Contents
       existing ossification, but can still have benefits for flagging
       issues in new implementations when they receive grease values.
 
-3.1.  Discouraging Ossification
+3.1.  Negotiating Greasing: Greasing the Wire Image
+
+   Greasing is always intended to prevent ossification, but the protocol
+   participants targeted by greasing can vary.  Typically, greasing
+   fields that are part of an end-to-end encrypted protocol allows a
+   sender to target greasing at a known peer.  In this case, the sender
+   chooses to send grease without any explicit negotiation with the
+   peer, since the point is to ensure that the peer will tolerate
+   receiving grease.
+
+   Other kinds of greasing apply to protocol fields that are visible in
+   the wire image of a protocol [WIREIMAGE], generally unencrypted
+   fields in a protocol.  These cases target greasing at all parties
+   that can observe the wire image, including any middleboxes.  In these
+   cases, the two endpoints of a protocol might explicitly negotiate the
+   use of greasing.  This doesn't prevent the endpoints themselves
+   ossifying (since they might choose to not negotiate), but it can
+   still be effective for preventing ossification of middleboxes.  For
+   example, [QUICBIT] defines a way for QUIC clients and server to
+   negotiate greasing the "QUIC bit", which is an unencrypted bit
+   visible in QUIC's wire image.
+
+   Greasing the wire image inherently involves more parties than other
+   kinds of greasing, and it is more difficult for implementations to
+   anticipate all possible incompatibilities, so it is more likely to
+   encounter deployment challenges.
+
+3.2.  Discouraging Ossification
 
    Greasing alone can help ensure that middleboxes tolerate unrecognized
    extensions rather than crashing, but one common middlebox behavior is
@@ -412,6 +445,28 @@ Table of Contents
    discussion, in order to provide an incentive to implementers or
    deployers of ossified implementations.
 
+   Similar techniques can be used to encourage greasing and variability
+   by others, to provide further discouragements against ossification in
+   the future.  Having a receiver log and report communication that does
+   not include grease values, as noted above, can also be used to report
+   on senders that do not support greasing.  It is useful, however, to
+   be able to distinguish between the sender not supporting greasing,
+   versus the sender supporting greasing but only non-greased messages
+   arriving at the receiver.  Protocols defining greasing mechanisms
+   should consider whether receivers can distinguish between these two
+   cases.
+
+   It is not generally recommended to use more drastic incentives to
+   require greasing such as degrading performance or reliability for
+   senders that don't support greasing.  While this is possible, the
+   benefits of greasing are longer term, rather than immediate, and the
+   incentives are often not aligned.  Section 2.1.1 of [SUCCESS]
+   explains that success most easily comes when those who are required
+   to make a change are the ones who gain the most benefit, and the
+   benefit is noticeable.  If the sending implementation does not plan
+   to use new extensions in the future, it would not see any benefit
+   from being pushed to add greasing.
+
 4.  Considerations for Increasing Protocol Variability
 
    Greasing can maintain protocol extensibility by falsifying active use
@@ -428,7 +483,7 @@ Table of Contents
    because varying the protocol elements might change the outcome of
    interactions, leading to real errors.  However, some protocols allow
    elements to be safely changed, as shown in the following examples.
-   The principles in these two examples are not limited to the protocols
+   The principles in these examples are not limited to the protocols
    mentioned, but also arise in many other protocols as well (e.g., the
    Session Initiation Protocol (SIP) [SIP]).
 
@@ -455,7 +510,26 @@ Table of Contents
    such, positive testing might be most appropriate to use in a subset
    of connections, or phases within a connection.
 
-4.2.  Example: IPv6
+4.2.  Example: Post-quantum key exchange in TLS
+
+   Post-quantum key exchange in TLS (such as defined in [PQTLS]) expands
+   the key sizes sent in Client Hello messages in TLS 1.3 [TLS].  Before
+   using these algorithms, Client Hello messages would generally fit
+   within a single packet (either in TCP or QUIC).  However, with these
+   larger keys, Client Hello messages need to be split across two (or
+   more) separate packets.  Initial deployments of these keys uncovered
+   many buggy server and middlebox implementations that did not
+   correctly handle Client Hello messages being split across multiple
+   packets.
+
+   This is a case in which adding variability to how TLS Client Hello
+   messages were sent could have helped avoid ossification and buggy
+   implementations.  Variations could include intentionally splitting
+   the messages across packets without increasing message size, and also
+   adding other values to messages to force them to exceed the length
+   that can fit within a single packet.
+
+4.3.  Example: IPv6
 
    The IPv6 protocol [IPV6] defines the ability to use extension
    headers, and further defines the ability to include options in two of
@@ -484,6 +558,81 @@ Table of Contents
    cause operational problems in such networks and result in a
    disincentive to use the protocol or device or application using it.
 
+4.4.  Wire Image Variation
+
+   The examples of variation above highlight ways in which specific
+   protocol fields are sent.  Variation can also apply to more generic
+   aspects of a flow's wire image [WIREIMAGE].  Even when fields are
+   encrypted, there are aspects of a protocol's wire image that
+   middleboxes observe and can ossify around.
+
+   Aspects of the wire image include packet sizes (and patterns in
+   packet sizes), number of packets in a flow, directionality of flows
+   (how many packets are sent in one direction or another), and relative
+   timing of packet transmissions.
+
+   Senders can induce intentional wire image variations in many ways,
+   including: adding padding to extend packet sizes, breaking up data
+   across multiple packets to reduce packet sizes, pacing or bursting
+   packets to change the frequency of packet sends, and adding packets
+   that are purely padding or random data (often referred to as
+   "chaff").
+
+4.5.  Variability in Protocol Choice
+
+   Variation can occur when an endpoint chooses to use one protocol over
+   another, given the option to use either.  For example, a client
+   connecting to a HTTP server when connected to a dual-stack network
+   might have several such choices:
+
+   *  Perform DNS resolution using unencrypted DNS, or DNS over TLS
+      [DOT], or DNS over HTTPS [DOH]
+
+   *  Connect to the server's IPv6 address or IPv4 address
+
+   *  Connect to the server using HTTP/3 (over QUIC) or HTTP/2 (over
+      TCP)
+
+   Endpoints often will have a preferred set of protocols to use, and
+   will use the less preferred protocols as options they fall back to
+   (as described in "Happy Eyeballs", [HEv3]).  However, for the sake of
+   variation and preventing ossification, endpoints can intentionally
+   choose to alter their preferences some percentage of the time.
+
+   Variation can also be created when an endpoint chooses to not use a
+   protocol feature, as an intentional way to ensure the network path or
+   peer still tolerates its absence.  For example, Section 3.1 of
+   [PRIVACYPASS] recommends that, in some situations, clients randomly
+   act as if they don't support sending privacy pass tokens, to ensure
+   that receivers cannot ossify around them being available.
+
+4.6.  Cost of Variability
+
+   Adding variability to implementations and deployments can come with
+   costs for complexity and performance, and needs to be weighed against
+   the benefits received of reducing or preventing ossification.
+
+   *  Implementation complexity: Correctly implemented receivers need to
+      be able to handle all valid inputs, but sender-side logic is often
+      made more complex by adding support for variation.  The kinds of
+      protocol variability described in this document can require sender
+      logic to not only support less straightforward ways of
+      constructing packets, but also support randomly deciding when to
+      induce variability.
+
+   *  Processing overhead: For both senders and receivers, protocol
+      variability can lead to processing overhead, and potentially
+      higher memory usage.  For example, intentionally breaking up and
+      reordering data frames is less efficient than processing a
+      complete data chunk.
+
+   *  Network efficiency: Variability that changes the wire image of a
+      protocol (Section 4.4) might be achieved by spreading data out
+      across more packets, sending smaller packets, adding chaff
+      packets, or adding delay.  All of these, if used in excess, could
+      degrade the overall performance of a flow on a network, and reduce
+      throughput, etc.
+
 5.  Considerations for Protocol Versions
 
    [TRANSITION] discusses considerations around planning for
@@ -492,8 +641,17 @@ Table of Contents
    to testing version negotiation of protocols; see [EXTENSIBILITY] and
    Sections 2.1 and 3.2 of [VIABILITY].
 
-   This section will be expanded with advice for protocol designers and
-   implementers about how to approach these problems.
+   One way to grease protocol versions is to have a protocol pass a list
+   of supported versions or features (e.g., cipher suites), along with a
+   grease value, such that the grease value will not impact the actual
+   version or features chosen, since it will not be selected by the
+   receiving entity.
+
+   Another method is to have a protocol include a recovery mechanism
+   (e.g., an extra round trip to try with another option) for cases when
+   an unsupported version or feature is attempted.  In this case, a
+   grease value might be attempted at some frequency or opportunity that
+   would not adversely affect performance.
 
 6.  Security Considerations
 
@@ -514,6 +672,15 @@ Table of Contents
 
 8.  Informative References
 
+   [DOH]      Hoffman, P. and P. McManus, "DNS Queries over HTTPS
+              (DoH)", RFC 8484, DOI 10.17487/RFC8484, October 2018,
+              <https://www.rfc-editor.org/rfc/rfc8484>.
+
+   [DOT]      Hu, Z., Zhu, L., Heidemann, J., Mankin, A., Wessels, D.,
+              and P. Hoffman, "Specification for DNS over Transport
+              Layer Security (TLS)", RFC 7858, DOI 10.17487/RFC7858, May
+              2016, <https://www.rfc-editor.org/rfc/rfc7858>.
+
    [END-USERS]
               Nottingham, M., "The Internet is for End Users", RFC 8890,
               DOI 10.17487/RFC8890, August 2020,
@@ -530,6 +697,13 @@ Table of Contents
               RFC 8701, DOI 10.17487/RFC8701, January 2020,
               <https://www.rfc-editor.org/rfc/rfc8701>.
 
+   [HEv3]     Pauly, T., Schinazi, D., Jaju, N., and K. Ishibashi,
+              "Happy Eyeballs Version 3: Better Connectivity Using
+              Concurrency", Work in Progress, Internet-Draft, draft-
+              ietf-happy-happyeyeballs-v3-04, 1 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-happy-
+              happyeyeballs-v3-04>.
+
    [HTTP/3]   Bishop, M., Ed., "HTTP/3", RFC 9114, DOI 10.17487/RFC9114,
               June 2022, <https://www.rfc-editor.org/rfc/rfc9114>.
 
@@ -542,6 +716,13 @@ Table of Contents
               Thomson, M. and D. Schinazi, "Maintaining Robust
               Protocols", RFC 9413, DOI 10.17487/RFC9413, June 2023,
               <https://www.rfc-editor.org/rfc/rfc9413>.
+
+   [PQTLS]    Kwiatkowski, K., Kampanakis, P., Westerbaan, B., and D.
+              Stebila, "Post-quantum hybrid ECDHE-MLKEM Key Agreement
+              for TLSv1.3", Work in Progress, Internet-Draft, draft-
+              ietf-tls-ecdhe-mlkem-05, 26 May 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
+              ecdhe-mlkem-05>.
 
    [PRIVACYPASS]
               Pauly, T., Valdez, S., and C. A. Wood, "The Privacy Pass
@@ -560,15 +741,23 @@ Table of Contents
               DOI 10.17487/RFC9000, May 2021,
               <https://www.rfc-editor.org/rfc/rfc9000>.
 
+   [QUICBIT]  Thomson, M., "Greasing the QUIC Bit", RFC 9287,
+              DOI 10.17487/RFC9287, August 2022,
+              <https://www.rfc-editor.org/rfc/rfc9287>.
+
    [SIP]      Rosenberg, J., Schulzrinne, H., Camarillo, G., Johnston,
               A., Peterson, J., Sparks, R., Handley, M., and E.
               Schooler, "SIP: Session Initiation Protocol", RFC 3261,
-              DOI 10.17487/RFC3261, June 2002,
+              DOI 10.17487/RFC3261, July 2002,
               <https://www.rfc-editor.org/rfc/rfc3261>.
 
    [SUCCESS]  Thaler, D. and B. Aboba, "What Makes for a Successful
               Protocol?", RFC 5218, DOI 10.17487/RFC5218, July 2008,
               <https://www.rfc-editor.org/rfc/rfc5218>.
+
+   [TLS]      Rescorla, E., "The Transport Layer Security (TLS) Protocol
+              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
+              <https://www.rfc-editor.org/rfc/rfc8446>.
 
    [TRANSITION]
               Thaler, D., Ed., "Planning for Protocol Adoption and
@@ -579,6 +768,11 @@ Table of Contents
               Thomson, M. and T. Pauly, "Long-Term Viability of Protocol
               Extension Mechanisms", RFC 9170, DOI 10.17487/RFC9170,
               December 2021, <https://www.rfc-editor.org/rfc/rfc9170>.
+
+   [WIREIMAGE]
+              Trammell, B. and M. Kuehlewind, "The Wire Image of a
+              Network Protocol", RFC 8546, DOI 10.17487/RFC8546, April
+              2019, <https://www.rfc-editor.org/rfc/rfc8546>.
 
 Acknowledgments
 

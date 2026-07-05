@@ -78,20 +78,20 @@ Table of Contents
      2.2.  Use Unpredictable Grease Values
      2.3.  Use Grease Values Unpredictably
      2.4.  Don't Handle Grease Values as a Special Case
-   3.  Deployment Considerations and Incentives for Greasing
-     3.1.  Negotiating Greasing: Greasing the Wire Image
-     3.2.  Discouraging Ossification
-   4.  Considerations for Increasing Protocol Variability
-     4.1.  Example: QUIC frames
-     4.2.  Example: Post-quantum key exchange in TLS
-     4.3.  Example: IPv6
-     4.4.  Wire Image Variation
-     4.5.  Variability in Protocol Choice
-     4.6.  Cost of Variability
-   5.  Considerations for Protocol Versions
-   6.  Security Considerations
-   7.  IANA Considerations
-   8.  Informative References
+     2.5.  Greasing Protocol Versions
+     2.6.  Deployment Considerations and Incentives for Greasing
+       2.6.1.  Negotiating Greasing: Greasing the Wire Image
+       2.6.2.  Discouraging Ossification
+   3.  Considerations for Increasing Protocol Variability
+     3.1.  Example: QUIC frames
+     3.2.  Example: Post-quantum key exchange in TLS
+     3.3.  Example: IPv6
+     3.4.  Wire Image Variation
+     3.5.  Variability in Protocol Choice
+     3.6.  Cost of Variability
+   4.  Security Considerations
+   5.  IANA Considerations
+   6.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -134,7 +134,7 @@ Table of Contents
    protocol features can affect the deployment's network traffic
    profile.  If expectations have been formed around historical patterns
    of use, i.e., ossification, introducing change might lead to
-   deployment problems.  Section 4 presents considerations about how
+   deployment problems.  Section 3 presents considerations about how
    intentionally increasing the variability of protocols can mitigate
    some of these concerns.
 
@@ -145,7 +145,7 @@ Table of Contents
    mandatory, effectively defining a new baseline that can simplify
    deployment and interoperability.  A replacement protocol version may
    or may not be compatible with other versions.  A protocol may or may
-   not have a mechanism for version selection or agility.  Section 5
+   not have a mechanism for version selection or agility.  Section 2.5
    presents considerations about designing for and/or implementing
    version negotiation and migration.
 
@@ -352,7 +352,27 @@ Table of Contents
    of greasing is to increase the chances of correct implementation, and
    thereby reduce (but not eliminate) the possibility of ossification.
 
-3.  Deployment Considerations and Incentives for Greasing
+2.5.  Greasing Protocol Versions
+
+   [TRANSITION] discusses considerations around planning for
+   transitioning from an existing protocol, or protocol version, to a
+   new one.  There are also intrinsic and well-documented issues related
+   to testing version negotiation of protocols; see [EXTENSIBILITY] and
+   Sections 2.1 and 3.2 of [VIABILITY].
+
+   One way to grease protocol versions is to have a protocol pass a list
+   of supported versions or features (e.g., cipher suites), along with a
+   grease value, such that the grease value will not impact the actual
+   version or features chosen, since it will not be selected by the
+   receiving entity.
+
+   Another method is to have a protocol include a recovery mechanism
+   (e.g., an extra round trip to try with another option) for cases when
+   an unsupported version or feature is attempted.  In this case, a
+   grease value might be attempted at some frequency or opportunity that
+   would not adversely affect performance.
+
+2.6.  Deployment Considerations and Incentives for Greasing
 
    Greasing can be used as a tool to improve the active use of existing
    protocol elements (which weren't necessarily designed with greasing
@@ -398,7 +418,7 @@ Table of Contents
       existing ossification, but can still have benefits for flagging
       issues in new implementations when they receive grease values.
 
-3.1.  Negotiating Greasing: Greasing the Wire Image
+2.6.1.  Negotiating Greasing: Greasing the Wire Image
 
    Greasing is always intended to prevent ossification, but the protocol
    participants targeted by greasing can vary.  Typically, greasing
@@ -425,7 +445,7 @@ Table of Contents
    anticipate all possible incompatibilities, so it is more likely to
    encounter deployment challenges.
 
-3.2.  Discouraging Ossification
+2.6.2.  Discouraging Ossification
 
    Greasing alone can help ensure that middleboxes tolerate unrecognized
    extensions rather than crashing, but one common middlebox behavior is
@@ -467,7 +487,7 @@ Table of Contents
    to use new extensions in the future, it would not see any benefit
    from being pushed to add greasing.
 
-4.  Considerations for Increasing Protocol Variability
+3.  Considerations for Increasing Protocol Variability
 
    Greasing can maintain protocol extensibility by falsifying active use
    of its extension points (see Section 3.3 of [VIABILITY]).  However,
@@ -487,7 +507,7 @@ Table of Contents
    mentioned, but also arise in many other protocols as well (e.g., the
    Session Initiation Protocol (SIP) [SIP]).
 
-4.1.  Example: QUIC frames
+3.1.  Example: QUIC frames
 
    QUIC packets contain frames.  Receivers might build expectations on
    the longitudinal aspects of packets or frames - size, ordering,
@@ -510,7 +530,7 @@ Table of Contents
    such, positive testing might be most appropriate to use in a subset
    of connections, or phases within a connection.
 
-4.2.  Example: Post-quantum key exchange in TLS
+3.2.  Example: Post-quantum key exchange in TLS
 
    Post-quantum key exchange in TLS (such as defined in [PQTLS]) expands
    the key sizes sent in Client Hello messages in TLS 1.3 [TLS].  Before
@@ -529,7 +549,7 @@ Table of Contents
    adding other values to messages to force them to exceed the length
    that can fit within a single packet.
 
-4.3.  Example: IPv6
+3.3.  Example: IPv6
 
    The IPv6 protocol [IPV6] defines the ability to use extension
    headers, and further defines the ability to include options in two of
@@ -558,7 +578,7 @@ Table of Contents
    cause operational problems in such networks and result in a
    disincentive to use the protocol or device or application using it.
 
-4.4.  Wire Image Variation
+3.4.  Wire Image Variation
 
    The examples of variation above highlight ways in which specific
    protocol fields are sent.  Variation can also apply to more generic
@@ -578,7 +598,7 @@ Table of Contents
    that are purely padding or random data (often referred to as
    "chaff").
 
-4.5.  Variability in Protocol Choice
+3.5.  Variability in Protocol Choice
 
    Variation can occur when an endpoint chooses to use one protocol over
    another, given the option to use either.  For example, a client
@@ -606,7 +626,7 @@ Table of Contents
    act as if they don't support sending privacy pass tokens, to ensure
    that receivers cannot ossify around them being available.
 
-4.6.  Cost of Variability
+3.6.  Cost of Variability
 
    Adding variability to implementations and deployments can come with
    costs for complexity and performance, and needs to be weighed against
@@ -627,33 +647,13 @@ Table of Contents
       complete data chunk.
 
    *  Network efficiency: Variability that changes the wire image of a
-      protocol (Section 4.4) might be achieved by spreading data out
+      protocol (Section 3.4) might be achieved by spreading data out
       across more packets, sending smaller packets, adding chaff
       packets, or adding delay.  All of these, if used in excess, could
       degrade the overall performance of a flow on a network, such as to
       reduce goodput, increase latency, etc.
 
-5.  Considerations for Protocol Versions
-
-   [TRANSITION] discusses considerations around planning for
-   transitioning from an existing protocol, or protocol version, to a
-   new one.  There are also intrinsic and well-documented issues related
-   to testing version negotiation of protocols; see [EXTENSIBILITY] and
-   Sections 2.1 and 3.2 of [VIABILITY].
-
-   One way to grease protocol versions is to have a protocol pass a list
-   of supported versions or features (e.g., cipher suites), along with a
-   grease value, such that the grease value will not impact the actual
-   version or features chosen, since it will not be selected by the
-   receiving entity.
-
-   Another method is to have a protocol include a recovery mechanism
-   (e.g., an extra round trip to try with another option) for cases when
-   an unsupported version or feature is attempted.  In this case, a
-   grease value might be attempted at some frequency or opportunity that
-   would not adversely affect performance.
-
-6.  Security Considerations
+4.  Security Considerations
 
    The considerations in [MAINTENANCE], [GREASE], [END-USERS], and
    [VIABILITY] all apply to the topics discussed in this document.
@@ -664,13 +664,13 @@ Table of Contents
    in this document, can affect fingerprinting.  A deeper analysis of
    this topic has been deemed out of scope.
 
-7.  IANA Considerations
+5.  IANA Considerations
 
    This document has no IANA actions itself.  Guidance on how other
    documents can effectively instruct IANA about protocol greasing is
    provided in Section 2.1.1
 
-8.  Informative References
+6.  Informative References
 
    [DOH]      Hoffman, P. and P. McManus, "DNS Queries over HTTPS
               (DoH)", RFC 8484, DOI 10.17487/RFC8484, October 2018,

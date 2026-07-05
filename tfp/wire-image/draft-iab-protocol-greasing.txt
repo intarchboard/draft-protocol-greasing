@@ -5,10 +5,10 @@
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
 Intended status: Informational                                  T. Pauly
-Expires: 4 January 2027                                            Apple
+Expires: 6 January 2027                                            Apple
                                                                D. Thaler
                                                      Armidale Consulting
-                                                             3 July 2026
+                                                             5 July 2026
 
 
  Considerations For Maintaining Protocols Using Grease and Variability
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 January 2027.
+   This Internet-Draft will expire on 6 January 2027.
 
 Copyright Notice
 
@@ -588,7 +588,7 @@ Table of Contents
    *  Perform DNS resolution using unencrypted DNS, or DNS over TLS
       [DOT], or DNS over HTTPS [DOH]
 
-   *  Connect to the server's IPv6 address or IPv4 address
+   *  Connect to the server's IPv6 or IPv4 address, or both
 
    *  Connect to the server using HTTP/3 (over QUIC) or HTTP/2 (over
       TCP)

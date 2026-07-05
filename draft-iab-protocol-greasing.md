@@ -290,7 +290,25 @@ As such, ossification remains a possibility for non-grease values. The goal of g
 is to increase the chances of correct implementation, and thereby reduce (but not
 eliminate) the possibility of ossification.
 
-# Deployment Considerations and Incentives for Greasing
+## Greasing Protocol Versions {#versions}
+
+{{TRANSITION}} discusses considerations around planning for transitioning
+from an existing protocol, or protocol version, to a new one.
+There are also intrinsic and well-documented issues related to testing version
+negotiation of protocols; see {{?EXTENSIBILITY=RFC6709}} and {{Sections 2.1 and
+3.2 of VIABILITY}}.
+
+One way to grease protocol versions is to have a protocol pass
+a list of supported versions or features (e.g., cipher suites), along with a grease
+value, such that the grease value will not impact the actual version
+or features chosen, since it will not be selected by the receiving entity.
+
+Another method is to have a protocol include a recovery mechanism (e.g., an extra
+round trip to try with another option) for cases when an unsupported version or feature
+is attempted.  In this case, a grease value might be attempted at some
+frequency or opportunity that would not adversely affect performance.
+
+## Deployment Considerations and Incentives for Greasing
 
 Greasing can be used as a tool to improve the active use of existing protocol
 elements (which weren't necessarily designed with greasing to begin with, or
@@ -326,7 +344,7 @@ This reduces the effectiveness of grease values in removing
 existing ossification, but can still have benefits for flagging issues in new implementations
 when they receive grease values.
 
-## Discouraging Ossification
+### Discouraging Ossification
 
 Greasing alone can help ensure that middleboxes tolerate unrecognized extensions rather than
 crashing, but one common middlebox behavior is to simply drop all unrecognized extensions.
@@ -439,23 +457,6 @@ incorrectly rely on assumptions about header order, size, or location in a packe
 Introducing variability might then cause operational problems in such networks and
 result in a disincentive to use the protocol or device or application using it.
 
-# Considerations for Protocol Versions {#versions}
-
-{{TRANSITION}} discusses considerations around planning for transitioning
-from an existing protocol, or protocol version, to a new one.
-There are also intrinsic and well-documented issues related to testing version
-negotiation of protocols; see {{?EXTENSIBILITY=RFC6709}} and {{Sections 2.1 and
-3.2 of VIABILITY}}.
-
-One way to grease protocol versions is to have a protocol pass
-a list of supported versions or features (e.g., cipher suites), along with a grease
-value, such that the grease value will not impact the actual version
-or features chosen, since it will not be selected by the receiving entity.
-
-Another method is to have a protocol include a recovery mechanism (e.g., an extra
-round trip to try with another option) for cases when an unsupported version or feature
-is attempted.  In this case, a grease value might be attempted at some
-frequency or opportunity that would not adversely affect performance.
 
 # Security Considerations
 

@@ -630,8 +630,8 @@ Table of Contents
       protocol (Section 4.4) might be achieved by spreading data out
       across more packets, sending smaller packets, adding chaff
       packets, or adding delay.  All of these, if used in excess, could
-      degrade the overall performance of a flow on a network, and reduce
-      throughput, etc.
+      degrade the overall performance of a flow on a network, such as to
+      reduce goodput, increase latency, etc.
 
 5.  Considerations for Protocol Versions
 

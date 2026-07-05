@@ -358,8 +358,12 @@ greasing at all parties that can observe the wire image, including any middlebox
 these cases, the two endpoints of a protocol might explicitly negotiate the use of greasing.
 This doesn't prevent the endpoints themselves ossifying (since they might choose to not negotiate),
 but it can still be effective for preventing ossification of middleboxes. For example,
-{{?QUICBIT=RFC9287}} defines a way for QUIC clients and server to negotiate greasing the "QUIC bit",
-which is an unencrypted bit visible in QUIC's wire image.
+the "QUIC bit" is a unencrypted bit visible in QUIC's wire image that is used to differentiate
+it from other UDP traffic, and is set to a value of 1 in version 1 of QUIC. Being able to set
+the bit to 0 requires negotiation between clients and servers to ensure that the QUIC traffic
+won't conflict with other traffic ({{?QUICBIT=RFC9287}}). The purpose of this mechanism
+is to grease the wire image by ensuring middleboxes can tolerate the bit being set to 0, but
+it cannot be used to grease the peer since it requires negotiation.
 
 Greasing the wire image inherently involves more parties than other kinds of greasing, and it is
 more difficult for implementations to anticipate all possible incompatibilities, so it is

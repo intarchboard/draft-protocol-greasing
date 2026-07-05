@@ -5,10 +5,10 @@
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
 Intended status: Informational                                  T. Pauly
-Expires: 3 September 2026                                          Apple
+Expires: 6 January 2027                                            Apple
                                                                D. Thaler
                                                      Armidale Consulting
-                                                            2 March 2026
+                                                             5 July 2026
 
 
  Considerations For Maintaining Protocols Using Grease and Variability
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2026.
+   This Internet-Draft will expire on 6 January 2027.
 
 Copyright Notice
 
@@ -78,16 +78,16 @@ Table of Contents
      2.2.  Use Unpredictable Grease Values
      2.3.  Use Grease Values Unpredictably
      2.4.  Don't Handle Grease Values as a Special Case
-   3.  Deployment Considerations and Incentives for Greasing
-     3.1.  Discouraging Ossification
-   4.  Considerations for Increasing Protocol Variability
-     4.1.  Example: QUIC frames
-     4.2.  Example: Post-quantum key exchange in TLS
-     4.3.  Example: IPv6
-   5.  Considerations for Protocol Versions
-   6.  Security Considerations
-   7.  IANA Considerations
-   8.  Informative References
+     2.5.  Greasing Protocol Versions
+     2.6.  Deployment Considerations and Incentives for Greasing
+       2.6.1.  Discouraging Ossification
+   3.  Considerations for Increasing Protocol Variability
+     3.1.  Example: QUIC frames
+     3.2.  Example: Post-quantum key exchange in TLS
+     3.3.  Example: IPv6
+   4.  Security Considerations
+   5.  IANA Considerations
+   6.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -130,7 +130,7 @@ Table of Contents
    protocol features can affect the deployment's network traffic
    profile.  If expectations have been formed around historical patterns
    of use, i.e., ossification, introducing change might lead to
-   deployment problems.  Section 4 presents considerations about how
+   deployment problems.  Section 3 presents considerations about how
    intentionally increasing the variability of protocols can mitigate
    some of these concerns.
 
@@ -141,7 +141,7 @@ Table of Contents
    mandatory, effectively defining a new baseline that can simplify
    deployment and interoperability.  A replacement protocol version may
    or may not be compatible with other versions.  A protocol may or may
-   not have a mechanism for version selection or agility.  Section 5
+   not have a mechanism for version selection or agility.  Section 2.5
    presents considerations about designing for and/or implementing
    version negotiation and migration.
 
@@ -348,7 +348,27 @@ Table of Contents
    of greasing is to increase the chances of correct implementation, and
    thereby reduce (but not eliminate) the possibility of ossification.
 
-3.  Deployment Considerations and Incentives for Greasing
+2.5.  Greasing Protocol Versions
+
+   [TRANSITION] discusses considerations around planning for
+   transitioning from an existing protocol, or protocol version, to a
+   new one.  There are also intrinsic and well-documented issues related
+   to testing version negotiation of protocols; see [EXTENSIBILITY] and
+   Sections 2.1 and 3.2 of [VIABILITY].
+
+   One way to grease protocol versions is to have a protocol pass a list
+   of supported versions or features (e.g., cipher suites), along with a
+   grease value, such that the grease value will not impact the actual
+   version or features chosen, since it will not be selected by the
+   receiving entity.
+
+   Another method is to have a protocol include a recovery mechanism
+   (e.g., an extra round trip to try with another option) for cases when
+   an unsupported version or feature is attempted.  In this case, a
+   grease value might be attempted at some frequency or opportunity that
+   would not adversely affect performance.
+
+2.6.  Deployment Considerations and Incentives for Greasing
 
    Greasing can be used as a tool to improve the active use of existing
    protocol elements (which weren't necessarily designed with greasing
@@ -394,7 +414,7 @@ Table of Contents
       existing ossification, but can still have benefits for flagging
       issues in new implementations when they receive grease values.
 
-3.1.  Discouraging Ossification
+2.6.1.  Discouraging Ossification
 
    Greasing alone can help ensure that middleboxes tolerate unrecognized
    extensions rather than crashing, but one common middlebox behavior is
@@ -436,7 +456,7 @@ Table of Contents
    to use new extensions in the future, it would not see any benefit
    from being pushed to add greasing.
 
-4.  Considerations for Increasing Protocol Variability
+3.  Considerations for Increasing Protocol Variability
 
    Greasing can maintain protocol extensibility by falsifying active use
    of its extension points (see Section 3.3 of [VIABILITY]).  However,
@@ -456,7 +476,7 @@ Table of Contents
    mentioned, but also arise in many other protocols as well (e.g., the
    Session Initiation Protocol (SIP) [SIP]).
 
-4.1.  Example: QUIC frames
+3.1.  Example: QUIC frames
 
    QUIC packets contain frames.  Receivers might build expectations on
    the longitudinal aspects of packets or frames - size, ordering,
@@ -479,7 +499,7 @@ Table of Contents
    such, positive testing might be most appropriate to use in a subset
    of connections, or phases within a connection.
 
-4.2.  Example: Post-quantum key exchange in TLS
+3.2.  Example: Post-quantum key exchange in TLS
 
    Post-quantum key exchange in TLS (such as defined in [PQTLS]) expands
    the key sizes sent in Client Hello messages in TLS 1.3 [TLS].  Before
@@ -498,7 +518,7 @@ Table of Contents
    adding other values to messages to force them to exceed the length
    that can fit within a single packet.
 
-4.3.  Example: IPv6
+3.3.  Example: IPv6
 
    The IPv6 protocol [IPV6] defines the ability to use extension
    headers, and further defines the ability to include options in two of
@@ -527,27 +547,7 @@ Table of Contents
    cause operational problems in such networks and result in a
    disincentive to use the protocol or device or application using it.
 
-5.  Considerations for Protocol Versions
-
-   [TRANSITION] discusses considerations around planning for
-   transitioning from an existing protocol, or protocol version, to a
-   new one.  There are also intrinsic and well-documented issues related
-   to testing version negotiation of protocols; see [EXTENSIBILITY] and
-   Sections 2.1 and 3.2 of [VIABILITY].
-
-   One way to grease protocol versions is to have a protocol pass a list
-   of supported versions or features (e.g., cipher suites), along with a
-   grease value, such that the grease value will not impact the actual
-   version or features chosen, since it will not be selected by the
-   receiving entity.
-
-   Another method is to have a protocol include a recovery mechanism
-   (e.g., an extra round trip to try with another option) for cases when
-   an unsupported version or feature is attempted.  In this case, a
-   grease value might be attempted at some frequency or opportunity that
-   would not adversely affect performance.
-
-6.  Security Considerations
+4.  Security Considerations
 
    The considerations in [MAINTENANCE], [GREASE], [END-USERS], and
    [VIABILITY] all apply to the topics discussed in this document.
@@ -558,13 +558,13 @@ Table of Contents
    in this document, can affect fingerprinting.  A deeper analysis of
    this topic has been deemed out of scope.
 
-7.  IANA Considerations
+5.  IANA Considerations
 
    This document has no IANA actions itself.  Guidance on how other
    documents can effectively instruct IANA about protocol greasing is
    provided in Section 2.1.1
 
-8.  Informative References
+6.  Informative References
 
    [END-USERS]
               Nottingham, M., "The Internet is for End Users", RFC 8890,
@@ -598,9 +598,9 @@ Table of Contents
    [PQTLS]    Kwiatkowski, K., Kampanakis, P., Westerbaan, B., and D.
               Stebila, "Post-quantum hybrid ECDHE-MLKEM Key Agreement
               for TLSv1.3", Work in Progress, Internet-Draft, draft-
-              ietf-tls-ecdhe-mlkem-04, 8 February 2026,
+              ietf-tls-ecdhe-mlkem-05, 26 May 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
-              ecdhe-mlkem-04>.
+              ecdhe-mlkem-05>.
 
    [PRIVACYPASS]
               Pauly, T., Valdez, S., and C. A. Wood, "The Privacy Pass
@@ -622,7 +622,7 @@ Table of Contents
    [SIP]      Rosenberg, J., Schulzrinne, H., Camarillo, G., Johnston,
               A., Peterson, J., Sparks, R., Handley, M., and E.
               Schooler, "SIP: Session Initiation Protocol", RFC 3261,
-              DOI 10.17487/RFC3261, June 2002,
+              DOI 10.17487/RFC3261, July 2002,
               <https://www.rfc-editor.org/rfc/rfc3261>.
 
    [SUCCESS]  Thaler, D. and B. Aboba, "What Makes for a Successful

@@ -344,6 +344,31 @@ This reduces the effectiveness of grease values in removing
 existing ossification, but can still have benefits for flagging issues in new implementations
 when they receive grease values.
 
+### Negotiating Greasing: Greasing the Wire Image
+
+Greasing is always intended to prevent ossification, but the protocol participants targeted by
+greasing can vary. Typically, greasing fields that are part of an end-to-end encrypted
+protocol allows a sender to target greasing at a known peer. In this case, the sender chooses
+to send grease without any explicit negotiation with the peer, since the point is to ensure
+that the peer will tolerate receiving grease.
+
+Other kinds of greasing apply to protocol fields that are visible in the wire image of a protocol
+{{?WIREIMAGE=RFC8546}}, generally unencrypted fields in a protocol. These cases target
+greasing at all parties that can observe the wire image, including any middleboxes. In
+these cases, the two endpoints of a protocol might explicitly negotiate the use of greasing.
+This doesn't prevent the endpoints themselves ossifying (since they might choose to not negotiate),
+but it can still be effective for preventing ossification of middleboxes. For example,
+the "QUIC bit" is a unencrypted bit visible in QUIC's wire image that is used to differentiate
+it from other UDP traffic, and is set to a value of 1 in version 1 of QUIC. Being able to set
+the bit to 0 requires negotiation between clients and servers to ensure that the QUIC traffic
+won't conflict with other traffic ({{?QUICBIT=RFC9287}}). The purpose of this mechanism
+is to grease the wire image by ensuring middleboxes can tolerate the bit being set to 0, but
+it cannot be used to grease the peer since it requires negotiation.
+
+Greasing the wire image inherently involves more parties than other kinds of greasing, and it is
+more difficult for implementations to anticipate all possible incompatibilities, so it is
+more likely to encounter deployment challenges.
+
 ### Discouraging Ossification
 
 Greasing alone can help ensure that middleboxes tolerate unrecognized extensions rather than
@@ -457,6 +482,72 @@ incorrectly rely on assumptions about header order, size, or location in a packe
 Introducing variability might then cause operational problems in such networks and
 result in a disincentive to use the protocol or device or application using it.
 
+## Wire Image Variation {#wire-image-variation}
+
+The examples of variation above highlight ways in which specific protocol
+fields are sent. Variation can also apply to more generic aspects of a flow's
+wire image {{?WIREIMAGE=RFC8546}}. Even when fields are encrypted, there
+are aspects of a protocol's wire image that middleboxes observe and
+can ossify around.
+
+Aspects of the wire image include packet sizes (and patterns in packet sizes),
+number of packets in a flow, directionality of flows (how many packets
+are sent in one direction or another), and relative timing of packet transmissions.
+
+Senders can induce intentional wire image variations in many ways, including:
+adding padding to extend packet sizes, breaking up data across multiple packets
+to reduce packet sizes, pacing or bursting packets to change the frequency of
+packet sends, and adding packets that are purely padding or random data
+(often referred to as "chaff").
+
+## Variability in Protocol Choice
+
+Variation can occur when an endpoint chooses to use one protocol over
+another, given the option to use either. For example, a client connecting
+to a HTTP server when connected to a dual-stack network might have several
+such choices:
+
+- Perform DNS resolution using unencrypted DNS, or DNS over TLS {{?DOT=RFC7858}},
+or DNS over HTTPS {{?DOH=RFC8484}}
+- Connect to the server's IPv6 or IPv4 address, or both
+- Connect to the server using HTTP/3 (over QUIC) or HTTP/2 (over TCP)
+
+Endpoints often will have a preferred set of protocols to use, and will use
+the less preferred protocols as options they fall back to (as described
+in "Happy Eyeballs", {{?HEv3=I-D.ietf-happy-happyeyeballs-v3}}). However,
+for the sake of variation and preventing ossification, endpoints can
+intentionally choose to alter their preferences some percentage of the time.
+
+Variation can also be created when an endpoint chooses to not use a protocol
+feature, as an intentional way to ensure the network path or peer still
+tolerates its absence. For example, {{Section 3.1 of ?PRIVACYPASS=RFC9577}}
+recommends that, in some situations, clients randomly act as if they don't
+support sending privacy pass tokens, to ensure that receivers cannot ossify
+around them being available.
+
+## Cost of Variability
+
+Adding variability to implementations and deployments can come with costs for
+complexity and performance, and needs to be weighed against the benefits
+received of reducing or preventing ossification.
+
+- Implementation complexity: Correctly implemented receivers need to be
+able to handle all valid inputs, but sender-side logic is often made more
+complex by adding support for variation. The kinds of protocol variability
+described in this document can require sender logic to not only support
+less straightforward ways of constructing packets, but also support
+randomly deciding when to induce variability.
+
+- Processing overhead: For both senders and receivers, protocol variability
+can lead to processing overhead, and potentially higher memory usage. For
+example, intentionally breaking up and reordering data frames is less
+efficient than processing a complete data chunk.
+
+- Network efficiency: Variability that changes the wire image of a protocol
+({{wire-image-variation}}) might be achieved by spreading data out across
+more packets, sending smaller packets, adding chaff packets, or adding delay.
+All of these, if used in excess, could degrade the overall performance of a flow
+on a network, such as to reduce goodput, increase latency, etc.
 
 # Security Considerations
 

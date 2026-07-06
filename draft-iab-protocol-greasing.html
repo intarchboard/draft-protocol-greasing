@@ -1060,7 +1060,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Pardue, et al.</td>
-<td class="center">Expires 6 January 2027</td>
+<td class="center">Expires 7 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1073,12 +1073,12 @@ svg {
 <dd class="internet-draft">draft-iab-protocol-greasing-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-07-05" class="published">5 July 2026</time>
+<time datetime="2026-07-06" class="published">6 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-01-06">6 January 2027</time></dd>
+<dd class="expires"><time datetime="2027-01-07">7 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1139,7 +1139,7 @@ advice for making them as effective as possible.<a href="#section-abstract-2" cl
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 6 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1195,7 +1195,10 @@ advice for making them as effective as possible.<a href="#section-abstract-2" cl
                 <p id="section-toc.1-1.2.2.6.1"><a href="#section-2.6" class="auto internal xref">2.6</a>.  <a href="#name-deployment-considerations-a" class="internal xref">Deployment Considerations and Incentives for Greasing</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.6.2.1">
-                    <p id="section-toc.1-1.2.2.6.2.1.1"><a href="#section-2.6.1" class="auto internal xref">2.6.1</a>.  <a href="#name-discouraging-ossification" class="internal xref">Discouraging Ossification</a></p>
+                    <p id="section-toc.1-1.2.2.6.2.1.1"><a href="#section-2.6.1" class="auto internal xref">2.6.1</a>.  <a href="#name-negotiating-greasing-greasi" class="internal xref">Negotiating Greasing: Greasing the Wire Image</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.6.2.2">
+                    <p id="section-toc.1-1.2.2.6.2.2.1"><a href="#section-2.6.2" class="auto internal xref">2.6.2</a>.  <a href="#name-discouraging-ossification" class="internal xref">Discouraging Ossification</a></p>
 </li>
                 </ul>
 </li>
@@ -1212,6 +1215,15 @@ advice for making them as effective as possible.<a href="#section-abstract-2" cl
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-example-ipv6" class="internal xref">Example: IPv6</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-wire-image-variation" class="internal xref">Wire Image Variation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-variability-in-protocol-cho" class="internal xref">Variability in Protocol Choice</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.6">
+                <p id="section-toc.1-1.3.2.6.1"><a href="#section-3.6" class="auto internal xref">3.6</a>.  <a href="#name-cost-of-variability" class="internal xref">Cost of Variability</a></p>
 </li>
             </ul>
 </li>
@@ -1545,38 +1557,65 @@ existing ossification, but can still have benefits for flagging issues in new im
 when they receive grease values.<a href="#section-2.6-4.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<div id="discouraging-ossification">
+<div id="negotiating-greasing-greasing-the-wire-image">
 <section id="section-2.6.1">
-          <h4 id="name-discouraging-ossification">
-<a href="#section-2.6.1" class="section-number selfRef">2.6.1. </a><a href="#name-discouraging-ossification" class="section-name selfRef">Discouraging Ossification</a>
+          <h4 id="name-negotiating-greasing-greasi">
+<a href="#section-2.6.1" class="section-number selfRef">2.6.1. </a><a href="#name-negotiating-greasing-greasi" class="section-name selfRef">Negotiating Greasing: Greasing the Wire Image</a>
           </h4>
-<p id="section-2.6.1-1">Greasing alone can help ensure that middleboxes tolerate unrecognized extensions rather than
+<p id="section-2.6.1-1">Greasing is always intended to prevent ossification, but the protocol participants targeted by
+greasing can vary. Typically, greasing fields that are part of an end-to-end encrypted
+protocol allows a sender to target greasing at a known peer. In this case, the sender chooses
+to send grease without any explicit negotiation with the peer, since the point is to ensure
+that the peer will tolerate receiving grease.<a href="#section-2.6.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.6.1-2">Other kinds of greasing apply to protocol fields that are visible in the wire image of a protocol
+<span>[<a href="#WIREIMAGE" class="cite xref">WIREIMAGE</a>]</span>, generally unencrypted fields in a protocol. These cases target
+greasing at all parties that can observe the wire image, including any middleboxes. In
+these cases, the two endpoints of a protocol might explicitly negotiate the use of greasing.
+This doesn't prevent the endpoints themselves ossifying (since they might choose to not negotiate),
+but it can still be effective for preventing ossification of middleboxes. For example,
+the "QUIC bit" is a unencrypted bit visible in QUIC's wire image that is used to differentiate
+it from other UDP traffic, and is set to a value of 1 in version 1 of QUIC. Being able to set
+the bit to 0 requires negotiation between clients and servers to ensure that the QUIC traffic
+won't conflict with other traffic (<span>[<a href="#QUICBIT" class="cite xref">QUICBIT</a>]</span>). The purpose of this mechanism
+is to grease the wire image by ensuring middleboxes can tolerate the bit being set to 0, but
+it cannot be used to grease the peer since it requires negotiation.<a href="#section-2.6.1-2" class="pilcrow">¶</a></p>
+<p id="section-2.6.1-3">Greasing the wire image inherently involves more parties than other kinds of greasing, and it is
+more difficult for implementations to anticipate all possible incompatibilities, so it is
+more likely to encounter deployment challenges.<a href="#section-2.6.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="discouraging-ossification">
+<section id="section-2.6.2">
+          <h4 id="name-discouraging-ossification">
+<a href="#section-2.6.2" class="section-number selfRef">2.6.2. </a><a href="#name-discouraging-ossification" class="section-name selfRef">Discouraging Ossification</a>
+          </h4>
+<p id="section-2.6.2-1">Greasing alone can help ensure that middleboxes tolerate unrecognized extensions rather than
 crashing, but one common middlebox behavior is to simply drop all unrecognized extensions.
 Techniques such as disabling greasing when errors are encountered can enable communication
-but may not provide enough incentive to discourage ossification.<a href="#section-2.6.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.6.1-2">One approach to preserving the incentive to grease without being blamed for doing so,
+but may not provide enough incentive to discourage ossification.<a href="#section-2.6.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.6.2-2">One approach to preserving the incentive to grease without being blamed for doing so,
 while still potentially discouraging ossification, is to make any such ossification visible.
 For example, a sender can log and report ossification issues on a given path
 when falling back to non-grease values. Similarly, a receiver can log and report communication
 that does not include grease values.  Such reports might be used in social feedback
 (e.g., public product or service reviews), or in contractual business relationship (e.g., SLA)
-discussion, in order to provide an incentive to implementers or deployers of ossified implementations.<a href="#section-2.6.1-2" class="pilcrow">¶</a></p>
-<p id="section-2.6.1-3">Similar techniques can be used to encourage greasing and variability by others, to
+discussion, in order to provide an incentive to implementers or deployers of ossified implementations.<a href="#section-2.6.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.6.2-3">Similar techniques can be used to encourage greasing and variability by others, to
 provide further discouragements against ossification in the future.
 Having a receiver log and report communication that does not include grease values,
 as noted above, can also be used to report on senders that do not support greasing.
 It is useful, however, to be able to distinguish between the sender not supporting greasing,
 versus the sender supporting greasing but only non-greased messages arriving at the
 receiver.  Protocols defining greasing mechanisms should consider whether receivers
-can distinguish between these two cases.<a href="#section-2.6.1-3" class="pilcrow">¶</a></p>
-<p id="section-2.6.1-4">It is not generally recommended to use more drastic incentives to require greasing
+can distinguish between these two cases.<a href="#section-2.6.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.6.2-4">It is not generally recommended to use more drastic incentives to require greasing
 such as degrading performance or reliability for senders that don't support greasing.
 While this is possible, the benefits of greasing are longer term, rather than immediate,
 and the incentives are often not aligned. <span><a href="https://rfc-editor.org/rfc/rfc5218#section-2.1.1" class="relref">Section 2.1.1</a> of [<a href="#SUCCESS" class="cite xref">SUCCESS</a>]</span> explains that success
 most easily comes when those who are required to make a change are the ones who gain
 the most benefit, and the benefit is noticeable.  If the sending implementation does
 not plan to use new extensions in the future, it would not see any benefit from being
-pushed to add greasing.<a href="#section-2.6.1-4" class="pilcrow">¶</a></p>
+pushed to add greasing.<a href="#section-2.6.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1669,6 +1708,93 @@ Introducing variability might then cause operational problems in such networks a
 result in a disincentive to use the protocol or device or application using it.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="wire-image-variation">
+<section id="section-3.4">
+        <h3 id="name-wire-image-variation">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-wire-image-variation" class="section-name selfRef">Wire Image Variation</a>
+        </h3>
+<p id="section-3.4-1">The examples of variation above highlight ways in which specific protocol
+fields are sent. Variation can also apply to more generic aspects of a flow's
+wire image <span>[<a href="#WIREIMAGE" class="cite xref">WIREIMAGE</a>]</span>. Even when fields are encrypted, there
+are aspects of a protocol's wire image that middleboxes observe and
+can ossify around.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-2">Aspects of the wire image include packet sizes (and patterns in packet sizes),
+number of packets in a flow, directionality of flows (how many packets
+are sent in one direction or another), and relative timing of packet transmissions.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
+<p id="section-3.4-3">Senders can induce intentional wire image variations in many ways, including:
+adding padding to extend packet sizes, breaking up data across multiple packets
+to reduce packet sizes, pacing or bursting packets to change the frequency of
+packet sends, and adding packets that are purely padding or random data
+(often referred to as "chaff").<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="variability-in-protocol-choice">
+<section id="section-3.5">
+        <h3 id="name-variability-in-protocol-cho">
+<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-variability-in-protocol-cho" class="section-name selfRef">Variability in Protocol Choice</a>
+        </h3>
+<p id="section-3.5-1">Variation can occur when an endpoint chooses to use one protocol over
+another, given the option to use either. For example, a client connecting
+to a HTTP server when connected to a dual-stack network might have several
+such choices:<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.5-2.1">
+            <p id="section-3.5-2.1.1">Perform DNS resolution using unencrypted DNS, or DNS over TLS <span>[<a href="#DOT" class="cite xref">DOT</a>]</span>,
+or DNS over HTTPS <span>[<a href="#DOH" class="cite xref">DOH</a>]</span><a href="#section-3.5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.5-2.2">
+            <p id="section-3.5-2.2.1">Connect to the server's IPv6 or IPv4 address, or both<a href="#section-3.5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.5-2.3">
+            <p id="section-3.5-2.3.1">Connect to the server using HTTP/3 (over QUIC) or HTTP/2 (over TCP)<a href="#section-3.5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-3.5-3">Endpoints often will have a preferred set of protocols to use, and will use
+the less preferred protocols as options they fall back to (as described
+in "Happy Eyeballs", <span>[<a href="#HEv3" class="cite xref">HEv3</a>]</span>). However,
+for the sake of variation and preventing ossification, endpoints can
+intentionally choose to alter their preferences some percentage of the time.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
+<p id="section-3.5-4">Variation can also be created when an endpoint chooses to not use a protocol
+feature, as an intentional way to ensure the network path or peer still
+tolerates its absence. For example, <span><a href="https://rfc-editor.org/rfc/rfc9577#section-3.1" class="relref">Section 3.1</a> of [<a href="#PRIVACYPASS" class="cite xref">PRIVACYPASS</a>]</span>
+recommends that, in some situations, clients randomly act as if they don't
+support sending privacy pass tokens, to ensure that receivers cannot ossify
+around them being available.<a href="#section-3.5-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="cost-of-variability">
+<section id="section-3.6">
+        <h3 id="name-cost-of-variability">
+<a href="#section-3.6" class="section-number selfRef">3.6. </a><a href="#name-cost-of-variability" class="section-name selfRef">Cost of Variability</a>
+        </h3>
+<p id="section-3.6-1">Adding variability to implementations and deployments can come with costs for
+complexity and performance, and needs to be weighed against the benefits
+received of reducing or preventing ossification.<a href="#section-3.6-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.6-2.1">
+            <p id="section-3.6-2.1.1">Implementation complexity: Correctly implemented receivers need to be
+able to handle all valid inputs, but sender-side logic is often made more
+complex by adding support for variation. The kinds of protocol variability
+described in this document can require sender logic to not only support
+less straightforward ways of constructing packets, but also support
+randomly deciding when to induce variability.<a href="#section-3.6-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.6-2.2">
+            <p id="section-3.6-2.2.1">Processing overhead: For both senders and receivers, protocol variability
+can lead to processing overhead, and potentially higher memory usage. For
+example, intentionally breaking up and reordering data frames is less
+efficient than processing a complete data chunk.<a href="#section-3.6-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.6-2.3">
+            <p id="section-3.6-2.3.1">Network efficiency: Variability that changes the wire image of a protocol
+(<a href="#wire-image-variation" class="auto internal xref">Section 3.4</a>) might be achieved by spreading data out across
+more packets, sending smaller packets, adding chaff packets, or adding delay.
+All of these, if used in excess, could degrade the overall performance of a flow
+on a network, such as to reduce goodput, increase latency, etc.<a href="#section-3.6-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="security-considerations">
@@ -1699,6 +1825,14 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
       </h2>
 <dl class="references">
+<dt id="DOH">[DOH]</dt>
+      <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">P. McManus</span>, <span class="refTitle">"DNS Queries over HTTPS (DoH)"</span>, <span class="seriesInfo">RFC 8484</span>, <span class="seriesInfo">DOI 10.17487/RFC8484</span>, <time datetime="2018-10" class="refDate">October 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8484">https://www.rfc-editor.org/rfc/rfc8484</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="DOT">[DOT]</dt>
+      <dd>
+<span class="refAuthor">Hu, Z.</span>, <span class="refAuthor">Zhu, L.</span>, <span class="refAuthor">Heidemann, J.</span>, <span class="refAuthor">Mankin, A.</span>, <span class="refAuthor">Wessels, D.</span>, and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Specification for DNS over Transport Layer Security (TLS)"</span>, <span class="seriesInfo">RFC 7858</span>, <span class="seriesInfo">DOI 10.17487/RFC7858</span>, <time datetime="2016-05" class="refDate">May 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7858">https://www.rfc-editor.org/rfc/rfc7858</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="END-USERS">[END-USERS]</dt>
       <dd>
 <span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"The Internet is for End Users"</span>, <span class="seriesInfo">RFC 8890</span>, <span class="seriesInfo">DOI 10.17487/RFC8890</span>, <time datetime="2020-08" class="refDate">August 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8890">https://www.rfc-editor.org/rfc/rfc8890</a>&gt;</span>. </dd>
@@ -1710,6 +1844,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dt id="GREASE">[GREASE]</dt>
       <dd>
 <span class="refAuthor">Benjamin, D.</span>, <span class="refTitle">"Applying Generate Random Extensions And Sustain Extensibility (GREASE) to TLS Extensibility"</span>, <span class="seriesInfo">RFC 8701</span>, <span class="seriesInfo">DOI 10.17487/RFC8701</span>, <time datetime="2020-01" class="refDate">January 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8701">https://www.rfc-editor.org/rfc/rfc8701</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="HEv3">[HEv3]</dt>
+      <dd>
+<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Schinazi, D.</span>, <span class="refAuthor">Jaju, N.</span>, and <span class="refAuthor">K. Ishibashi</span>, <span class="refTitle">"Happy Eyeballs Version 3: Better Connectivity Using Concurrency"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-happy-happyeyeballs-v3-04</span>, <time datetime="2026-07-01" class="refDate">1 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-happy-happyeyeballs-v3-04">https://datatracker.ietf.org/doc/html/draft-ietf-happy-happyeyeballs-v3-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9114">[HTTP/3]</dt>
       <dd>
@@ -1739,6 +1877,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
       <dd>
 <span class="refAuthor">Iyengar, J., Ed.</span> and <span class="refAuthor">M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="seriesInfo">RFC 9000</span>, <span class="seriesInfo">DOI 10.17487/RFC9000</span>, <time datetime="2021-05" class="refDate">May 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9000">https://www.rfc-editor.org/rfc/rfc9000</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="QUICBIT">[QUICBIT]</dt>
+      <dd>
+<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Greasing the QUIC Bit"</span>, <span class="seriesInfo">RFC 9287</span>, <span class="seriesInfo">DOI 10.17487/RFC9287</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9287">https://www.rfc-editor.org/rfc/rfc9287</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="SIP">[SIP]</dt>
       <dd>
 <span class="refAuthor">Rosenberg, J.</span>, <span class="refAuthor">Schulzrinne, H.</span>, <span class="refAuthor">Camarillo, G.</span>, <span class="refAuthor">Johnston, A.</span>, <span class="refAuthor">Peterson, J.</span>, <span class="refAuthor">Sparks, R.</span>, <span class="refAuthor">Handley, M.</span>, and <span class="refAuthor">E. Schooler</span>, <span class="refTitle">"SIP: Session Initiation Protocol"</span>, <span class="seriesInfo">RFC 3261</span>, <span class="seriesInfo">DOI 10.17487/RFC3261</span>, <time datetime="2002-07" class="refDate">July 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3261">https://www.rfc-editor.org/rfc/rfc3261</a>&gt;</span>. </dd>
@@ -1756,8 +1898,12 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <span class="refAuthor">Thaler, D., Ed.</span>, <span class="refTitle">"Planning for Protocol Adoption and Subsequent Transitions"</span>, <span class="seriesInfo">RFC 8170</span>, <span class="seriesInfo">DOI 10.17487/RFC8170</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8170">https://www.rfc-editor.org/rfc/rfc8170</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="VIABILITY">[VIABILITY]</dt>
-    <dd>
+      <dd>
 <span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">T. Pauly</span>, <span class="refTitle">"Long-Term Viability of Protocol Extension Mechanisms"</span>, <span class="seriesInfo">RFC 9170</span>, <span class="seriesInfo">DOI 10.17487/RFC9170</span>, <time datetime="2021-12" class="refDate">December 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9170">https://www.rfc-editor.org/rfc/rfc9170</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="WIREIMAGE">[WIREIMAGE]</dt>
+    <dd>
+<span class="refAuthor">Trammell, B.</span> and <span class="refAuthor">M. Kuehlewind</span>, <span class="refTitle">"The Wire Image of a Network Protocol"</span>, <span class="seriesInfo">RFC 8546</span>, <span class="seriesInfo">DOI 10.17487/RFC8546</span>, <time datetime="2019-04" class="refDate">April 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8546">https://www.rfc-editor.org/rfc/rfc8546</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

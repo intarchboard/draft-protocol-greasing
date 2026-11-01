@@ -290,6 +290,17 @@ As such, ossification remains a possibility for non-grease values. The goal of g
 is to increase the chances of correct implementation, and thereby reduce (but not
 eliminate) the possibility of ossification.
 
+Reserved fields, which senders set to a fixed value (typically zero),
+are a related case. A later specification can give such a field
+meaning, so receivers need to ignore its value rather than reject
+messages where it is non-zero; {{Section 4.2 of EXTENSIBILITY}} calls
+that rejection a common mistake. Because senders always send the same
+value, these fields are prone to ossification ({{Section 2.2 of
+VIABILITY}}). They are often only a few bits long, leaving no room to
+reserve grease values. Negotiated greasing, as {{QUICBIT}} does for
+QUIC's fixed bit, can exercise such a field without consuming any of its
+values.
+
 ## Greasing Protocol Versions {#versions}
 
 {{TRANSITION}} discusses considerations around planning for transitioning

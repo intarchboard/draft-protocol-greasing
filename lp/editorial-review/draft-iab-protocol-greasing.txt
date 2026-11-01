@@ -5,10 +5,10 @@
 Network Working Group                                          L. Pardue
 Internet-Draft                                                Cloudflare
 Intended status: Informational                                  T. Pauly
-Expires: 6 January 2027                                            Apple
+Expires: 5 May 2027                                                Apple
                                                                D. Thaler
                                                      Armidale Consulting
-                                                             5 July 2026
+                                                         1 November 2026
 
 
  Considerations For Maintaining Protocols Using Grease and Variability
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 January 2027.
+   This Internet-Draft will expire on 5 May 2027.
 
 Copyright Notice
 
@@ -106,18 +106,18 @@ Table of Contents
 
    Active use of protocol features and extensions often requires
    intentional efforts beyond what would organically occur in
-   deployments.  Some extension points do not frequently see new values
-   being used, but that they remain usable in the future is important.
-   Some patterns of protocol usage might be relatively static without
+   deployments.  Some extension points rarely see new values being used,
+   but it is important that they remain usable in the future.  Some
+   patterns of protocol usage might be relatively static without
    specific efforts to ensure that they can change in the future.
 
    One key technique for intentional use is "grease" (an acronym for
    Generate Random Extensions And Sustain Extensibility), or "greasing".
    Greasing was initially designed for TLS [GREASE] and was later
    adopted by other protocols such as QUIC [QUIC].  In these protocols,
-   extension codepoints are reserved only for greasing and must be
-   ignored upon receipt.  Greasing is suitable for many protocols but
-   not all; Section 3.3 of [VIABILITY] discusses the applicability and
+   some extension codepoints are reserved for greasing, and receivers
+   must ignore them.  Greasing is suitable for many protocols but not
+   all; Section 3.3 of [VIABILITY] discusses the applicability and
    limitations of greasing.
 
    While it is becoming more common, designing and applying grease is
@@ -139,7 +139,7 @@ Table of Contents
    some of these concerns.
 
    Protocol extensions can provide longevity in the face of changing
-   needs or environment.  However, a replacment protocol might be
+   needs or environment.  However, a replacement protocol might be
    preferred when extensions are not adequate or feasible.  A protocol
    replacement could aggregate common extensions and possibly make them
    mandatory, effectively defining a new baseline that can simplify
@@ -225,7 +225,7 @@ Table of Contents
    or algorithm.  This approach is used by the QUIC registry
    (https://www.iana.org/assignments/quic/quic.xhtml) and the HTTP/3
    registry (https://www.iana.org/assignments/http3-parameters/
-   http3-parameters.xhtml#http3-parameters-frame-types)
+   http3-parameters.xhtml#http3-parameters-frame-types).
 
    Grease values must not be used or registered for any other purpose.
    This is in contrast to other potentially "reserved" values that might
@@ -383,14 +383,14 @@ Table of Contents
    starting to use greasing comes with the risk of triggering failures
    or anomalies.  These failures might be innocuous, but they also might
    be very impactful and visible to users.  This risk creates a
-   disincentive to deploy greasing in existing systems, since generally
-   the change that triggers failures is often blamed for the failure.
-   The risk is highest when adding greasing to a particular protocol
-   flow that doesn't require any change of behavior or adoption to hit
-   the greasing behavior.  For example, if a service migrates to use a
-   new web server implementation that enables greasing, while the
-   previous server didn't, some new failures may be hit if clients react
-   poorly to greasing.
+   disincentive to deploy greasing in existing systems, since the change
+   that triggers failures is often blamed for the failure.  The risk is
+   highest when adding greasing to a particular protocol flow that
+   doesn't require any change of behavior or adoption to hit the
+   greasing behavior.  For example, if a service migrates to use a new
+   web server implementation that enables greasing, while the previous
+   server didn't, some new failures may be hit if clients react poorly
+   to greasing.
 
    Some approaches to avoid failures due to greasing include:
 
@@ -436,7 +436,7 @@ Table of Contents
    use of greasing.  This doesn't prevent the endpoints themselves
    ossifying (since they might choose to not negotiate), but it can
    still be effective for preventing ossification of middleboxes.  For
-   example, the "QUIC bit" is a unencrypted bit visible in QUIC's wire
+   example, the "QUIC bit" is an unencrypted bit visible in QUIC's wire
    image that is used to differentiate it from other UDP traffic, and is
    set to a value of 1 in version 1 of QUIC.  Being able to set the bit
    to 0 requires negotiation between clients and servers to ensure that
@@ -509,8 +509,8 @@ Table of Contents
    interactions, leading to real errors.  However, some protocols allow
    elements to be safely changed, as shown in the following examples.
    The principles in these examples are not limited to the protocols
-   mentioned, but also arise in many other protocols as well (e.g., the
-   Session Initiation Protocol (SIP) [SIP]).
+   mentioned, but also arise in many other protocols (e.g., the Session
+   Initiation Protocol (SIP) [SIP]).
 
 3.1.  Example: QUIC frames
 
@@ -607,7 +607,7 @@ Table of Contents
 
    Variation can occur when an endpoint chooses to use one protocol over
    another, given the option to use either.  For example, a client
-   connecting to a HTTP server when connected to a dual-stack network
+   connecting to an HTTP server when connected to a dual-stack network
    might have several such choices:
 
    *  Perform DNS resolution using unencrypted DNS, or DNS over TLS
@@ -635,7 +635,7 @@ Table of Contents
 
    Adding variability to implementations and deployments can come with
    costs for complexity and performance, and needs to be weighed against
-   the benefits received of reducing or preventing ossification.
+   the benefits of reducing or preventing ossification.
 
    *  Implementation complexity: Correctly implemented receivers need to
       be able to handle all valid inputs, but sender-side logic is often
@@ -673,7 +673,7 @@ Table of Contents
 
    This document has no IANA actions itself.  Guidance on how other
    documents can effectively instruct IANA about protocol greasing is
-   provided in Section 2.1.1
+   provided in Section 2.1.1.
 
 6.  Informative References
 
@@ -722,12 +722,11 @@ Table of Contents
               Protocols", RFC 9413, DOI 10.17487/RFC9413, June 2023,
               <https://www.rfc-editor.org/rfc/rfc9413>.
 
-   [PQTLS]    Kwiatkowski, K., Kampanakis, P., Westerbaan, B., and D.
-              Stebila, "Post-quantum hybrid ECDHE-MLKEM Key Agreement
-              for TLSv1.3", Work in Progress, Internet-Draft, draft-
-              ietf-tls-ecdhe-mlkem-05, 26 May 2026,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
-              ecdhe-mlkem-05>.
+   [PQTLS]    Kwiatkowski, K., Kampanakis, P., Westerbaan, B. E., and D.
+              Stebila, "Post-Quantum Traditional (PQ/T) Hybrid Key
+              Agreement Mechanisms for TLS 1.3", RFC 10024,
+              DOI 10.17487/RFC10024, August 2026,
+              <https://www.rfc-editor.org/rfc/rfc10024>.
 
    [PRIVACYPASS]
               Pauly, T., Valdez, S., and C. A. Wood, "The Privacy Pass

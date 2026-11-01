@@ -19,25 +19,25 @@ by the IETF. This document discusses considerations when designing
 and deploying grease and variability mechanisms, and provides
 advice for making them as effective as possible. 
     ' name="description">
-<meta content="xml2rfc 3.34.0" name="generator">
+<meta content="xml2rfc 3.34.1" name="generator">
 <meta content="next generation" name="keyword">
 <meta content="unicorn" name="keyword">
 <meta content="sparkling distributed ledger" name="keyword">
 <meta content="draft-iab-protocol-greasing-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.34.0
-    Python 3.14.5
-    ConfigArgParse 1.7.5
+  xml2rfc 3.34.1
+    Python 3.14.8
+    ConfigArgParse 1.8.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.10.0
+    platformdirs 4.13.4
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.2
+    wcwidth 0.9.2
 -->
 <link href="draft-iab-protocol-greasing.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -73,7 +73,6 @@ advice for making them as effective as possible.
   src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: italic;
@@ -122,7 +121,6 @@ advice for making them as effective as possible.
   src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: normal;
@@ -187,7 +185,6 @@ advice for making them as effective as possible.
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
 }
 
 @font-face {
@@ -1056,11 +1053,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Protocol Greasing</td>
-<td class="right">July 2026</td>
+<td class="right">November 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Pardue, et al.</td>
-<td class="center">Expires 7 January 2027</td>
+<td class="center">Expires 5 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1073,12 +1070,12 @@ svg {
 <dd class="internet-draft">draft-iab-protocol-greasing-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-07-06" class="published">6 July 2026</time>
+<time datetime="2026-11-01" class="published">1 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-01-07">7 January 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-05">5 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1139,7 +1136,7 @@ advice for making them as effective as possible.<a href="#section-abstract-2" cl
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 5 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1259,16 +1256,16 @@ is an important factor in the success of protocol deployment, as discussed
 in <span>[<a href="#SUCCESS" class="cite xref">SUCCESS</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">Active use of protocol features and extensions often requires intentional
 efforts beyond what would organically occur in deployments. Some extension
-points do not frequently see new values being used, but that they remain
-usable in the future is important. Some patterns of protocol usage might be
+points rarely see new values being used, but it is important that they remain
+usable in the future. Some patterns of protocol usage might be
 relatively static without specific efforts to ensure that they can change
 in the future.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">One key technique for intentional use is "grease" (an acronym for
 Generate Random Extensions And Sustain Extensibility), or "greasing".
 Greasing was initially designed for TLS <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span> and was later
 adopted by other protocols such as QUIC <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span>. In these protocols,
-extension codepoints are reserved only for greasing and must be ignored
-upon receipt. Greasing is suitable for many protocols but not all; <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> discusses the applicability and limitations of greasing.<a href="#section-1-3" class="pilcrow">¶</a></p>
+some extension codepoints are reserved for greasing, and receivers must
+ignore them. Greasing is suitable for many protocols but not all; <span><a href="https://rfc-editor.org/rfc/rfc9170#section-3.3" class="relref">Section 3.3</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> discusses the applicability and limitations of greasing.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">While it is becoming more common, designing and applying grease is not
 necessarily trivial. There are best practices, and some common pitfalls to
 avoid, that have been developed by the protocols using grease thus far.
@@ -1285,7 +1282,7 @@ might lead to deployment problems. <a href="#variability" class="auto internal x
 considerations about how intentionally increasing the variability of protocols
 can mitigate some of these concerns.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">Protocol extensions can provide longevity in the face of changing needs or
-environment. However, a replacment protocol might be preferred when extensions
+environment. However, a replacement protocol might be preferred when extensions
 are not adequate or feasible. A protocol replacement could aggregate common
 extensions and possibly make them mandatory, effectively defining a new baseline
 that can simplify deployment and interoperability. A replacement protocol
@@ -1367,7 +1364,7 @@ is up to the documents that define the registries.<a href="#section-2.1.1-1" cla
 when possible to instead only define a single entry for the entire grease value
 set. This entry should include the pattern or algorithm. This approach is used by
 the QUIC registry (https://www.iana.org/assignments/quic/quic.xhtml) and the
-HTTP/3 registry (https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types)<a href="#section-2.1.1-3" class="pilcrow">¶</a></p>
+HTTP/3 registry (https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types).<a href="#section-2.1.1-3" class="pilcrow">¶</a></p>
 <p id="section-2.1.1-4">Grease values must not be used or registered for any other purpose. This is in
 contrast to other potentially "reserved" values that might be reused or
 claimed for a new purpose in the future. To avoid confusion, it is recommended
@@ -1525,7 +1522,7 @@ weren't deployed with greasing); or as part of new protocol design and deploymen
 <p id="section-2.6-2">When greasing isn't used from the beginning of protocol deployment, starting to use
 greasing comes with the risk of triggering failures or anomalies. These failures might be innocuous,
 but they also might be very impactful and visible to users. This risk creates a
-disincentive to deploy greasing in existing systems, since generally the change that
+disincentive to deploy greasing in existing systems, since the change that
 triggers failures is often blamed for the failure. The risk is highest when
 adding greasing to a particular protocol flow that doesn't require any
 change of behavior or adoption to hit the greasing behavior. For example,
@@ -1573,7 +1570,7 @@ greasing at all parties that can observe the wire image, including any middlebox
 these cases, the two endpoints of a protocol might explicitly negotiate the use of greasing.
 This doesn't prevent the endpoints themselves ossifying (since they might choose to not negotiate),
 but it can still be effective for preventing ossification of middleboxes. For example,
-the "QUIC bit" is a unencrypted bit visible in QUIC's wire image that is used to differentiate
+the "QUIC bit" is an unencrypted bit visible in QUIC's wire image that is used to differentiate
 it from other UDP traffic, and is set to a value of 1 in version 1 of QUIC. Being able to set
 the bit to 0 requires negotiation between clients and servers to ensure that the QUIC traffic
 won't conflict with other traffic (<span>[<a href="#QUICBIT" class="cite xref">QUICBIT</a>]</span>). The purpose of this mechanism
@@ -1638,7 +1635,7 @@ fuzzing. This might be difficult to exercise because varying the protocol
 elements might change the outcome of interactions, leading to real errors.
 However, some protocols allow elements to be safely changed, as shown in the
 following examples. The principles in these examples are not limited to
-the protocols mentioned, but also arise in many other protocols as well
+the protocols mentioned, but also arise in many other protocols
 (e.g., the Session Initiation Protocol (SIP) <span>[<a href="#SIP" class="cite xref">SIP</a>]</span>).<a href="#section-3-2" class="pilcrow">¶</a></p>
 <div id="example-quic-frames">
 <section id="section-3.1">
@@ -1735,7 +1732,7 @@ packet sends, and adding packets that are purely padding or random data
         </h3>
 <p id="section-3.5-1">Variation can occur when an endpoint chooses to use one protocol over
 another, given the option to use either. For example, a client connecting
-to a HTTP server when connected to a dual-stack network might have several
+to an HTTP server when connected to a dual-stack network might have several
 such choices:<a href="#section-3.5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.5-2.1">
@@ -1769,7 +1766,7 @@ around them being available.<a href="#section-3.5-4" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-3.6-1">Adding variability to implementations and deployments can come with costs for
 complexity and performance, and needs to be weighed against the benefits
-received of reducing or preventing ossification.<a href="#section-3.6-1" class="pilcrow">¶</a></p>
+of reducing or preventing ossification.<a href="#section-3.6-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.6-2.1">
             <p id="section-3.6-2.1.1">Implementation complexity: Correctly implemented receivers need to be
@@ -1805,7 +1802,7 @@ on a network, such as to reduce goodput, increase latency, etc.<a href="#section
 <p id="section-4-1">The considerations in <span>[<a href="#MAINTENANCE" class="cite xref">MAINTENANCE</a>]</span>, <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span>, <span>[<a href="#END-USERS" class="cite xref">END-USERS</a>]</span>, and
 <span>[<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> all apply to the topics discussed in this document.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">The use of protocol features, extensions, and versions can already allow
-fingerprinting <span>[<a href="#PRIVCON" class="cite xref">PRIVCON</a>]</span>. Any techniques that change parameters  in any way, including but
+fingerprinting <span>[<a href="#PRIVCON" class="cite xref">PRIVCON</a>]</span>. Any techniques that change parameters in any way, including but
 not limited to those discussed in this document, can affect fingerprinting. A
 deeper analysis of this topic has been deemed out of scope.<a href="#section-4-2" class="pilcrow">¶</a></p>
 </section>
@@ -1816,7 +1813,7 @@ deeper analysis of this topic has been deemed out of scope.<a href="#section-4-2
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
 <p id="section-5-1">This document has no IANA actions itself. Guidance on how other documents can effectively
-instruct IANA about protocol greasing is provided in <a href="#iana-tips" class="auto internal xref">Section 2.1.1</a><a href="#section-5-1" class="pilcrow">¶</a></p>
+instruct IANA about protocol greasing is provided in <a href="#iana-tips" class="auto internal xref">Section 2.1.1</a>.<a href="#section-5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-informative-references">
@@ -1863,7 +1860,7 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dd class="break"></dd>
 <dt id="PQTLS">[PQTLS]</dt>
       <dd>
-<span class="refAuthor">Kwiatkowski, K.</span>, <span class="refAuthor">Kampanakis, P.</span>, <span class="refAuthor">Westerbaan, B.</span>, and <span class="refAuthor">D. Stebila</span>, <span class="refTitle">"Post-quantum hybrid ECDHE-MLKEM Key Agreement for TLSv1.3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-ecdhe-mlkem-05</span>, <time datetime="2026-05-26" class="refDate">26 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-ecdhe-mlkem-05">https://datatracker.ietf.org/doc/html/draft-ietf-tls-ecdhe-mlkem-05</a>&gt;</span>. </dd>
+<span class="refAuthor">Kwiatkowski, K.</span>, <span class="refAuthor">Kampanakis, P.</span>, <span class="refAuthor">Westerbaan, B. E.</span>, and <span class="refAuthor">D. Stebila</span>, <span class="refTitle">"Post-Quantum Traditional (PQ/T) Hybrid Key Agreement Mechanisms for TLS 1.3"</span>, <span class="seriesInfo">RFC 10024</span>, <span class="seriesInfo">DOI 10.17487/RFC10024</span>, <time datetime="2026-08" class="refDate">August 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc10024">https://www.rfc-editor.org/rfc/rfc10024</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="PRIVACYPASS">[PRIVACYPASS]</dt>
       <dd>

@@ -212,7 +212,16 @@ How consistently and frequently to use grease values is a choice that implementa
 and deployments need to consider and weigh against several factors.
 
 Deployments of greasing should consider how they expect errors exposed by
-using grease values to be noticed and measured.
+using grease values to be noticed and measured ({{Section 4.4 of VIABILITY}}).
+Counting failures separately for interactions with and without grease helps
+attribute them, and detailed logs help diagnose them. Logs can reveal more
+than the wire image, so sharing them needs care.
+
+Logging formats need to record unknown values, including grease values,
+because logs that discard them hide the failures that greasing exposes.
+qlog, a structured logging format for network protocols, does this for
+QUIC {{?QLOG-QUIC=I-D.ietf-quic-qlog-quic-events}} and HTTP/3
+{{?QLOG-H3=I-D.ietf-quic-qlog-h3-events}}.
 
 If grease values are sent too infrequently, so that errors due to sending
 grease values blend in with the noise of other errors, it is likely that

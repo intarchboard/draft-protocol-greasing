@@ -89,15 +89,15 @@ avoid, that have been developed by the protocols using grease thus far.
 for new protocol design and deployment.
 
 Separate from greasing using reserved values, protocol deployments can
-intentionally add variability to ensure that network endpoints and
-middleboxes do not end up ossifying certain patterns. For example, an HTTP
-deployment focused on downloads might want to add support for uploads.
-Changing use of the application and transport protocol features can affect
-the deployment's network traffic profile. If expectations have been formed
-around historical patterns of use, i.e., ossification, introducing change
-might lead to deployment problems. {{variability}} presents
-considerations about how intentionally increasing the variability of protocols
-can mitigate some of these concerns.
+intentionally add variability to ensure that network endpoints and middleboxes
+do not end up ossifying certain patterns. If expectations have been formed
+around historical patterns of use, changing application or transport protocol
+feature use could alter the network traffic profile and invalidate such
+expectations, possibly leading to deployment problems. For example, an HTTP
+deployment that had previously focused on downloads could add a new upload
+workload that changes the characteristics of packet flows. {{variability}}
+presents considerations about how intentionally increasing the variability of
+protocols can mitigate some ossification concerns.
 
 Protocol extensions can provide longevity in the face of changing needs or
 environment. However, a replacement protocol might be preferred when extensions

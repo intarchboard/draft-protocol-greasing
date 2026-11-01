@@ -69,8 +69,8 @@ in {{?SUCCESS=RFC5218}}.
 
 Active use of protocol features and extensions often requires intentional
 efforts beyond what would organically occur in deployments. Some extension
-points do not frequently see new values being used, but that they remain
-usable in the future is important. Some patterns of protocol usage might be
+points rarely see new values being used, but it is important that they remain
+usable in the future. Some patterns of protocol usage might be
 relatively static without specific efforts to ensure that they can change
 in the future.
 
@@ -78,8 +78,8 @@ One key technique for intentional use is "grease" (an acronym for
 Generate Random Extensions And Sustain Extensibility), or "greasing".
 Greasing was initially designed for TLS {{?GREASE=RFC8701}} and was later
 adopted by other protocols such as QUIC {{?QUIC=RFC9000}}. In these protocols,
-extension codepoints are reserved only for greasing and must be ignored
-upon receipt. Greasing is suitable for many protocols but not all; {{Section 3.3 of
+some extension codepoints are reserved for greasing, and receivers must
+ignore them. Greasing is suitable for many protocols but not all; {{Section 3.3 of
 ?VIABILITY=RFC9170}} discusses the applicability and limitations of greasing.
 
 While it is becoming more common, designing and applying grease is not
@@ -100,7 +100,7 @@ considerations about how intentionally increasing the variability of protocols
 can mitigate some of these concerns.
 
 Protocol extensions can provide longevity in the face of changing needs or
-environment. However, a replacment protocol might be preferred when extensions
+environment. However, a replacement protocol might be preferred when extensions
 are not adequate or feasible. A protocol replacement could aggregate common
 extensions and possibly make them mandatory, effectively defining a new baseline
 that can simplify deployment and interoperability. A replacement protocol
@@ -174,7 +174,7 @@ If an algorithm or pattern is used to define grease values, it is recommended
 when possible to instead only define a single entry for the entire grease value
 set. This entry should include the pattern or algorithm. This approach is used by
 the QUIC registry (https://www.iana.org/assignments/quic/quic.xhtml) and the
-HTTP/3 registry (https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types)
+HTTP/3 registry (https://www.iana.org/assignments/http3-parameters/http3-parameters.xhtml#http3-parameters-frame-types).
 
 Grease values must not be used or registered for any other purpose. This is in
 contrast to other potentially "reserved" values that might be reused or
@@ -317,7 +317,7 @@ weren't deployed with greasing); or as part of new protocol design and deploymen
 When greasing isn't used from the beginning of protocol deployment, starting to use
 greasing comes with the risk of triggering failures or anomalies. These failures might be innocuous,
 but they also might be very impactful and visible to users. This risk creates a
-disincentive to deploy greasing in existing systems, since generally the change that
+disincentive to deploy greasing in existing systems, since the change that
 triggers failures is often blamed for the failure. The risk is highest when
 adding greasing to a particular protocol flow that doesn't require any
 change of behavior or adoption to hit the greasing behavior. For example,
@@ -358,7 +358,7 @@ greasing at all parties that can observe the wire image, including any middlebox
 these cases, the two endpoints of a protocol might explicitly negotiate the use of greasing.
 This doesn't prevent the endpoints themselves ossifying (since they might choose to not negotiate),
 but it can still be effective for preventing ossification of middleboxes. For example,
-the "QUIC bit" is a unencrypted bit visible in QUIC's wire image that is used to differentiate
+the "QUIC bit" is an unencrypted bit visible in QUIC's wire image that is used to differentiate
 it from other UDP traffic, and is set to a value of 1 in version 1 of QUIC. Being able to set
 the bit to 0 requires negotiation between clients and servers to ensure that the QUIC traffic
 won't conflict with other traffic ({{?QUICBIT=RFC9287}}). The purpose of this mechanism
@@ -416,7 +416,7 @@ fuzzing. This might be difficult to exercise because varying the protocol
 elements might change the outcome of interactions, leading to real errors.
 However, some protocols allow elements to be safely changed, as shown in the
 following examples. The principles in these examples are not limited to
-the protocols mentioned, but also arise in many other protocols as well
+the protocols mentioned, but also arise in many other protocols
 (e.g., the Session Initiation Protocol (SIP) {{?SIP=RFC3261}}).
 
 ## Example: QUIC frames
@@ -443,7 +443,7 @@ connections, or phases within a connection.
 ## Example: Post-quantum key exchange in TLS
 
 Post-quantum key exchange in TLS (such as defined in
-{{?PQTLS=I-D.ietf-tls-ecdhe-mlkem}}) expands the key sizes sent in Client Hello
+{{?PQTLS=RFC10024}}) expands the key sizes sent in Client Hello
 messages in TLS 1.3 {{?TLS=RFC8446}}. Before using these algorithms,
 Client Hello messages would generally fit within a single packet (either in
 TCP or QUIC). However, with these larger keys, Client Hello messages need to be
@@ -486,7 +486,7 @@ result in a disincentive to use the protocol or device or application using it.
 
 The examples of variation above highlight ways in which specific protocol
 fields are sent. Variation can also apply to more generic aspects of a flow's
-wire image {{?WIREIMAGE=RFC8546}}. Even when fields are encrypted, there
+wire image {{WIREIMAGE}}. Even when fields are encrypted, there
 are aspects of a protocol's wire image that middleboxes observe and
 can ossify around.
 
@@ -504,7 +504,7 @@ packet sends, and adding packets that are purely padding or random data
 
 Variation can occur when an endpoint chooses to use one protocol over
 another, given the option to use either. For example, a client connecting
-to a HTTP server when connected to a dual-stack network might have several
+to an HTTP server when connected to a dual-stack network might have several
 such choices:
 
 - Perform DNS resolution using unencrypted DNS, or DNS over TLS {{?DOT=RFC7858}},
@@ -520,7 +520,7 @@ intentionally choose to alter their preferences some percentage of the time.
 
 Variation can also be created when an endpoint chooses to not use a protocol
 feature, as an intentional way to ensure the network path or peer still
-tolerates its absence. For example, {{Section 3.1 of ?PRIVACYPASS=RFC9577}}
+tolerates its absence. For example, {{Section 3.1 of PRIVACYPASS}}
 recommends that, in some situations, clients randomly act as if they don't
 support sending privacy pass tokens, to ensure that receivers cannot ossify
 around them being available.
@@ -529,7 +529,7 @@ around them being available.
 
 Adding variability to implementations and deployments can come with costs for
 complexity and performance, and needs to be weighed against the benefits
-received of reducing or preventing ossification.
+of reducing or preventing ossification.
 
 - Implementation complexity: Correctly implemented receivers need to be
 able to handle all valid inputs, but sender-side logic is often made more
@@ -555,7 +555,7 @@ The considerations in {{?MAINTENANCE=RFC9413}}, {{GREASE}}, {{?END-USERS=RFC8890
 {{VIABILITY}} all apply to the topics discussed in this document.
 
 The use of protocol features, extensions, and versions can already allow
-fingerprinting {{?PRIVCON=RFC6973}}. Any techniques that change parameters  in any way, including but
+fingerprinting {{?PRIVCON=RFC6973}}. Any techniques that change parameters in any way, including but
 not limited to those discussed in this document, can affect fingerprinting. A
 deeper analysis of this topic has been deemed out of scope.
 
@@ -563,7 +563,7 @@ deeper analysis of this topic has been deemed out of scope.
 # IANA Considerations
 
 This document has no IANA actions itself. Guidance on how other documents can effectively
-instruct IANA about protocol greasing is provided in {{iana-tips}}
+instruct IANA about protocol greasing is provided in {{iana-tips}}.
 
 
 --- back

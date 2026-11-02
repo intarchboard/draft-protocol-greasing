@@ -516,6 +516,12 @@ Finally, there may be security or gateway middleboxes already deployed that
 incorrectly rely on assumptions about header order, size, or location in a packet.
 Introducing variability might then cause operational problems in such networks and
 result in a disincentive to use the protocol or device or application using it.
+In practice, adding a padding-only Destination Options header already
+causes loss: about 11% to 21% of packets with an 8-byte Destination
+Options header of PadN options sent to public servers were dropped in
+measurements from 2014 and 2015 {{?RFC7872}}. Guidance for transit
+routers has since recommended permitting such packets {{?RFC9288}}, but
+senders cannot assume that every path follows that guidance.
 
 ## Wire Image Variation {#wire-image-variation}
 

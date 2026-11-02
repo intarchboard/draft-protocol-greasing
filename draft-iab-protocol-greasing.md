@@ -381,7 +381,7 @@ when they receive grease values.
 
 Ossification of DNS implementations presents an illustrative challenge for greasing.
 Non-encrypted DNS involves many network observers and participants, and the protocol
-has numerous fields that have been defined and deployed for many years. {{?DNS-GREASE=I.D-ietf-dnsop-grease}}
+has numerous fields that have been defined and deployed for many years. {{?DNS-GREASE=I-D.ietf-dnsop-grease}}
 discusses approaches that can be used to grease DNS, including being able to
 more easily tie greasing to using encrypted DNS (thus enabling grease along with
 another major feature change), and the interaction of grease with the common approach

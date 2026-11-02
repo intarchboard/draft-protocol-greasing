@@ -1419,18 +1419,28 @@ extension point.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 <p id="section-2.3-2">How consistently and frequently to use grease values is a choice that implementations
 and deployments need to consider and weigh against several factors.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
 <p id="section-2.3-3">Deployments of greasing should consider how they expect errors exposed by
-using grease values to be noticed and measured.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
-<p id="section-2.3-4">If grease values are sent too infrequently, so that errors due to sending
+using grease values to be noticed and measured (<span><a href="https://rfc-editor.org/rfc/rfc9170#section-4.4" class="relref">Section 4.4</a> of [<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span>).
+Counting failures separately for interactions with and without grease helps
+attribute them, and detailed logs help diagnose them. Logs can reveal more
+than the wire image, so sharing them needs care.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+<p id="section-2.3-4">In order to correctly report the effects of greasing, logging systems and
+formats should record unknown values, including grease values. If these
+values are discarded and not logged, failures exposed by greasing can be
+hidden or misattributed. One example of a logging format that includes
+greasing values is qlog, a structured logging format for QUIC
+<span>[<a href="#QLOG-QUIC" class="cite xref">QLOG-QUIC</a>]</span> and HTTP/3
+<span>[<a href="#QLOG-H3" class="cite xref">QLOG-H3</a>]</span>.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
+<p id="section-2.3-5">If grease values are sent too infrequently, so that errors due to sending
 grease values blend in with the noise of other errors, it is likely that
 no one will notice failures, thus defeating the purpose of greasing.
 When grease values are sent more frequently, they will be noticed more.
 However, if grease values are sent too consistently, receiver implementations
-might end up special-casing grease values.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
-<p id="section-2.3-5">The patterns for sending grease values can be made more effective by
+might end up special-casing grease values.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
+<p id="section-2.3-6">The patterns for sending grease values can be made more effective by
 coordinating between devices sending the values. One example of coordination
 is having a "flag day" where implementations start sending grease values
 broadly, and measure to see where errors occur.  See <span><a href="https://rfc-editor.org/rfc/rfc8170#section-3" class="relref">Section 3</a> of [<a href="#TRANSITION" class="cite xref">TRANSITION</a>]</span>
-for more considerations concerning the use of a flag day.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
+for more considerations concerning the use of a flag day.<a href="#section-2.3-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="dont-handle-grease-values-as-a-special-case">
@@ -1890,6 +1900,14 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dt id="PRIVCON">[PRIVCON]</dt>
       <dd>
 <span class="refAuthor">Cooper, A.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Aboba, B.</span>, <span class="refAuthor">Peterson, J.</span>, <span class="refAuthor">Morris, J.</span>, <span class="refAuthor">Hansen, M.</span>, and <span class="refAuthor">R. Smith</span>, <span class="refTitle">"Privacy Considerations for Internet Protocols"</span>, <span class="seriesInfo">RFC 6973</span>, <span class="seriesInfo">DOI 10.17487/RFC6973</span>, <time datetime="2013-07" class="refDate">July 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6973">https://www.rfc-editor.org/rfc/rfc6973</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="QLOG-H3">[QLOG-H3]</dt>
+      <dd>
+<span class="refAuthor">Marx, R.</span>, <span class="refAuthor">Niccolini, L.</span>, <span class="refAuthor">Seemann, M.</span>, and <span class="refAuthor">L. Pardue</span>, <span class="refTitle">"HTTP/3 qlog event definitions"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-qlog-h3-events-13</span>, <time datetime="2026-07-06" class="refDate">6 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-qlog-h3-events-13">https://datatracker.ietf.org/doc/html/draft-ietf-quic-qlog-h3-events-13</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="QLOG-QUIC">[QLOG-QUIC]</dt>
+      <dd>
+<span class="refAuthor">Marx, R.</span>, <span class="refAuthor">Niccolini, L.</span>, <span class="refAuthor">Seemann, M.</span>, and <span class="refAuthor">L. Pardue</span>, <span class="refTitle">"QUIC event definitions for qlog"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-qlog-quic-events-13</span>, <time datetime="2026-07-06" class="refDate">6 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-qlog-quic-events-13">https://datatracker.ietf.org/doc/html/draft-ietf-quic-qlog-quic-events-13</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="QUIC">[QUIC]</dt>
       <dd>

@@ -279,7 +279,18 @@ Table of Contents
    several factors.
 
    Deployments of greasing should consider how they expect errors
-   exposed by using grease values to be noticed and measured.
+   exposed by using grease values to be noticed and measured
+   (Section 4.4 of [VIABILITY]).  Counting failures separately for
+   interactions with and without grease helps attribute them, and
+   detailed logs help diagnose them.  Logs can reveal more than the wire
+   image, so sharing them needs care.
+
+   In order to correctly report the effects of greasing, logging systems
+   and formats should record unknown values, including grease values.
+   If these values are discarded and not logged, failures exposed by
+   greasing can be hidden or misattributed.  One example of a logging
+   format that includes greasing values is qlog, a structured logging
+   format for QUIC [QLOG-QUIC] and HTTP/3 [QLOG-H3].
 
    If grease values are sent too infrequently, so that errors due to
    sending grease values blend in with the noise of other errors, it is
@@ -764,6 +775,19 @@ Table of Contents
               Considerations for Internet Protocols", RFC 6973,
               DOI 10.17487/RFC6973, July 2013,
               <https://www.rfc-editor.org/rfc/rfc6973>.
+
+   [QLOG-H3]  Marx, R., Niccolini, L., Seemann, M., and L. Pardue,
+              "HTTP/3 qlog event definitions", Work in Progress,
+              Internet-Draft, draft-ietf-quic-qlog-h3-events-13, 6 July
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              quic-qlog-h3-events-13>.
+
+   [QLOG-QUIC]
+              Marx, R., Niccolini, L., Seemann, M., and L. Pardue, "QUIC
+              event definitions for qlog", Work in Progress, Internet-
+              Draft, draft-ietf-quic-qlog-quic-events-13, 6 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
+              qlog-quic-events-13>.
 
    [QUIC]     Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", RFC 9000,

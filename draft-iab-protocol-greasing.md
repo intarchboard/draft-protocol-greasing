@@ -217,10 +217,12 @@ Counting failures separately for interactions with and without grease helps
 attribute them, and detailed logs help diagnose them. Logs can reveal more
 than the wire image, so sharing them needs care.
 
-Logging formats need to record unknown values, including grease values,
-because logs that discard them hide the failures that greasing exposes.
-qlog, a structured logging format for network protocols, does this for
-QUIC {{?QLOG-QUIC=I-D.ietf-quic-qlog-quic-events}} and HTTP/3
+In order to correctly report the effects of greasing, logging systems and
+formats should record unknown values, including grease values. If these
+values are discarded and not logged, failures exposed by greasing can be
+hidden or misattributed. One example of a logging format that includes
+greasing values is qlog, a structured logging format for QUIC
+{{?QLOG-QUIC=I-D.ietf-quic-qlog-quic-events}} and HTTP/3
 {{?QLOG-H3=I-D.ietf-quic-qlog-h3-events}}.
 
 If grease values are sent too infrequently, so that errors due to sending

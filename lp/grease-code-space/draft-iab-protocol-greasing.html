@@ -1057,7 +1057,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Pardue, et al.</td>
-<td class="center">Expires 5 May 2027</td>
+<td class="center">Expires 6 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg {
 <dd class="internet-draft">draft-iab-protocol-greasing-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-01" class="published">1 November 2026</time>
+<time datetime="2026-11-02" class="published">2 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-05">5 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-06">6 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1136,7 +1136,7 @@ advice for making them as effective as possible.<a href="#section-abstract-2" cl
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1339,11 +1339,11 @@ fields are likely to have no such limitations.<a href="#section-2.1-4" class="pi
 <p id="section-2.1-5">Reserving grease values has a lasting cost. Grease values cannot be
 used or registered for any other purpose (see <a href="#iana-tips" class="auto internal xref">Section 2.1.1</a>), so each
 reserved value is permanently removed from the space available to
-future extensions. Designers need to be aware that reserving too much
-leaves too few values for the extensions greasing is meant to protect.
-Reserved space can also be hard to reclaim. For example, the IPv4 address
-block 240.0.0.0/4 was reserved for future use in 1989 <span>[<a href="#RFC1112" class="cite xref">RFC1112</a>]</span>, and
-is still listed as reserved <span>[<a href="#RFC6890" class="cite xref">RFC6890</a>]</span>.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
+future extensions. Designers need to be aware that reserving too many
+values for greasing can leave few values for defining new extensions.
+Separately from greasing, reserved space can also be hard to reclaim.
+For example, the IPv4 address block 240.0.0.0/4 was reserved for future
+use in 1989 <span>[<a href="#RFC1112" class="cite xref">RFC1112</a>]</span>, and is still listed as reserved <span>[<a href="#RFC6890" class="cite xref">RFC6890</a>]</span>.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
 <p id="section-2.1-6">It is recommended to use an algorithm to reserve large sets of values.
 For example, <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span> uses an algorithm of <code>31 * N + 27</code> to allocate
 grease values for transport parameters.<a href="#section-2.1-6" class="pilcrow">¶</a></p>

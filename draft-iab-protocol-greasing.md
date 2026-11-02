@@ -369,6 +369,17 @@ Greasing the wire image inherently involves more parties than other kinds of gre
 more difficult for implementations to anticipate all possible incompatibilities, so it is
 more likely to encounter deployment challenges.
 
+Routing protocols show how the scope of an extension point affects which
+parties grease reaches. BGP capabilities let a peering be established
+"even when presented with unrecognized capabilities" ({{Section 1 of
+?RFC5492}}), where base BGP requires terminating it, and an unknown
+capability only reaches the peer. In contrast, an unrecognized optional
+transitive BGP attribute is passed on to other speakers ({{Section 9 of
+?BGP=RFC4271}}), so a faulty or mishandled attribute can travel unchecked
+and reset sessions at a router far from its origin ({{Section 1 of
+?RFC7606}}). Grease in such an element exercises every system it
+reaches, and failures might be hard to attribute.
+
 ### Discouraging Ossification
 
 Greasing alone can help ensure that middleboxes tolerate unrecognized extensions rather than

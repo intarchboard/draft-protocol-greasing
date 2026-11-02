@@ -245,6 +245,12 @@ When grease values are sent more frequently, they will be noticed more.
 However, if grease values are sent too consistently, receiver implementations
 might end up special-casing grease values.
 
+Senders also need to limit how much grease they send. A few grease values are
+enough to exercise a receiver's handling of unknown values. Sending more adds
+processing cost for the receiver without testing anything new. It can also
+trigger the receiver's defenses against abuse, which might treat a large number
+of unknown values as an attack and end the interaction (see {{security}}).
+
 The patterns for sending grease values can be made more effective by
 coordinating between devices sending the values. One example of coordination
 is having a "flag day" where implementations start sending grease values
@@ -479,7 +485,10 @@ frames that it transmits. For example, the sender can vary the sequence order of
 values. This allows exercising the QUIC reassembly features of the receiver
 with the expectation that no failure would occur. However, doing this may
 introduce delay or stream head-of-line blocking that affects the performance
-aspects of a transmission, which may not be acceptable for a given use case. As
+aspects of a transmission, which may not be acceptable for a given use case.
+Receivers can also limit the resources they commit to reassembly, as a
+mitigation for stream fragmentation attacks (see {{Section 21.7 of QUIC}}),
+so heavy reordering might run into those limits. As
 such, positive testing might be most appropriate to use in a subset of
 connections, or phases within a connection.
 
@@ -607,7 +616,7 @@ more packets, sending smaller packets, adding chaff packets, or adding delay.
 All of these, if used in excess, could degrade the overall performance of a flow
 on a network, such as to reduce goodput, increase latency, etc.
 
-# Security Considerations
+# Security Considerations {#security}
 
 The considerations in {{?MAINTENANCE=RFC9413}}, {{GREASE}}, {{?END-USERS=RFC8890}}, and
 {{VIABILITY}} all apply to the topics discussed in this document.
@@ -628,6 +637,18 @@ The use of protocol features, extensions, and versions can already allow
 fingerprinting {{?PRIVCON=RFC6973}}. Any techniques that change parameters in any way, including but
 not limited to those discussed in this document, can affect fingerprinting. A
 deeper analysis of this topic has been deemed out of scope.
+
+While protocol features, extensions, and versions all have legitimate uses, they
+can become a burden when used to excess. For example, the ability to send
+protocol grease that a peer is required to ignore can be abused to cause it to
+expend additional processing time or commit state, such as by sending a large number
+of grease values that each have to be ignored. Insufficient monitoring or logging exposes
+endpoints to a risk of denial-of-service attacks. Therefore, it is recommended
+that implementations track use of protocol features, extensions, and versions
+and set limits on their use. When such limits are encountered, implementations
+may choose to stop interactions, e.g., by closing a connection. Limits that are
+tuned too low risk false positive detections, which can disrupt otherwise valid
+exchanges.
 
 
 # IANA Considerations

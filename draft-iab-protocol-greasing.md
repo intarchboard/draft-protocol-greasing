@@ -486,7 +486,7 @@ causes loss: about 11% to 21% of packets with an 8-byte Destination
 Options header of PadN options sent to public servers were dropped in
 measurements from 2014 and 2015 {{?RFC7872}}. Guidance for transit
 routers has since recommended permitting such packets {{?RFC9288}}, but
-senders cannot assume that every path follows it.
+senders cannot assume that every path follows that guidance.
 
 ## Wire Image Variation {#wire-image-variation}
 

@@ -699,6 +699,19 @@ Table of Contents
    The considerations in [MAINTENANCE], [GREASE], [END-USERS], and
    [VIABILITY] all apply to the topics discussed in this document.
 
+   Security devices that inspect traffic, such as firewalls and
+   intrusion detection systems, also process grease.  Grease is normal
+   protocol behavior, so if these systems categorize it as an attack,
+   greasing fails and senders may stop greasing.  Recognizing grease
+   values specifically does not help: a device that permits grease but
+   blocks other unknown values still blocks real extensions.  To
+   mitigate this, protocol specifications can define how intermediaries
+   handle unknown values, as TLS does (Section 9.3 of [TLS]), and as
+   operational guidance does for QUIC (Section 2.8 of [RFC9312]) and DNS
+   (Section 4 of [RFC8906]).  These security devices typically also
+   fingerprint traffic (Section 2.4.5 of [RFC9065]), which grease can
+   disrupt.
+
    The use of protocol features, extensions, and versions can already
    allow fingerprinting [PRIVCON].  Any techniques that change
    parameters in any way, including but not limited to those discussed
@@ -806,6 +819,21 @@ Table of Contents
               "Special-Purpose IP Address Registries", BCP 153,
               RFC 6890, DOI 10.17487/RFC6890, April 2013,
               <https://www.rfc-editor.org/rfc/rfc6890>.
+
+   [RFC8906]  Andrews, M. and R. Bellis, "A Common Operational Problem
+              in DNS Servers: Failure to Communicate", BCP 231,
+              RFC 8906, DOI 10.17487/RFC8906, September 2020,
+              <https://www.rfc-editor.org/rfc/rfc8906>.
+
+   [RFC9065]  Fairhurst, G. and C. Perkins, "Considerations around
+              Transport Header Confidentiality, Network Operations, and
+              the Evolution of Internet Transport Protocols", RFC 9065,
+              DOI 10.17487/RFC9065, July 2021,
+              <https://www.rfc-editor.org/rfc/rfc9065>.
+
+   [RFC9312]  Kühlewind, M. and B. Trammell, "Manageability of the QUIC
+              Transport Protocol", RFC 9312, DOI 10.17487/RFC9312,
+              September 2022, <https://www.rfc-editor.org/rfc/rfc9312>.
 
    [SIP]      Rosenberg, J., Schulzrinne, H., Camarillo, G., Johnston,
               A., Peterson, J., Sparks, R., Handley, M., and E.

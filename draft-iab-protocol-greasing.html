@@ -1832,10 +1832,21 @@ on a network, such as to reduce goodput, increase latency, etc.<a href="#section
       </h2>
 <p id="section-4-1">The considerations in <span>[<a href="#MAINTENANCE" class="cite xref">MAINTENANCE</a>]</span>, <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span>, <span>[<a href="#END-USERS" class="cite xref">END-USERS</a>]</span>, and
 <span>[<a href="#VIABILITY" class="cite xref">VIABILITY</a>]</span> all apply to the topics discussed in this document.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">The use of protocol features, extensions, and versions can already allow
+<p id="section-4-2">Security devices that inspect traffic, such as firewalls and intrusion
+detection systems, also process grease. Grease is normal protocol
+behavior, so if these systems categorize it as an attack, greasing fails
+and senders may stop greasing. Recognizing grease values specifically
+does not help: a device that permits grease but blocks other unknown
+values still blocks real extensions. To mitigate this, protocol specifications
+can define how intermediaries handle unknown values, as TLS does
+(<span><a href="https://rfc-editor.org/rfc/rfc8446#section-9.3" class="relref">Section 9.3</a> of [<a href="#TLS" class="cite xref">TLS</a>]</span>), and as operational guidance does for QUIC
+(<span><a href="https://rfc-editor.org/rfc/rfc9312#section-2.8" class="relref">Section 2.8</a> of [<a href="#RFC9312" class="cite xref">RFC9312</a>]</span>) and DNS (<span><a href="https://rfc-editor.org/rfc/rfc8906#section-4" class="relref">Section 4</a> of [<a href="#RFC8906" class="cite xref">RFC8906</a>]</span>).
+These security devices typically also fingerprint traffic (<span><a href="https://rfc-editor.org/rfc/rfc9065#section-2.4.5" class="relref">Section 2.4.5</a> of [<a href="#RFC9065" class="cite xref">RFC9065</a>]</span>),
+which grease can disrupt.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">The use of protocol features, extensions, and versions can already allow
 fingerprinting <span>[<a href="#PRIVCON" class="cite xref">PRIVCON</a>]</span>. Any techniques that change parameters in any way, including but
 not limited to those discussed in this document, can affect fingerprinting. A
-deeper analysis of this topic has been deemed out of scope.<a href="#section-4-2" class="pilcrow">¶</a></p>
+deeper analysis of this topic has been deemed out of scope.<a href="#section-4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
@@ -1924,6 +1935,18 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dt id="RFC6890">[RFC6890]</dt>
       <dd>
 <span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Vegoda, L.</span>, <span class="refAuthor">Bonica, R., Ed.</span>, and <span class="refAuthor">B. Haberman</span>, <span class="refTitle">"Special-Purpose IP Address Registries"</span>, <span class="seriesInfo">BCP 153</span>, <span class="seriesInfo">RFC 6890</span>, <span class="seriesInfo">DOI 10.17487/RFC6890</span>, <time datetime="2013-04" class="refDate">April 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6890">https://www.rfc-editor.org/rfc/rfc6890</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8906">[RFC8906]</dt>
+      <dd>
+<span class="refAuthor">Andrews, M.</span> and <span class="refAuthor">R. Bellis</span>, <span class="refTitle">"A Common Operational Problem in DNS Servers: Failure to Communicate"</span>, <span class="seriesInfo">BCP 231</span>, <span class="seriesInfo">RFC 8906</span>, <span class="seriesInfo">DOI 10.17487/RFC8906</span>, <time datetime="2020-09" class="refDate">September 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8906">https://www.rfc-editor.org/rfc/rfc8906</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9065">[RFC9065]</dt>
+      <dd>
+<span class="refAuthor">Fairhurst, G.</span> and <span class="refAuthor">C. Perkins</span>, <span class="refTitle">"Considerations around Transport Header Confidentiality, Network Operations, and the Evolution of Internet Transport Protocols"</span>, <span class="seriesInfo">RFC 9065</span>, <span class="seriesInfo">DOI 10.17487/RFC9065</span>, <time datetime="2021-07" class="refDate">July 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9065">https://www.rfc-editor.org/rfc/rfc9065</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9312">[RFC9312]</dt>
+      <dd>
+<span class="refAuthor">Kühlewind, M.</span> and <span class="refAuthor">B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="seriesInfo">RFC 9312</span>, <span class="seriesInfo">DOI 10.17487/RFC9312</span>, <time datetime="2022-09" class="refDate">September 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9312">https://www.rfc-editor.org/rfc/rfc9312</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SIP">[SIP]</dt>
       <dd>

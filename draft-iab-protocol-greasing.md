@@ -384,8 +384,8 @@ Non-encrypted DNS involves many network observers and participants, and the prot
 has numerous fields that have been defined and deployed for many years. {{?DNS-GREASE=I-D.ietf-dnsop-grease}}
 discusses approaches that can be used to grease DNS, including being able to
 more easily tie greasing to using encrypted DNS (thus enabling grease along with
-another major feature change), and the interaction of grease with the common approach
-in DNS to retry without options when failures are encountered.
+another major feature change). It also describes how the common approach
+in DNS to deal with failures, by retrying without options, interacts with grease.
 
 ### Negotiating Greasing: Greasing the Wire Image
 

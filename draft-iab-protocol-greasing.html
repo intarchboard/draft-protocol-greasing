@@ -1334,11 +1334,15 @@ to have a large set of grease values to increase the chance that
 receiver greasing requirements are exercised. The specific
 size and distribution of the grease range needs to accommodate the
 protocol constraints. For instance, protocols that use 8-bit fields may
-find it too costly to dedicate many grease values, while 32-bit or 64-bit
-fields are likely to have no such limitations.<a href="#section-2.1-4" class="pilcrow">¶</a></p>
+find it too costly to dedicate many grease values, 16-bit fields can usually
+afford a small set (TLS reserves 16 values in each of its 16-bit registries
+<span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span>), and 32-bit or 64-bit fields are likely to have no such
+limitations.<a href="#section-2.1-4" class="pilcrow">¶</a></p>
 <p id="section-2.1-5">It is recommended to use an algorithm to reserve large sets of values.
 For example, <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span> uses an algorithm of <code>31 * N + 27</code> to allocate
-grease values for transport parameters.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
+grease values for transport parameters.
+These values span all four sizes of QUIC's variable-length integer encoding
+(1, 2, 4, and 8 bytes; <span><a href="https://rfc-editor.org/rfc/rfc9000#section-16" class="relref">Section 16</a> of [<a href="#QUIC" class="cite xref">QUIC</a>]</span>), so grease exercises each size.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
 <p id="section-2.1-6">One possible problem with some algorithms is that they will spread out
 values over the space, and impact the ability to use or reserve contiguous
 blocks of non-grease values. It is common for protocol extension designers

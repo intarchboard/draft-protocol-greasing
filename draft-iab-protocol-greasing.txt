@@ -673,6 +673,16 @@ Table of Contents
    act as if they don't support sending privacy pass tokens, to ensure
    that receivers cannot ossify around them being available.
 
+   Note that sometimes, it is desirable to reduce the appearance of
+   variation instead of increasing it, particularly when trying to
+   increase an anonymity set by making connections look more similar to
+   network observers.  For example, a TLS client that supports Encrypted
+   Client Hello (ECH), but is not aware of an ECH configuration for a
+   server it is contacting, will send a fake ECH extension made to look
+   like a real one (Section 6.2 of [ECH]).  When many clients do this,
+   real ECH is harder to tell apart from fake, which discourages
+   networks from treating it differently (Section 10.10.4 of [ECH]).
+
 3.6.  Cost of Variability
 
    Adding variability to implementations and deployments can come with
@@ -740,6 +750,10 @@ Table of Contents
               and P. Hoffman, "Specification for DNS over Transport
               Layer Security (TLS)", RFC 7858, DOI 10.17487/RFC7858, May
               2016, <https://www.rfc-editor.org/rfc/rfc7858>.
+
+   [ECH]      Rescorla, E., Oku, K., Sullivan, N., and C. A. Wood, "TLS
+              Encrypted Client Hello", RFC 9849, DOI 10.17487/RFC9849,
+              March 2026, <https://www.rfc-editor.org/rfc/rfc9849>.
 
    [END-USERS]
               Nottingham, M., "The Internet is for End Users", RFC 8890,

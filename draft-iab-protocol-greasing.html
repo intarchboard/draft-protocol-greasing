@@ -1794,6 +1794,14 @@ tolerates its absence. For example, <span><a href="https://rfc-editor.org/rfc/rf
 recommends that, in some situations, clients randomly act as if they don't
 support sending privacy pass tokens, to ensure that receivers cannot ossify
 around them being available.<a href="#section-3.5-4" class="pilcrow">¶</a></p>
+<p id="section-3.5-5">Note that sometimes, it is desirable to reduce the appearance of
+variation instead of increasing it, particularly when trying to increase
+an anonymity set by making connections look more similar to network
+observers. For example, a TLS client that supports Encrypted Client Hello
+(ECH), but is not aware of an ECH configuration for a server it is contacting,
+will send a fake ECH extension made to look like a real one (<span><a href="https://rfc-editor.org/rfc/rfc9849#section-6.2" class="relref">Section 6.2</a> of [<a href="#ECH" class="cite xref">ECH</a>]</span>).
+When many clients do this, real ECH is harder to tell apart from fake,
+which discourages networks from treating it differently (<span><a href="https://rfc-editor.org/rfc/rfc9849#section-10.10.4" class="relref">Section 10.10.4</a> of [<a href="#ECH" class="cite xref">ECH</a>]</span>).<a href="#section-3.5-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="cost-of-variability">
@@ -1877,6 +1885,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dt id="DOT">[DOT]</dt>
       <dd>
 <span class="refAuthor">Hu, Z.</span>, <span class="refAuthor">Zhu, L.</span>, <span class="refAuthor">Heidemann, J.</span>, <span class="refAuthor">Mankin, A.</span>, <span class="refAuthor">Wessels, D.</span>, and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Specification for DNS over Transport Layer Security (TLS)"</span>, <span class="seriesInfo">RFC 7858</span>, <span class="seriesInfo">DOI 10.17487/RFC7858</span>, <time datetime="2016-05" class="refDate">May 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7858">https://www.rfc-editor.org/rfc/rfc7858</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="ECH">[ECH]</dt>
+      <dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refAuthor">Oku, K.</span>, <span class="refAuthor">Sullivan, N.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"TLS Encrypted Client Hello"</span>, <span class="seriesInfo">RFC 9849</span>, <span class="seriesInfo">DOI 10.17487/RFC9849</span>, <time datetime="2026-03" class="refDate">March 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9849">https://www.rfc-editor.org/rfc/rfc9849</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="END-USERS">[END-USERS]</dt>
       <dd>

@@ -147,11 +147,11 @@ fields are likely to have no such limitations.
 Reserving grease values has a lasting cost. Grease values cannot be
 used or registered for any other purpose (see {{iana-tips}}), so each
 reserved value is permanently removed from the space available to
-future extensions. Designers need to be aware that reserving too much
-leaves too few values for the extensions greasing is meant to protect.
-Reserved space can also be hard to reclaim. For example, the IPv4 address
-block 240.0.0.0/4 was reserved for future use in 1989 {{?RFC1112}}, and
-is still listed as reserved {{?RFC6890}}.
+future extensions. Designers need to be aware that reserving too many
+values for greasing can leave few values for defining new extensions.
+Separately from greasing, reserved space can also be hard to reclaim.
+For example, the IPv4 address block 240.0.0.0/4 was reserved for future
+use in 1989 {{?RFC1112}}, and is still listed as reserved {{?RFC6890}}.
 
 It is recommended to use an algorithm to reserve large sets of values.
 For example, {{QUIC}} uses an algorithm of `31 * N + 27` to allocate

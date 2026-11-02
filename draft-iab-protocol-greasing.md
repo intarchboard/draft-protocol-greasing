@@ -556,14 +556,15 @@ The considerations in {{?MAINTENANCE=RFC9413}}, {{GREASE}}, {{?END-USERS=RFC8890
 
 Security devices that inspect traffic, such as firewalls and intrusion
 detection systems, also process grease. Grease is normal protocol
-behavior, so if they treat it as an attack, greasing fails and senders
-may stop. Recognizing grease values specifically does not help: a device
-that permits grease but blocks other unknown values still blocks real
-extensions. Protocols can instead state how intermediaries handle
-unknown values, as TLS does ({{Section 9.3 of TLS}}), and as operational
-guidance does for QUIC ({{Section 2.8 of ?RFC9312}}) and DNS ({{Section
-4 of ?RFC8906}}). Such devices also fingerprint traffic ({{Section 2.4.5
-of ?RFC9065}}), which grease can trip.
+behavior, so if these systems categorize it as an attack, greasing fails
+and senders may stop greasing. Recognizing grease values specifically
+does not help: a device that permits grease but blocks other unknown
+values still blocks real extensions. To mitigate this, protocol specifications
+can define how intermediaries handle unknown values, as TLS does
+({{Section 9.3 of TLS}}), and as operational guidance does for QUIC
+({{Section 2.8 of ?RFC9312}}) and DNS ({{Section 4 of ?RFC8906}}).
+These security devices typically also fingerprint traffic ({{Section 2.4.5 of ?RFC9065}}),
+which grease can disrupt.
 
 The use of protocol features, extensions, and versions can already allow
 fingerprinting {{?PRIVCON=RFC6973}}. Any techniques that change parameters  in any way, including but

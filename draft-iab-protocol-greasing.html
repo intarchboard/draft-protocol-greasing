@@ -1733,7 +1733,13 @@ larger as a result might result in fragmentation.<a href="#section-3.3-4" class=
 <p id="section-3.3-5">Finally, there may be security or gateway middleboxes already deployed that
 incorrectly rely on assumptions about header order, size, or location in a packet.
 Introducing variability might then cause operational problems in such networks and
-result in a disincentive to use the protocol or device or application using it.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
+result in a disincentive to use the protocol or device or application using it.
+In practice, adding a padding-only Destination Options header already
+causes loss: about 11% to 21% of packets with an 8-byte Destination
+Options header of PadN options sent to public servers were dropped in
+measurements from 2014 and 2015 <span>[<a href="#RFC7872" class="cite xref">RFC7872</a>]</span>. Guidance for transit
+routers has since recommended permitting such packets <span>[<a href="#RFC9288" class="cite xref">RFC9288</a>]</span>, but
+senders cannot assume that every path follows that guidance.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="wire-image-variation">
@@ -1936,6 +1942,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
       <dd>
 <span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Vegoda, L.</span>, <span class="refAuthor">Bonica, R., Ed.</span>, and <span class="refAuthor">B. Haberman</span>, <span class="refTitle">"Special-Purpose IP Address Registries"</span>, <span class="seriesInfo">BCP 153</span>, <span class="seriesInfo">RFC 6890</span>, <span class="seriesInfo">DOI 10.17487/RFC6890</span>, <time datetime="2013-04" class="refDate">April 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6890">https://www.rfc-editor.org/rfc/rfc6890</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7872">[RFC7872]</dt>
+      <dd>
+<span class="refAuthor">Gont, F.</span>, <span class="refAuthor">Linkova, J.</span>, <span class="refAuthor">Chown, T.</span>, and <span class="refAuthor">W. Liu</span>, <span class="refTitle">"Observations on the Dropping of Packets with IPv6 Extension Headers in the Real World"</span>, <span class="seriesInfo">RFC 7872</span>, <span class="seriesInfo">DOI 10.17487/RFC7872</span>, <time datetime="2016-06" class="refDate">June 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7872">https://www.rfc-editor.org/rfc/rfc7872</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8906">[RFC8906]</dt>
       <dd>
 <span class="refAuthor">Andrews, M.</span> and <span class="refAuthor">R. Bellis</span>, <span class="refTitle">"A Common Operational Problem in DNS Servers: Failure to Communicate"</span>, <span class="seriesInfo">BCP 231</span>, <span class="seriesInfo">RFC 8906</span>, <span class="seriesInfo">DOI 10.17487/RFC8906</span>, <time datetime="2020-09" class="refDate">September 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8906">https://www.rfc-editor.org/rfc/rfc8906</a>&gt;</span>. </dd>
@@ -1943,6 +1953,10 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dt id="RFC9065">[RFC9065]</dt>
       <dd>
 <span class="refAuthor">Fairhurst, G.</span> and <span class="refAuthor">C. Perkins</span>, <span class="refTitle">"Considerations around Transport Header Confidentiality, Network Operations, and the Evolution of Internet Transport Protocols"</span>, <span class="seriesInfo">RFC 9065</span>, <span class="seriesInfo">DOI 10.17487/RFC9065</span>, <time datetime="2021-07" class="refDate">July 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9065">https://www.rfc-editor.org/rfc/rfc9065</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9288">[RFC9288]</dt>
+      <dd>
+<span class="refAuthor">Gont, F.</span> and <span class="refAuthor">W. Liu</span>, <span class="refTitle">"Recommendations on the Filtering of IPv6 Packets Containing IPv6 Extension Headers at Transit Routers"</span>, <span class="seriesInfo">RFC 9288</span>, <span class="seriesInfo">DOI 10.17487/RFC9288</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9288">https://www.rfc-editor.org/rfc/rfc9288</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9312">[RFC9312]</dt>
       <dd>

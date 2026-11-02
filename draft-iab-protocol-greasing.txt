@@ -618,6 +618,12 @@ Table of Contents
    size, or location in a packet.  Introducing variability might then
    cause operational problems in such networks and result in a
    disincentive to use the protocol or device or application using it.
+   In practice, adding a padding-only Destination Options header already
+   causes loss: about 11% to 21% of packets with an 8-byte Destination
+   Options header of PadN options sent to public servers were dropped in
+   measurements from 2014 and 2015 [RFC7872].  Guidance for transit
+   routers has since recommended permitting such packets [RFC9288], but
+   senders cannot assume that every path follows that guidance.
 
 3.4.  Wire Image Variation
 
@@ -820,6 +826,12 @@ Table of Contents
               RFC 6890, DOI 10.17487/RFC6890, April 2013,
               <https://www.rfc-editor.org/rfc/rfc6890>.
 
+   [RFC7872]  Gont, F., Linkova, J., Chown, T., and W. Liu,
+              "Observations on the Dropping of Packets with IPv6
+              Extension Headers in the Real World", RFC 7872,
+              DOI 10.17487/RFC7872, June 2016,
+              <https://www.rfc-editor.org/rfc/rfc7872>.
+
    [RFC8906]  Andrews, M. and R. Bellis, "A Common Operational Problem
               in DNS Servers: Failure to Communicate", BCP 231,
               RFC 8906, DOI 10.17487/RFC8906, September 2020,
@@ -830,6 +842,11 @@ Table of Contents
               the Evolution of Internet Transport Protocols", RFC 9065,
               DOI 10.17487/RFC9065, July 2021,
               <https://www.rfc-editor.org/rfc/rfc9065>.
+
+   [RFC9288]  Gont, F. and W. Liu, "Recommendations on the Filtering of
+              IPv6 Packets Containing IPv6 Extension Headers at Transit
+              Routers", RFC 9288, DOI 10.17487/RFC9288, August 2022,
+              <https://www.rfc-editor.org/rfc/rfc9288>.
 
    [RFC9312]  Kühlewind, M. and B. Trammell, "Manageability of the QUIC
               Transport Protocol", RFC 9312, DOI 10.17487/RFC9312,

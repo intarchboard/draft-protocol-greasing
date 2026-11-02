@@ -1057,7 +1057,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Pardue, et al.</td>
-<td class="center">Expires 5 May 2027</td>
+<td class="center">Expires 6 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg {
 <dd class="internet-draft">draft-iab-protocol-greasing-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-01" class="published">1 November 2026</time>
+<time datetime="2026-11-02" class="published">2 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-05">5 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-06">6 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1136,7 +1136,7 @@ advice for making them as effective as possible.<a href="#section-abstract-2" cl
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1757,10 +1757,12 @@ tolerates its absence. For example, <span><a href="https://rfc-editor.org/rfc/rf
 recommends that, in some situations, clients randomly act as if they don't
 support sending privacy pass tokens, to ensure that receivers cannot ossify
 around them being available.<a href="#section-3.5-4" class="pilcrow">¶</a></p>
-<p id="section-3.5-5">The opposite also works: an endpoint can look as if it uses a feature
-when it does not. A TLS client that supports Encrypted Client Hello
-(ECH), but has no ECH configuration for a server, should send a fake ECH
-extension made to look like a real one (<span><a href="https://rfc-editor.org/rfc/rfc9849#section-6.2" class="relref">Section 6.2</a> of [<a href="#ECH" class="cite xref">ECH</a>]</span>).
+<p id="section-3.5-5">Note that sometimes, it is desirable to reduce the appearance of
+variation instead of increasing it, particularly when trying to increase
+an anonymity set by making connections look more similar to network
+observers. For example, a TLS client that supports Encrypted Client Hello
+(ECH), but is not aware of an ECH configuration for a server it is contacting,
+will send a fake ECH extension made to look like a real one (<span><a href="https://rfc-editor.org/rfc/rfc9849#section-6.2" class="relref">Section 6.2</a> of [<a href="#ECH" class="cite xref">ECH</a>]</span>).
 When many clients do this, real ECH is harder to tell apart from fake,
 which discourages networks from treating it differently (<span><a href="https://rfc-editor.org/rfc/rfc9849#section-10.10.4" class="relref">Section 10.10.4</a> of [<a href="#ECH" class="cite xref">ECH</a>]</span>).<a href="#section-3.5-5" class="pilcrow">¶</a></p>
 </section>

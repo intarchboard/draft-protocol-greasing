@@ -525,13 +525,14 @@ recommends that, in some situations, clients randomly act as if they don't
 support sending privacy pass tokens, to ensure that receivers cannot ossify
 around them being available.
 
-The opposite also works: an endpoint can look as if it uses a feature
-when it does not. A TLS client that supports Encrypted Client Hello
-(ECH), but has no ECH configuration for a server, should send a fake ECH
-extension made to look like a real one ({{Section 6.2 of ?ECH=RFC9849}}).
+Note that sometimes, it is desirable to reduce the appearance of
+variation instead of increasing it, particularly when trying to increase
+an anonymity set by making connections look more similar to network
+observers. For example, a TLS client that supports Encrypted Client Hello
+(ECH), but is not aware of an ECH configuration for a server it is contacting,
+will send a fake ECH extension made to look like a real one ({{Section 6.2 of ?ECH=RFC9849}}).
 When many clients do this, real ECH is harder to tell apart from fake,
-which discourages networks from treating it differently ({{Section
-10.10.4 of ECH}}).
+which discourages networks from treating it differently ({{Section 10.10.4 of ECH}}).
 
 ## Cost of Variability
 

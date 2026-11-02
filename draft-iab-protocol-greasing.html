@@ -1338,20 +1338,28 @@ find it too costly to dedicate many grease values, 16-bit fields can usually
 afford a small set (TLS reserves 16 values in each of its 16-bit registries
 <span>[<a href="#GREASE" class="cite xref">GREASE</a>]</span>), and 32-bit or 64-bit fields are likely to have no such
 limitations.<a href="#section-2.1-4" class="pilcrow">¶</a></p>
-<p id="section-2.1-5">It is recommended to use an algorithm to reserve large sets of values.
+<p id="section-2.1-5">Reserving grease values has a lasting cost. Grease values cannot be
+used or registered for any other purpose (see <a href="#iana-tips" class="auto internal xref">Section 2.1.1</a>), so each
+reserved value is permanently removed from the space available to
+future extensions. Designers need to be aware that reserving too many
+values for greasing can leave few values for defining new extensions.
+Separately from greasing, reserved space can also be hard to reclaim.
+For example, the IPv4 address block 240.0.0.0/4 was reserved for future
+use in 1989 <span>[<a href="#RFC1112" class="cite xref">RFC1112</a>]</span>, and is still listed as reserved <span>[<a href="#RFC6890" class="cite xref">RFC6890</a>]</span>.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
+<p id="section-2.1-6">It is recommended to use an algorithm to reserve large sets of values.
 For example, <span>[<a href="#QUIC" class="cite xref">QUIC</a>]</span> uses an algorithm of <code>31 * N + 27</code> to allocate
 grease values for transport parameters.
 These values span all four sizes of QUIC's variable-length integer encoding
-(1, 2, 4, and 8 bytes; <span><a href="https://rfc-editor.org/rfc/rfc9000#section-16" class="relref">Section 16</a> of [<a href="#QUIC" class="cite xref">QUIC</a>]</span>), so grease exercises each size.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
-<p id="section-2.1-6">One possible problem with some algorithms is that they will spread out
+(1, 2, 4, and 8 bytes; <span><a href="https://rfc-editor.org/rfc/rfc9000#section-16" class="relref">Section 16</a> of [<a href="#QUIC" class="cite xref">QUIC</a>]</span>), so grease exercises each size.<a href="#section-2.1-6" class="pilcrow">¶</a></p>
+<p id="section-2.1-7">One possible problem with some algorithms is that they will spread out
 values over the space, and impact the ability to use or reserve contiguous
 blocks of non-grease values. It is common for protocol extension designers
 to want to reserve contiguous blocks of codepoints in order to aid
 iteration and experimentation. Reserved grease values can end up being
-in spaces that would otherwise be used for such contiguous blocks.<a href="#section-2.1-6" class="pilcrow">¶</a></p>
-<p id="section-2.1-7">Codepoints being used for new reservations, or experimentation, need
+in spaces that would otherwise be used for such contiguous blocks.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
+<p id="section-2.1-8">Codepoints being used for new reservations, or experimentation, need
 to be careful to not unintentionally use grease values. Doing so could
-lead to interoperability failures.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
+lead to interoperability failures.<a href="#section-2.1-8" class="pilcrow">¶</a></p>
 <div id="iana-tips">
 <section id="section-2.1.1">
           <h4 id="name-recommendations-for-iana-co">
@@ -1890,6 +1898,14 @@ instruct IANA about protocol greasing is provided in <a href="#iana-tips" class=
 <dt id="QUICBIT">[QUICBIT]</dt>
       <dd>
 <span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Greasing the QUIC Bit"</span>, <span class="seriesInfo">RFC 9287</span>, <span class="seriesInfo">DOI 10.17487/RFC9287</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9287">https://www.rfc-editor.org/rfc/rfc9287</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC1112">[RFC1112]</dt>
+      <dd>
+<span class="refAuthor">Deering, S.</span>, <span class="refTitle">"Host extensions for IP multicasting"</span>, <span class="seriesInfo">STD 5</span>, <span class="seriesInfo">RFC 1112</span>, <span class="seriesInfo">DOI 10.17487/RFC1112</span>, <time datetime="1989-08" class="refDate">August 1989</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc1112">https://www.rfc-editor.org/rfc/rfc1112</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6890">[RFC6890]</dt>
+      <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Vegoda, L.</span>, <span class="refAuthor">Bonica, R., Ed.</span>, and <span class="refAuthor">B. Haberman</span>, <span class="refTitle">"Special-Purpose IP Address Registries"</span>, <span class="seriesInfo">BCP 153</span>, <span class="seriesInfo">RFC 6890</span>, <span class="seriesInfo">DOI 10.17487/RFC6890</span>, <time datetime="2013-04" class="refDate">April 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6890">https://www.rfc-editor.org/rfc/rfc6890</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SIP">[SIP]</dt>
       <dd>

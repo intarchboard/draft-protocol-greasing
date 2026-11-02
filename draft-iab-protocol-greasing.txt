@@ -193,6 +193,16 @@ Table of Contents
    16-bit registries [GREASE]), and 32-bit or 64-bit fields are likely
    to have no such limitations.
 
+   Reserving grease values has a lasting cost.  Grease values cannot be
+   used or registered for any other purpose (see Section 2.1.1), so each
+   reserved value is permanently removed from the space available to
+   future extensions.  Designers need to be aware that reserving too
+   many values for greasing can leave few values for defining new
+   extensions.  Separately from greasing, reserved space can also be
+   hard to reclaim.  For example, the IPv4 address block 240.0.0.0/4 was
+   reserved for future use in 1989 [RFC1112], and is still listed as
+   reserved [RFC6890].
+
    It is recommended to use an algorithm to reserve large sets of
    values.  For example, [QUIC] uses an algorithm of 31 * N + 27 to
    allocate grease values for transport parameters.  These values span
@@ -763,6 +773,15 @@ Table of Contents
    [QUICBIT]  Thomson, M., "Greasing the QUIC Bit", RFC 9287,
               DOI 10.17487/RFC9287, August 2022,
               <https://www.rfc-editor.org/rfc/rfc9287>.
+
+   [RFC1112]  Deering, S., "Host extensions for IP multicasting", STD 5,
+              RFC 1112, DOI 10.17487/RFC1112, August 1989,
+              <https://www.rfc-editor.org/rfc/rfc1112>.
+
+   [RFC6890]  Cotton, M., Vegoda, L., Bonica, R., Ed., and B. Haberman,
+              "Special-Purpose IP Address Registries", BCP 153,
+              RFC 6890, DOI 10.17487/RFC6890, April 2013,
+              <https://www.rfc-editor.org/rfc/rfc6890>.
 
    [SIP]      Rosenberg, J., Schulzrinne, H., Camarillo, G., Johnston,
               A., Peterson, J., Sparks, R., Handley, M., and E.
